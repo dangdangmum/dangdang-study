@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dangdang's Learning Hub ⭐</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7ff;
+    --card: #ffffff;
+    --primary: #5b6ef5;
+    --primary2: #8b5cf6;
+    --en: #f87171;
+    --math: #34d399;
+    --cn: #fbbf24;
+    --fr: #60a5fa;
+    --text: #1e1b4b;
+    --muted: #6b7280;
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(91,110,245,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #5b6ef5 0%, #8b5cf6 100%);
+    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 4px 20px rgba(91,110,245,0.35);
+  }
+  .logo { font-family: 'Fredoka One', cursive; font-size: 24px; color: white; display: flex; align-items: center; gap: 8px; }
+  .mode-toggle { display: flex; background: rgba(255,255,255,0.15); border-radius: 50px; padding: 4px; gap: 4px; }
+  .mode-btn { padding: 6px 16px; border-radius: 50px; border: none; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s; background: transparent; color: rgba(255,255,255,0.8); }
+  .mode-btn.active { background: white; color: var(--primary); }
+
+  /* NAV */
+  nav { display: flex; gap: 2px; padding: 12px 20px 0; background: white; overflow-x: auto; border-bottom: 2px solid #eef0ff; }
+  .tab { padding: 10px 16px; border-radius: 12px 12px 0 0; border: none; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; background: transparent; color: var(--muted); }
+  .tab.active { background: var(--bg); color: var(--primary); font-weight: 800; }
+  .tab:hover { color: var(--primary); }
+
+  main { padding: 20px; max-width: 1000px; margin: 0 auto; }
+  .page { display: none; animation: fadeIn 0.2s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+  /* CARDS */
+  .card { background: var(--card); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .card-title { font-family: 'Fredoka One', cursive; font-size: 19px; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+
+  /* STREAK */
+  .streak-banner { background: linear-gradient(135deg, #ff9a56, #ff6b6b); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; display: flex; align-items: center; gap: 16px; }
+  .streak-num { font-family: 'Fredoka One', cursive; font-size: 52px; color: white; line-height: 1; }
+  .streak-text strong { display: block; font-size: 17px; color: white; }
+  .streak-text span { font-size: 13px; color: rgba(255,255,255,0.88); }
+
+  /* CALENDAR */
+  .cal-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .cal-day { flex-shrink:0; width:50px; text-align:center; padding:8px 4px; border-radius:12px; border:2px solid transparent; transition:all 0.2s; }
+  .cal-day.today { border-color: var(--primary); background: #eef0ff; }
+  .cal-day.has-hw::after { content:''; display:block; width:5px; height:5px; border-radius:50%; background:var(--primary); margin:3px auto 0; }
+  .cal-day-num { font-weight:800; font-size:15px; }
+  .cal-day-name { font-size:10px; color:var(--muted); font-weight:700; }
+
+  /* SUBJECT CARDS */
+  .subject-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; margin-bottom:18px; }
+  .subject-card { border-radius:16px; padding:18px; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; position:relative; overflow:hidden; }
+  .subject-card:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+  .subject-card.en { background:linear-gradient(135deg,#f87171,#ef4444); }
+  .subject-card.math { background:linear-gradient(135deg,#34d399,#10b981); }
+  .subject-card.cn { background:linear-gradient(135deg,#fbbf24,#f59e0b); }
+  .subject-card.fr { background:linear-gradient(135deg,#60a5fa,#3b82f6); }
+  .subject-card h3 { color:white; font-size:20px; font-family:'Fredoka One',cursive; }
+  .subject-card .sub-status { color:rgba(255,255,255,0.9); font-size:12px; margin-top:4px; font-weight:700; }
+  .subject-card .hw-line { font-size:12px; color:rgba(255,255,255,0.82); margin-top:3px; }
+  .subject-card .big-emoji { font-size:44px; position:absolute; right:10px; top:10px; opacity:0.2; }
+
+  /* FORMS */
+  .form-group { margin-bottom:14px; }
+  label { display:block; font-weight:700; font-size:13px; margin-bottom:5px; color:var(--muted); }
+  input[type="text"], input[type="number"], textarea, select { width:100%; padding:10px 13px; border:2px solid #e5e7eb; border-radius:10px; font-family:'Nunito',sans-serif; font-size:14px; transition:border 0.2s; background:#fafafa; }
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--primary); background:white; }
+  textarea { min-height:76px; resize:vertical; }
+
+  .btn { padding:10px 22px; border-radius:50px; border:none; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; cursor:pointer; transition:all 0.2s; }
+  .btn-primary { background:linear-gradient(135deg,var(--primary),var(--primary2)); color:white; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(91,110,245,0.4); }
+  .btn-sm { padding:6px 14px; font-size:12px; }
+  .btn-ghost { background:#f3f4f6; color:var(--text); }
+  .btn-danger { background:#fee2e2; color:#dc2626; }
+
+  /* BADGES */
+  .badge { display:inline-block; padding:3px 10px; border-radius:50px; font-size:11px; font-weight:800; text-transform:uppercase; }
+  .badge-en { background:#fef2f2; color:#dc2626; }
+  .badge-math { background:#f0fdf4; color:#16a34a; }
+  .badge-cn { background:#fffbeb; color:#d97706; }
+  .badge-fr { background:#eff6ff; color:#2563eb; }
+
+  /* HW LIST */
+  .hw-item { display:flex; align-items:flex-start; gap:10px; padding:13px; border:2px solid #f3f4f6; border-radius:12px; margin-bottom:8px; transition:border-color 0.2s; }
+  .hw-item:hover { border-color:#e0e7ff; }
+  .hw-check { width:22px; height:22px; border-radius:6px; border:2px solid #d1d5db; cursor:pointer; flex-shrink:0; margin-top:1px; transition:all 0.2s; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .hw-check.done { background:var(--primary); border-color:var(--primary); color:white; }
+  .hw-content { flex:1; }
+  .hw-title { font-weight:700; font-size:14px; }
+  .hw-detail { font-size:12px; color:var(--muted); margin-top:2px; }
+  .hw-item.done-item .hw-title { text-decoration:line-through; color:var(--muted); }
+
+  /* WORD CHIPS */
+  .word-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .word-chip { padding:7px 14px; border-radius:50px; font-weight:700; font-size:13px; cursor:pointer; transition:all 0.2s; border:2px solid transparent; display:flex; align-items:center; gap:5px; }
+  .word-chip.learned { background:#f0fdf4; color:#16a34a; border-color:#86efac; }
+  .word-chip.review { background:#fffbeb; color:#d97706; border-color:#fcd34d; }
+  .word-chip.new-word { background:#f5f3ff; color:#7c3aed; border-color:#c4b5fd; }
+  .word-chip:hover { transform:scale(1.05); }
+
+  /* QUIZ */
+  .quiz-cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
+  .quiz-cat-btn { padding:22px 14px; border-radius:16px; border:none; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; transition:all 0.2s; text-align:center; line-height:1.6; }
+  .quiz-cat-btn:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,0.13); }
+  .quiz-question { font-family:'Fredoka One',cursive; font-size:24px; color:var(--text); margin:20px 0; line-height:1.4; text-align:center; }
+  .quiz-opts { display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:480px; margin:0 auto 20px; }
+  .quiz-opt { padding:14px; border-radius:12px; border:2px solid #e5e7eb; font-family:'Nunito',sans-serif; font-weight:700; font-size:15px; cursor:pointer; transition:all 0.2s; background:white; text-align:left; }
+  .quiz-opt:hover { border-color:var(--primary); background:#f5f3ff; }
+  .quiz-opt.correct { border-color:#4ade80; background:#f0fdf4; color:#16a34a; }
+  .quiz-opt.wrong { border-color:#f87171; background:#fef2f2; color:#dc2626; }
+  .quiz-opt:disabled { cursor:default; }
+  .quiz-tf { display:flex; gap:12px; justify-content:center; margin-bottom:20px; }
+  .quiz-tf-btn { padding:16px 40px; border-radius:12px; border:2px solid #e5e7eb; font-family:'Nunito',sans-serif; font-weight:800; font-size:18px; cursor:pointer; transition:all 0.2s; background:white; }
+  .quiz-tf-btn:hover { border-color:var(--primary); background:#f5f3ff; }
+  .quiz-tf-btn.correct { border-color:#4ade80; background:#f0fdf4; color:#16a34a; }
+  .quiz-tf-btn.wrong { border-color:#f87171; background:#fef2f2; color:#dc2626; }
+  .fill-input { width:100%; max-width:400px; display:block; margin:0 auto 20px; padding:14px 18px; border:2px solid #e5e7eb; border-radius:12px; font-family:'Nunito',sans-serif; font-size:18px; font-weight:700; text-align:center; }
+  .fill-input:focus { outline:none; border-color:var(--primary); }
+  .fill-input.correct { border-color:#4ade80; background:#f0fdf4; }
+  .fill-input.wrong { border-color:#f87171; background:#fef2f2; }
+
+  .quiz-progress { display:flex; gap:5px; justify-content:center; margin-bottom:16px; }
+  .qdot { width:11px; height:11px; border-radius:50%; background:#e5e7eb; transition:all 0.3s; }
+  .qdot.current { background:var(--primary); }
+  .qdot.correct-q { background:#4ade80; }
+  .qdot.wrong-q { background:#f87171; }
+
+  .score-big { font-family:'Fredoka One',cursive; font-size:72px; background:linear-gradient(135deg,var(--primary),var(--primary2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; }
+
+  /* PROGRESS BARS */
+  .prog-wrap { background:#f3f4f6; border-radius:50px; height:11px; overflow:hidden; margin-top:6px; }
+  .prog-bar { height:100%; border-radius:50px; transition:width 0.6s ease; }
+
+  /* STATS */
+  .stat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-bottom:18px; }
+  .stat-box { text-align:center; padding:18px 12px; background:white; border-radius:14px; box-shadow:var(--shadow); }
+  .stat-num { font-family:'Fredoka One',cursive; font-size:34px; }
+  .stat-lbl { font-size:12px; color:var(--muted); font-weight:700; margin-top:3px; }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:200; align-items:center; justify-content:center; padding:16px; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:22px; padding:26px; max-width:500px; width:100%; max-height:90vh; overflow-y:auto; animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes popIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal-title { font-family:'Fredoka One',cursive; font-size:21px; margin-bottom:18px; }
+  .modal-close { float:right; background:#f3f4f6; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:15px; }
+
+  .subj-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .subj-tab { padding:6px 13px; border-radius:50px; border:2px solid #e5e7eb; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s; background:white; }
+  .subj-tab.en.active { background:#f87171; color:white; border-color:#f87171; }
+  .subj-tab.math.active { background:#34d399; color:white; border-color:#34d399; }
+  .subj-tab.cn.active { background:#fbbf24; color:#333; border-color:#fbbf24; }
+  .subj-tab.fr.active { background:#60a5fa; color:white; border-color:#60a5fa; }
+
+  /* QUESTION TYPES */
+  .qtype-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .qtype-tab { padding:6px 13px; border-radius:50px; border:2px solid #e5e7eb; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s; background:white; color:var(--muted); }
+  .qtype-tab.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1e1b4b; color:white; padding:12px 24px; border-radius:50px; font-weight:700; font-size:14px; z-index:300; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+  .toast.show { opacity:1; }
+
+  /* LOADING */
+  .loading { text-align:center; padding:40px; color:var(--muted); font-weight:700; }
+  .spinner { display:inline-block; width:28px; height:28px; border:3px solid #e5e7eb; border-top-color:var(--primary); border-radius:50%; animation:spin 0.7s linear infinite; margin-bottom:8px; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  .empty { text-align:center; padding:36px 20px; color:var(--muted); }
+  .empty div { font-size:44px; margin-bottom:10px; }
+
+  /* FILTER BTNS */
+  .filter-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+
+  @media(max-width:600px) {
+    main { padding:14px; }
+    .quiz-opts { grid-template-columns:1fr; }
+    header { padding:12px 16px; }
+    .logo { font-size:18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⭐ Dangdang's Learning Hub</div>
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setMode('parent')">👩‍👦 Parent</button>
+    <button class="mode-btn" onclick="setMode('child')">🧒 Dangdang</button>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showPage('today')">📅 Today</button>
+  <button class="tab" onclick="showPage('homework')">📚 Homework</button>
+  <button class="tab" onclick="showPage('words')">🔤 Word Bank</button>
+  <button class="tab" onclick="showPage('naplan')">📝 NAPLAN Prep</button>
+  <button class="tab" onclick="showPage('progress')">📊 Progress</button>
+</nav>
+
+<main>
+
+<!-- TODAY -->
+<div class="page active" id="page-today">
+  <div class="streak-banner">
+    <div class="streak-num" id="streak-num">—</div>
+    <div class="streak-text">
+      <strong id="streak-label">🔥 Day Streak!</strong>
+      <span>Keep it up, Dangdang! 💪</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 <span id="today-date"></span></div>
+    <div class="cal-strip" id="cal-strip"></div>
+  </div>
+  <div class="subject-grid" id="today-subjects">
+    <div class="loading"><div class="spinner"></div><br>Loading...</div>
+  </div>
+  <div class="card" id="parent-add-card">
+    <div class="card-title">➕ Log Today's Homework</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Record what Dangdang worked on — subjects, notes, and new words.</p>
+    <button class="btn btn-primary" onclick="openHWModal()">📝 Add Homework</button>
+  </div>
+</div>
+
+<!-- HOMEWORK -->
+<div class="page" id="page-homework">
+  <div class="card">
+    <div class="card-title">📚 Homework Records</div>
+    <div class="filter-row">
+      <button class="btn btn-sm btn-primary" onclick="filterHW('all')">All</button>
+      <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626" onclick="filterHW('en')">English</button>
+      <button class="btn btn-sm" style="background:#f0fdf4;color:#16a34a" onclick="filterHW('math')">Maths</button>
+      <button class="btn btn-sm" style="background:#fffbeb;color:#d97706" onclick="filterHW('cn')">Chinese</button>
+      <button class="btn btn-sm" style="background:#eff6ff;color:#2563eb" onclick="filterHW('fr')">French</button>
+    </div>
+    <div id="hw-list"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
+  </div>
+</div>
+
+<!-- WORD BANK -->
+<div class="page" id="page-words">
+  <div class="card" id="parent-word-form">
+    <div class="card-title">➕ Add Word / Concept</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+      <div class="form-group" style="flex:1;min-width:130px;margin:0"><label>Word</label><input type="text" id="new-word" placeholder="e.g. beautiful"></div>
+      <div class="form-group" style="flex:1;min-width:130px;margin:0"><label>Meaning</label><input type="text" id="word-meaning" placeholder="e.g. very pretty"></div>
+      <div class="form-group" style="width:110px;margin:0"><label>Subject</label>
+        <select id="word-subject"><option value="en">English</option><option value="fr">French</option><option value="cn">Chinese</option><option value="math">Maths</option></select>
+      </div>
+      <button class="btn btn-primary" onclick="addWord()">Add</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📖 Word Bank</div>
+    <div class="filter-row">
+      <button class="btn btn-sm btn-ghost" onclick="filterWords('all')">All</button>
+      <button class="btn btn-sm" style="background:#fffbeb;color:#d97706" onclick="filterWords('review')">⚠️ Needs Review</button>
+      <button class="btn btn-sm" style="background:#f0fdf4;color:#16a34a" onclick="filterWords('learned')">✅ Mastered</button>
+      <button class="btn btn-sm" style="background:#f5f3ff;color:#7c3aed" onclick="filterWords('new-word')">🆕 New</button>
+    </div>
+    <div class="word-grid" id="word-list"><div class="loading"><div class="spinner"></div></div></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px">💡 Click a word to cycle: New → Needs Review → Mastered</p>
+  </div>
+</div>
+
+<!-- NAPLAN -->
+<div class="page" id="page-naplan">
+  <div id="naplan-home">
+    <div class="card" id="parent-quiz-mgmt">
+      <div class="card-title">➕ Add Practice Question</div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="q-category">
+          <option value="reading">📖 Reading</option>
+          <option value="numeracy">🔢 Numeracy</option>
+          <option value="spelling">🔤 Spelling</option>
+          <option value="grammar">✍️ Grammar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Question Type</label>
+        <div class="qtype-tabs">
+          <button class="qtype-tab active" data-t="mcq" onclick="selectQType(this)">Multiple Choice</button>
+          <button class="qtype-tab" data-t="fill" onclick="selectQType(this)">Fill in the Blank</button>
+          <button class="qtype-tab" data-t="tf" onclick="selectQType(this)">True / False</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Question</label>
+        <textarea id="q-question" placeholder="e.g. What is 47 + 35?"></textarea>
+      </div>
+      <!-- MCQ options -->
+      <div id="mcq-fields">
+        <label style="font-weight:700;font-size:13px;color:var(--muted);margin-bottom:8px;display:block">Answer Options (tick the correct one)</label>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="0" checked> <input type="text" class="opt-input" placeholder="Option A"></div>
+          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="1"> <input type="text" class="opt-input" placeholder="Option B"></div>
+          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="2"> <input type="text" class="opt-input" placeholder="Option C"></div>
+          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="3"> <input type="text" class="opt-input" placeholder="Option D"></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:6px">Select the radio button next to the correct answer</p>
+      </div>
+      <!-- Fill fields -->
+      <div id="fill-fields" style="display:none">
+        <div class="form-group"><label>Correct Answer</label><input type="text" id="fill-answer" placeholder="The exact answer Dangdang should type"></div>
+      </div>
+      <!-- TF fields -->
+      <div id="tf-fields" style="display:none">
+        <div class="form-group">
+          <label>Correct Answer</label>
+          <select id="tf-answer"><option value="true">True ✅</option><option value="false">False ❌</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="saveQuestion()" style="margin-top:6px">✅ Save Question</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📝 NAPLAN Practice — Choose a Category</div>
+      <div class="quiz-cat-grid">
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#f87171,#ef4444);color:white" onclick="startQuiz('reading')">📖<br><br>Reading<br><small style="opacity:0.85">Comprehension</small></button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#34d399,#10b981);color:white" onclick="startQuiz('numeracy')">🔢<br><br>Numeracy<br><small style="opacity:0.85">Maths</small></button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:white" onclick="startQuiz('spelling')">🔤<br><br>Spelling<br><small style="opacity:0.85">Word Knowledge</small></button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#333" onclick="startQuiz('grammar')">✍️<br><br>Grammar<br><small style="opacity:0.85">& Punctuation</small></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏆 Recent Practice</div>
+      <div id="quiz-history-list"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+
+  <!-- QUIZ IN PROGRESS -->
+  <div id="naplan-quiz" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0" id="quiz-title">📖 Reading</div>
+        <button class="btn btn-sm btn-ghost" onclick="endQuiz()">Exit</button>
+      </div>
+      <div class="quiz-progress" id="quiz-progress"></div>
+      <div style="text-align:center;color:var(--muted);font-size:13px;font-weight:700" id="q-num">Question 1 of 5</div>
+      <div class="quiz-question" id="q-text"></div>
+      <div id="q-answer-area"></div>
+      <div id="q-feedback" style="text-align:center;min-height:40px;font-size:16px;font-weight:800;margin-bottom:12px"></div>
+      <div style="text-align:center">
+        <button class="btn btn-primary" id="next-btn" style="display:none" onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="naplan-result" style="display:none">
+    <div class="card" style="text-align:center;padding:40px 24px">
+      <div style="font-size:68px;margin-bottom:8px" id="result-emoji">🎉</div>
+      <div class="score-big" id="score-text">4/5</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:22px;margin:10px 0" id="result-msg">Great job!</div>
+      <p style="color:var(--muted);margin-bottom:26px" id="result-detail"></p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="retryQuiz()">Try Again 🔄</button>
+        <button class="btn btn-ghost" onclick="endQuiz()">Back to Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="page" id="page-progress">
+  <div class="stat-grid" id="stat-grid"></div>
+  <div class="card"><div class="card-title">📊 Homework by Subject</div><div id="subject-progress"></div></div>
+  <div class="card"><div class="card-title">🔤 Word Mastery</div><div id="word-progress"></div></div>
+  <div class="card"><div class="card-title">📝 NAPLAN Scores</div><div id="naplan-progress"></div></div>
+</div>
+
+</main>
+
+<!-- HW MODAL -->
+<div class="modal-overlay" id="hw-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHWModal()">✕</button>
+    <div class="modal-title">📝 Log Homework</div>
+    <div class="form-group">
+      <label>Subject</label>
+      <div class="subj-tabs">
+        <button class="subj-tab en active" data-s="en" onclick="selectSubject(this)">🇬🇧 English</button>
+        <button class="subj-tab math" data-s="math" onclick="selectSubject(this)">🔢 Maths</button>
+        <button class="subj-tab cn" data-s="cn" onclick="selectSubject(this)">🀄 Chinese</button>
+        <button class="subj-tab fr" data-s="fr" onclick="selectSubject(this)">🇫🇷 French</button>
+      </div>
+    </div>
+    <div class="form-group"><label>What did Dangdang do? *</label><input type="text" id="hw-title-input" placeholder="e.g. Read Chapter 3, Completed worksheet P12"></div>
+    <div class="form-group"><label>What was learned? (optional)</label><textarea id="hw-notes-input" placeholder="e.g. Learned sight words: the, was, said"></textarea></div>
+    <div class="form-group"><label>New words (comma separated, optional)</label><input type="text" id="hw-words-input" placeholder="e.g. beautiful, wonderful, amazing"></div>
+    <button class="btn btn-primary" onclick="saveHomework()" style="width:100%">✅ Save</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA8bXQ4p41C7iD1EfyoEzXCiSwoL1HEGE0",
+  authDomain: "dangdang-study.firebaseapp.com",
+  projectId: "dangdang-study",
+  storageBucket: "dangdang-study.firebasestorage.app",
+  messagingSenderId: "827559609121",
+  appId: "1:827559609121:web:6430b9e63649da64beb460"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ── GLOBAL STATE ──
+window.state = {
+  mode: 'parent',
+  hwFilter: 'all',
+  wordFilter: 'all',
+  selectedSubject: 'en',
+  selectedQType: 'mcq',
+  homework: [],
+  words: [],
+  questions: [],
+  quizHistory: [],
+  currentQuiz: { type: null, questions: [], idx: 0, score: 0, answers: [] },
+};
+
+const SUBJ = { en:'🇬🇧 English', math:'🔢 Maths', cn:'🀄 Chinese', fr:'🇫🇷 French' };
+const SUBJ_COLOR = { en:'#f87171', math:'#34d399', cn:'#fbbf24', fr:'#60a5fa' };
+const QUIZ_NAMES = { reading:'📖 Reading', numeracy:'🔢 Numeracy', spelling:'🔤 Spelling', grammar:'✍️ Grammar' };
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+window.toast = toast;
+
+// ── FIREBASE HELPERS ──
+async function loadHomework() {
+  const snap = await getDocs(query(collection(db,'homework'), orderBy('date','desc')));
+  state.homework = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderTodaySubjects(); renderHWList();
+}
+
+async function loadWords() {
+  const snap = await getDocs(collection(db,'words'));
+  state.words = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderWords();
+}
+
+async function loadQuestions() {
+  const snap = await getDocs(collection(db,'questions'));
+  state.questions = snap.docs.map(d=>({id:d.id,...d.data()}));
+}
+
+async function loadQuizHistory() {
+  const snap = await getDocs(query(collection(db,'quizHistory'), orderBy('timestamp','desc')));
+  state.quizHistory = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderQuizHistory();
+}
+
+// ── INIT ──
+async function init() {
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-AU',{weekday:'long',month:'long',day:'numeric'});
+  renderCalStrip();
+  await Promise.all([loadHomework(), loadWords(), loadQuestions(), loadQuizHistory()]);
+  renderProgress();
+}
+
+// ── CALENDAR ──
+function renderCalStrip() {
+  const today = new Date();
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html = '';
+  for (let i=-5; i<=3; i++) {
+    const d = new Date(today); d.setDate(today.getDate()+i);
+    const ds = d.toISOString().split('T')[0];
+    const hasHW = state.homework.some(h=>h.date===ds);
+    html += `<div class="cal-day${i===0?' today':''}${hasHW?' has-hw':''}">
+      <div class="cal-day-name">${days[d.getDay()]}</div>
+      <div class="cal-day-num">${d.getDate()}</div>
+    </div>`;
+  }
+  document.getElementById('cal-strip').innerHTML = html;
+}
+
+// ── TODAY ──
+function renderTodaySubjects() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayHW = state.homework.filter(h=>h.date===today);
+  const emojis = {en:'📖',math:'🔢',cn:'🀄',fr:'🗼'};
+  const names = {en:'English',math:'Maths',cn:'Chinese',fr:'French'};
+  document.getElementById('today-subjects').innerHTML = ['en','math','cn','fr'].map(s=>{
+    const hw = todayHW.filter(h=>h.subject===s);
+    const done = hw.filter(h=>h.done).length;
+    const status = hw.length===0 ? 'No homework yet' : `${done} of ${hw.length} done`;
+    return `<div class="subject-card ${s}" onclick="showPage('homework');filterHW('${s}')">
+      <div class="big-emoji">${emojis[s]}</div>
+      <h3>${names[s]}</h3>
+      <div class="sub-status">${status}</div>
+      ${hw.map(h=>`<div class="hw-line">${h.done?'✅':'⬜'} ${h.title}</div>`).join('')}
+    </div>`;
+  }).join('');
+  // streak
+  let streak = 0;
+  const d = new Date();
+  while(true) {
+    const ds = d.toISOString().split('T')[0];
+    if (state.homework.some(h=>h.date===ds && h.done)) { streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  document.getElementById('streak-num').textContent = streak || '0';
+  document.getElementById('parent-add-card').style.display = state.mode==='parent'?'':'none';
+}
+
+// ── HOMEWORK ──
+function renderHWList() {
+  let hw = [...state.homework];
+  if (state.hwFilter!=='all') hw=hw.filter(h=>h.subject===state.hwFilter);
+  if (!hw.length) { document.getElementById('hw-list').innerHTML='<div class="empty"><div>📭</div>No homework recorded yet</div>'; return; }
+  document.getElementById('hw-list').innerHTML = hw.map(h=>`
+    <div class="hw-item${h.done?' done-item':''}">
+      <div class="hw-check${h.done?' done':''}" onclick="toggleHW('${h.id}',${!h.done})">${h.done?'✓':''}</div>
+      <div class="hw-content">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span class="hw-title">${h.title}</span>
+          <span class="badge badge-${h.subject}">${SUBJ[h.subject]}</span>
+          <span style="font-size:11px;color:var(--muted)">${h.date}</span>
+        </div>
+        ${h.notes?`<div class="hw-detail">📝 ${h.notes}</div>`:''}
+        ${h.words&&h.words.length?`<div class="hw-detail">🔤 ${h.words.join(' · ')}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+async function toggleHW(id, done) {
+  await updateDoc(doc(db,'homework',id), {done});
+  state.homework = state.homework.map(h=>h.id===id?{...h,done}:h);
+  renderHWList(); renderTodaySubjects(); renderProgress();
+}
+window.toggleHW = toggleHW;
+
+window.filterHW = function(s) { state.hwFilter=s; renderHWList(); };
+
+// ── HOMEWORK MODAL ──
+window.openHWModal = function() { document.getElementById('hw-modal').classList.add('open'); };
+window.closeHWModal = function() { document.getElementById('hw-modal').classList.remove('open'); };
+window.selectSubject = function(btn) {
+  document.querySelectorAll('.subj-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); state.selectedSubject = btn.dataset.s;
+};
+
+window.saveHomework = async function() {
+  const title = document.getElementById('hw-title-input').value.trim();
+  if (!title) { toast('⚠️ Please fill in what Dangdang did'); return; }
+  const notes = document.getElementById('hw-notes-input').value.trim();
+  const wordsRaw = document.getElementById('hw-words-input').value.trim();
+  const words = wordsRaw ? wordsRaw.split(/[,，]+/).map(w=>w.trim()).filter(Boolean) : [];
+  const today = new Date().toISOString().split('T')[0];
+  const hwData = { date:today, subject:state.selectedSubject, title, notes, words, done:false, timestamp:serverTimestamp() };
+  const ref = await addDoc(collection(db,'homework'), hwData);
+  state.homework.unshift({id:ref.id,...hwData});
+  for (const w of words) {
+    if (!state.words.find(x=>x.word.toLowerCase()===w.toLowerCase())) {
+      const wRef = await addDoc(collection(db,'words'), {word:w, meaning:'', subject:state.selectedSubject, status:'new-word'});
+      state.words.push({id:wRef.id, word:w, meaning:'', subject:state.selectedSubject, status:'new-word'});
+    }
+  }
+  document.getElementById('hw-title-input').value='';
+  document.getElementById('hw-notes-input').value='';
+  document.getElementById('hw-words-input').value='';
+  closeHWModal();
+  renderTodaySubjects(); renderHWList(); renderWords(); renderCalStrip();
+  toast('✅ Homework saved!');
+};
+
+// ── WORDS ──
+function renderWords() {
+  const statusEmoji = { learned:'✅', review:'⚠️', 'new-word':'🆕' };
+  const subLbl = { en:'EN', fr:'FR', cn:'中', math:'M' };
+  let words = state.words;
+  if (state.wordFilter!=='all') words=words.filter(w=>w.status===state.wordFilter);
+  document.getElementById('word-list').innerHTML = words.length ? words.map(w=>`
+    <div class="word-chip ${w.status}" onclick="cycleWord('${w.id}','${w.status}')" title="${w.meaning}">
+      ${statusEmoji[w.status]||'🆕'} <strong>${w.word}</strong>
+      ${w.meaning?`<span style="opacity:0.65;font-size:11px">${w.meaning}</span>`:''}
+      <span class="badge badge-${w.subject}" style="font-size:10px;padding:2px 7px">${subLbl[w.subject]}</span>
+    </div>`).join('') : '<div class="empty"><div>📭</div>No words yet</div>';
+}
+
+window.addWord = async function() {
+  const word = document.getElementById('new-word').value.trim();
+  const meaning = document.getElementById('word-meaning').value.trim();
+  const subject = document.getElementById('word-subject').value;
+  if (!word) { toast('⚠️ Please enter a word'); return; }
+  if (state.words.find(w=>w.word.toLowerCase()===word.toLowerCase())) { toast('This word is already in the bank!'); return; }
+  const ref = await addDoc(collection(db,'words'), {word, meaning, subject, status:'new-word'});
+  state.words.push({id:ref.id, word, meaning, subject, status:'new-word'});
+  document.getElementById('new-word').value='';
+  document.getElementById('word-meaning').value='';
+  renderWords(); toast('✅ Word added!');
+};
+
+window.cycleWord = async function(id, currentStatus) {
+  const cycle = { 'new-word':'review', review:'learned', learned:'new-word' };
+  const newStatus = cycle[currentStatus] || 'new-word';
+  await updateDoc(doc(db,'words',id), {status:newStatus});
+  state.words = state.words.map(w=>w.id===id?{...w,status:newStatus}:w);
+  renderWords(); renderProgress();
+};
+
+window.filterWords = function(s) { state.wordFilter=s; renderWords(); };
+
+// ── QUESTIONS ──
+window.selectQType = function(btn) {
+  document.querySelectorAll('.qtype-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.selectedQType = btn.dataset.t;
+  document.getElementById('mcq-fields').style.display = state.selectedQType==='mcq'?'':'none';
+  document.getElementById('fill-fields').style.display = state.selectedQType==='fill'?'':'none';
+  document.getElementById('tf-fields').style.display = state.selectedQType==='tf'?'':'none';
+};
+
+window.saveQuestion = async function() {
+  const category = document.getElementById('q-category').value;
+  const question = document.getElementById('q-question').value.trim();
+  if (!question) { toast('⚠️ Please enter a question'); return; }
+  let qData = { category, question, type: state.selectedQType, timestamp: serverTimestamp() };
+  if (state.selectedQType==='mcq') {
+    const opts = [...document.querySelectorAll('.opt-input')].map(i=>i.value.trim());
+    const correct = parseInt(document.querySelector('input[name="correct-ans"]:checked').value);
+    if (opts.some(o=>!o)) { toast('⚠️ Please fill in all 4 options'); return; }
+    qData.options = opts; qData.answer = correct;
+  } else if (state.selectedQType==='fill') {
+    const ans = document.getElementById('fill-answer').value.trim();
+    if (!ans) { toast('⚠️ Please enter the correct answer'); return; }
+    qData.answer = ans;
+  } else if (state.selectedQType==='tf') {
+    qData.answer = document.getElementById('tf-answer').value;
+  }
+  const ref = await addDoc(collection(db,'questions'), qData);
+  state.questions.push({id:ref.id,...qData});
+  document.getElementById('q-question').value='';
+  document.querySelectorAll('.opt-input').forEach(i=>i.value='');
+  document.getElementById('fill-answer').value='';
+  toast('✅ Question saved!');
+};
+
+// ── QUIZ ──
+window.startQuiz = function(type) {
+  const qs = state.questions.filter(q=>q.category===type);
+  if (!qs.length) { toast(`⚠️ No questions yet for ${QUIZ_NAMES[type]}. Add some first!`); return; }
+  // shuffle
+  const shuffled = [...qs].sort(()=>Math.random()-0.5).slice(0,Math.min(qs.length,10));
+  state.currentQuiz = { type, questions:shuffled, idx:0, score:0, answers:[] };
+  document.getElementById('naplan-home').style.display='none';
+  document.getElementById('naplan-result').style.display='none';
+  document.getElementById('naplan-quiz').style.display='';
+  document.getElementById('quiz-title').textContent = QUIZ_NAMES[type];
+  renderQuestion();
+};
+
+function renderQuestion() {
+  const {questions, idx} = state.currentQuiz;
+  const q = questions[idx];
+  const total = questions.length;
+  document.getElementById('q-num').textContent = `Question ${idx+1} of ${total}`;
+  document.getElementById('q-text').textContent = q.question;
+  document.getElementById('q-feedback').innerHTML = '';
+  document.getElementById('next-btn').style.display = 'none';
+  // progress dots
+  document.getElementById('quiz-progress').innerHTML = Array.from({length:total},(_,i)=>{
+    const ans = state.currentQuiz.answers[i];
+    let cls = i===idx ? 'current' : '';
+    if (i < state.currentQuiz.answers.length) {
+      const correctHere = checkAnswer(questions[i], ans);
+      cls = correctHere ? 'correct-q' : 'wrong-q';
+    }
+    return `<div class="qdot ${cls}"></div>`;
+  }).join('');
+  // answer area
+  const area = document.getElementById('q-answer-area');
+  if (q.type==='mcq') {
+    area.innerHTML = `<div class="quiz-opts">${q.options.map((o,i)=>`<button class="quiz-opt" onclick="answerQ(${i})">${o}</button>`).join('')}</div>`;
+  } else if (q.type==='tf') {
+    area.innerHTML = `<div class="quiz-tf"><button class="quiz-tf-btn" onclick="answerQ('true')">✅ True</button><button class="quiz-tf-btn" onclick="answerQ('false')">❌ False</button></div>`;
+  } else if (q.type==='fill') {
+    area.innerHTML = `<input class="fill-input" id="fill-in" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')submitFill()">
+    <div style="text-align:center;margin-bottom:16px"><button class="btn btn-primary" onclick="submitFill()">Submit ✅</button></div>`;
+    setTimeout(()=>document.getElementById('fill-in')?.focus(), 100);
+  }
+}
+
+function checkAnswer(q, ans) {
+  if (q.type==='mcq') return parseInt(ans)===q.answer;
+  if (q.type==='tf') return ans===q.answer;
+  if (q.type==='fill') return ans?.toLowerCase().trim()===q.answer?.toLowerCase().trim();
+  return false;
+}
+
+window.answerQ = function(ans) {
+  const {questions, idx} = state.currentQuiz;
+  const q = questions[idx];
+  state.currentQuiz.answers.push(ans);
+  const correct = checkAnswer(q, ans);
+  if (correct) state.currentQuiz.score++;
+  // visual feedback
+  if (q.type==='mcq') {
+    document.querySelectorAll('.quiz-opt').forEach((btn,i)=>{ btn.disabled=true; if(i===q.answer)btn.classList.add('correct'); if(i===ans&&!correct)btn.classList.add('wrong'); });
+  } else if (q.type==='tf') {
+    document.querySelectorAll('.quiz-tf-btn').forEach(btn=>{ btn.disabled=true; const val=btn.textContent.includes('True')?'true':'false'; if(val===q.answer)btn.classList.add('correct'); else if(val===ans&&!correct)btn.classList.add('wrong'); });
+  }
+  document.getElementById('q-feedback').innerHTML = correct ?
+    `<span style="color:#16a34a">🎉 Correct! Well done!</span>` :
+    q.type==='fill' ? `<span style="color:#dc2626">❌ The answer is: <em>${q.answer}</em></span>` :
+    `<span style="color:#dc2626">❌ The correct answer is: <em>${q.type==='mcq'?q.options[q.answer]:q.answer==='true'?'True ✅':'False ❌'}</em></span>`;
+  document.getElementById('next-btn').style.display = '';
+  document.getElementById('next-btn').textContent = idx===questions.length-1 ? 'See Results 🎯' : 'Next →';
+  renderQuestion();
+};
+
+window.submitFill = function() {
+  const val = document.getElementById('fill-in')?.value.trim();
+  if (!val) { toast('Please type your answer first!'); return; }
+  const {questions, idx} = state.currentQuiz;
+  const q = questions[idx];
+  const correct = val.toLowerCase()===q.answer.toLowerCase().trim();
+  const inp = document.getElementById('fill-in');
+  inp.disabled=true; inp.classList.add(correct?'correct':'wrong');
+  state.currentQuiz.answers.push(val);
+  if (correct) state.currentQuiz.score++;
+  document.getElementById('q-feedback').innerHTML = correct ?
+    `<span style="color:#16a34a">🎉 Correct! Well done!</span>` :
+    `<span style="color:#dc2626">❌ The answer is: <em>${q.answer}</em></span>`;
+  document.querySelector('#q-answer-area .btn-primary').style.display='none';
+  document.getElementById('next-btn').style.display = '';
+  document.getElementById('next-btn').textContent = idx===questions.length-1 ? 'See Results 🎯' : 'Next →';
+  renderQuestion();
+};
+
+window.nextQuestion = function() {
+  state.currentQuiz.idx++;
+  if (state.currentQuiz.idx >= state.currentQuiz.questions.length) { showResult(); return; }
+  renderQuestion();
+};
+
+async function showResult() {
+  document.getElementById('naplan-quiz').style.display='none';
+  document.getElementById('naplan-result').style.display='';
+  const {score, questions, type} = state.currentQuiz;
+  const total = questions.length;
+  document.getElementById('score-text').textContent = `${score}/${total}`;
+  const pct = score/total;
+  const [emoji,msg] = pct===1?['🏆','Perfect score!']:pct>=0.8?['🌟','Great job!']:pct>=0.6?['👍','Good effort!']:['💪','Keep practising!'];
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-detail').textContent = `You got ${score} out of ${total} questions right!`;
+  const histData = { type:QUIZ_NAMES[type], category:type, score, total, date:new Date().toLocaleDateString('en-AU'), timestamp:serverTimestamp() };
+  await addDoc(collection(db,'quizHistory'), histData);
+  state.quizHistory.unshift(histData);
+  renderQuizHistory(); renderProgress();
+}
+
+window.retryQuiz = function() { startQuiz(state.currentQuiz.type); };
+window.endQuiz = function() {
+  document.getElementById('naplan-home').style.display='';
+  document.getElementById('naplan-quiz').style.display='none';
+  document.getElementById('naplan-result').style.display='none';
+};
+
+function renderQuizHistory() {
+  const qh = state.quizHistory;
+  document.getElementById('quiz-history-list').innerHTML = qh.length ? qh.slice(0,8).map(h=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:8px">
+      <span style="font-size:20px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1;font-weight:700;font-size:14px">${h.type}</div>
+      <span style="font-family:'Fredoka One',cursive;color:var(--primary);font-size:18px">${h.score}/${h.total}</span>
+      <span style="font-size:11px;color:var(--muted)">${h.date}</span>
+    </div>`).join('') : '<div class="empty" style="padding:20px"><div>📭</div>No practice yet — pick a category above!</div>';
+}
+
+// ── PROGRESS ──
+function renderProgress() {
+  const total=state.homework.length, done=state.homework.filter(h=>h.done).length;
+  const learned=state.words.filter(w=>w.status==='learned').length;
+  const review=state.words.filter(w=>w.status==='review').length;
+  document.getElementById('stat-grid').innerHTML=`
+    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${done}/${total}</div><div class="stat-lbl">Homework Done</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#16a34a">${learned}</div><div class="stat-lbl">Words Mastered</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#d97706">${review}</div><div class="stat-lbl">Needs Review</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#7c3aed">${state.quizHistory.length}</div><div class="stat-lbl">Quizzes Done</div></div>`;
+  document.getElementById('subject-progress').innerHTML=['en','math','cn','fr'].map(s=>{
+    const hw=state.homework.filter(h=>h.subject===s);
+    const pct=hw.length?Math.round(hw.filter(h=>h.done).length/hw.length*100):0;
+    return `<div style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:700">${SUBJ[s]}</span><span style="font-size:12px;color:var(--muted)">${pct}%</span></div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${SUBJ_COLOR[s]}"></div></div>
+    </div>`;
+  }).join('');
+  const wTotal=state.words.length;
+  document.getElementById('word-progress').innerHTML=`
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#f0fdf4;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:30px;color:#16a34a">${learned}</div><div style="font-size:12px;color:#065f46;font-weight:700">✅ Mastered</div></div>
+      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#fffbeb;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:30px;color:#d97706">${review}</div><div style="font-size:12px;color:#92400e;font-weight:700">⚠️ Review</div></div>
+      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#f5f3ff;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:30px;color:#7c3aed">${wTotal-learned-review}</div><div style="font-size:12px;color:#5b21b6;font-weight:700">🆕 New</div></div>
+    </div>`;
+  const qh=state.quizHistory;
+  document.getElementById('naplan-progress').innerHTML=qh.length?qh.slice(0,6).map(h=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:8px">
+      <span style="font-size:18px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1"><div style="font-weight:700;font-size:13px">${h.type}</div><div style="font-size:11px;color:var(--muted)">${h.date}</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:20px;color:${h.score/h.total>=0.8?'#16a34a':h.score/h.total>=0.6?'#d97706':'#dc2626'}">${h.score}/${h.total}</div>
+    </div>`).join(''):'<div class="empty" style="padding:20px"><div>📝</div>No quiz results yet</div>';
+}
+
+// ── NAV ──
+window.showPage = function(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const tabs={today:0,homework:1,words:2,naplan:3,progress:4};
+  document.querySelectorAll('.tab')[tabs[name]]?.classList.add('active');
+  if (name==='progress') { renderProgress(); renderQuizHistory(); }
+};
+
+window.setMode = function(m) {
+  state.mode=m;
+  document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',i===(m==='parent'?0:1)));
+  const parentOnly = ['parent-add-card','parent-word-form','parent-quiz-mgmt'];
+  parentOnly.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display=m==='parent'?'':'none'; });
+  renderTodaySubjects();
+};
+
+init();
+</script>
+</body>
+</html>
