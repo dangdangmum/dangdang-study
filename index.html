@@ -566,6 +566,14 @@ textarea{min-height:70px;resize:vertical}
     </div>
   </div>
 
+  <!-- DAILY CHECKIN -->
+  <div class="card">
+    <div class="card-title">📅 Daily Practice Checkin</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">每天练一遍听写 → 打卡 → 得⭐ · 周五考试加油！</p>
+    <div id="dictee-checkin-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px"></div>
+    <div id="dictee-checkin-btn-area" style="text-align:center"></div>
+  </div>
+
   <div class="card">
     <div class="card-title">📊 Past Dictée Results</div>
     <div id="dictee-history"><div class="loading"><div class="spinner"></div></div></div>
@@ -802,7 +810,7 @@ async function earnStars(amount, reason) {
 
 // ── LOAD ALL ──
 async function loadAll() {
-  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh] = await Promise.all([
+  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc] = await Promise.all([
     getDocs(query(collection(db,'homework'),orderBy('date','desc'))),
     getDocs(collection(db,'words')),
     getDocs(collection(db,'questions')),
@@ -816,7 +824,8 @@ async function loadAll() {
     getDocs(query(collection(db,'starHistory'),orderBy('timestamp','desc'))),
     getDocs(query(collection(db,'diaries'),orderBy('date','desc'))),
     getDocs(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
-    getDocs(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc')))
+    getDocs(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc'))),
+    getDocs(query(collection(db,'dicteeCheckins'),orderBy('date','desc')))
   ]);
   state.homework=hw.docs.map(d=>({id:d.id,...d.data()}));
   state.words=words.docs.map(d=>({id:d.id,...d.data()}));
@@ -832,6 +841,7 @@ async function loadAll() {
   state.diaries=di.docs.map(d=>({id:d.id,...d.data()}));
   state.dicteeWords=dw.docs.map(d=>({id:d.id,...d.data()}));
   state.dicteeHistory=dh.docs.map(d=>({id:d.id,...d.data()}));
+  state.dicteeCheckins=dc.docs.map(d=>({id:d.id,...d.data()}));
   try{const cb=await getDocs(collection(db,'currentBook'));if(cb.docs.length)state.currentBook={id:cb.docs[0].id,...cb.docs[0].data()};}catch(e){}
   renderAll();
 }
@@ -841,7 +851,7 @@ function renderAll(){
   renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
   renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
   renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
-  renderDicteeWords();renderDicteeHistory();updateStarsDisplay();
+  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();
 }
 
 async function init(){
@@ -1051,6 +1061,52 @@ function renderDicteeHistory(){
       <span style="font-family:'Fredoka One',cursive;color:var(--fr);font-size:16px">${h.score}/${h.total}</span>
     </div>`).join(''):'<div class="empty" style="padding:16px"><div>📊</div>No results yet</div>';
 }
+
+// ── DICTEE DAILY CHECKIN ──
+function renderDicteeCheckin(){
+  const grid=document.getElementById('dictee-checkin-grid');
+  const btnArea=document.getElementById('dictee-checkin-btn-area');
+  if(!grid||!btnArea) return;
+  const today=new Date();
+  const dayNames=['周日','周一','周二','周三','周四','周五','周六'];
+  const checkins=new Set((state.dicteeCheckins||[]).map(c=>c.date));
+  const todayStr=today.toISOString().split('T')[0];
+  const todayDone=checkins.has(todayStr);
+  let html='';
+  for(let i=6;i>=0;i--){
+    const d=new Date(today); d.setDate(today.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    const done=checkins.has(ds);
+    const isToday=i===0;
+    html+=`<div style="text-align:center;padding:8px 4px;border-radius:10px;border:2px solid ${isToday?'var(--fr)':done?'#bfdbfe':'#f3f4f6'};background:${done?'linear-gradient(135deg,#60a5fa,#3b82f6)':'white'}">
+      <div style="font-size:10px;font-weight:800;color:${done?'white':'var(--muted)'}">${dayNames[d.getDay()]}</div>
+      <div style="font-size:18px;margin:3px 0">${done?'✅':'⬜'}</div>
+      <div style="font-size:10px;font-weight:700;color:${done?'rgba(255,255,255,0.85)':'var(--muted)'}">${d.getDate()}/${d.getMonth()+1}</div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+  let streak=0;
+  const d2=new Date(today);
+  for(let i=0;i<30;i++){
+    if(checkins.has(d2.toISOString().split('T')[0])){streak++;d2.setDate(d2.getDate()-1);}else break;
+  }
+  btnArea.innerHTML=todayDone
+    ? `<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 20px;display:inline-block;text-align:center"><div style="font-size:24px">✅</div><div style="font-weight:800;color:#16a34a;font-size:14px">今天已练习！</div><div style="font-size:11px;color:#065f46;margin-top:3px">🔥 连续 ${streak} 天练习</div></div>`
+    : `<div style="text-align:center"><button class="btn btn-fr" style="font-size:15px;padding:12px 28px" onclick="checkInDictee()">🇫🇷 今天练好了！打卡 ✅</button>${streak>0?`<div style="font-size:11px;color:var(--muted);margin-top:8px">🔥 已连续 ${streak} 天</div>`:''}</div>`;
+}
+
+window.checkInDictee=async function(){
+  const todayStr=new Date().toISOString().split('T')[0];
+  if((state.dicteeCheckins||[]).find(c=>c.date===todayStr)){toast('今天已经打过卡了！');return;}
+  const data={date:todayStr,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'dicteeCheckins'),data);
+  if(!state.dicteeCheckins) state.dicteeCheckins=[];
+  state.dicteeCheckins.push({id:r.id,...data});
+  renderDicteeCheckin();
+  renderSummary();
+  earnStars(1,'法语听写练习打卡！🇫🇷');
+  toast('🇫🇷 打卡成功！+1⭐ 继续加油！');
+};
 
 // dictee practice
 let dicteeQ=0,dicteeScore=0,dicteeSession=[];
