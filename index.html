@@ -7,225 +7,246 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f5f7ff;
-  --card: #fff;
-  --primary: #5b6ef5;
-  --primary2: #8b5cf6;
-  --en: #f87171; --math: #34d399; --cn: #fbbf24; --fr: #60a5fa;
-  --reading: #f472b6; --art: #a78bfa; --sport: #fb923c;
-  --text: #1e1b4b; --muted: #6b7280;
-  --radius: 18px; --shadow: 0 4px 24px rgba(91,110,245,0.10);
+  --bg:#f5f7ff;--card:#fff;--primary:#5b6ef5;--primary2:#8b5cf6;
+  --en:#f87171;--math:#34d399;--cn:#fbbf24;--fr:#60a5fa;
+  --reading:#f472b6;--art:#a78bfa;--sport:#fb923c;--diary:#6ee7b7;
+  --gold:#f59e0b;--text:#1e1b4b;--muted:#6b7280;
+  --radius:18px;--shadow:0 4px 24px rgba(91,110,245,0.10);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* HEADER */
 header{background:linear-gradient(135deg,#5b6ef5,#8b5cf6);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(91,110,245,0.35)}
-.logo{font-family:'Fredoka One',cursive;font-size:22px;color:white;display:flex;align-items:center;gap:8px}
+.logo{font-family:'Fredoka One',cursive;font-size:21px;color:white;display:flex;align-items:center;gap:8px}
+.header-right{display:flex;align-items:center;gap:12px}
+.stars-display{background:rgba(255,255,255,0.2);border-radius:50px;padding:5px 14px;color:white;font-weight:800;font-size:14px;display:flex;align-items:center;gap:5px}
 .mode-toggle{display:flex;background:rgba(255,255,255,0.15);border-radius:50px;padding:3px;gap:3px}
 .mode-btn{padding:6px 14px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all 0.2s;background:transparent;color:rgba(255,255,255,0.85)}
 .mode-btn.active{background:white;color:var(--primary)}
 
-/* SIDEBAR + LAYOUT */
 .app-layout{display:flex;min-height:calc(100vh - 56px)}
-.sidebar{width:220px;background:white;border-right:2px solid #eef0ff;padding:16px 12px;flex-shrink:0;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px)}
-.main-content{flex:1;padding:20px;max-width:900px;overflow-x:hidden}
+.sidebar{width:210px;background:white;border-right:2px solid #eef0ff;padding:14px 10px;flex-shrink:0;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px)}
+.main-content{flex:1;padding:18px;max-width:920px;overflow-x:hidden}
 
-.nav-section{margin-bottom:6px}
-.nav-section-title{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 10px 4px}
-.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px;color:var(--muted);transition:all 0.15s;border:none;background:transparent;width:100%;text-align:left}
+.nav-section{margin-bottom:4px}
+.nav-section-title{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 10px 3px}
+.nav-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:9px;cursor:pointer;font-weight:700;font-size:12px;color:var(--muted);transition:all 0.15s;border:none;background:transparent;width:100%;text-align:left}
 .nav-item:hover{background:#f5f3ff;color:var(--primary)}
 .nav-item.active{background:#eef0ff;color:var(--primary)}
-.nav-item .nav-icon{font-size:16px;width:22px;text-align:center}
+.nav-icon{font-size:15px;width:20px;text-align:center}
 
-/* MOBILE NAV */
-.mobile-nav{display:none;overflow-x:auto;gap:4px;padding:10px 16px 0;background:white;border-bottom:2px solid #eef0ff}
-.tab{padding:8px 14px;border-radius:10px 10px 0 0;border:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;white-space:nowrap;background:transparent;color:var(--muted)}
+.mobile-nav{display:none;overflow-x:auto;gap:3px;padding:10px 14px 0;background:white;border-bottom:2px solid #eef0ff}
+.tab{padding:7px 12px;border-radius:9px 9px 0 0;border:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:all 0.2s;white-space:nowrap;background:transparent;color:var(--muted)}
 .tab.active{background:var(--bg);color:var(--primary);font-weight:800}
 
 .page{display:none;animation:fadeIn 0.2s ease}
 .page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-/* CARDS */
-.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
-.card-title{font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:14px;color:var(--text);display:flex;align-items:center;gap:8px}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.card-title{font-family:'Fredoka One',cursive;font-size:17px;margin-bottom:13px;color:var(--text);display:flex;align-items:center;gap:7px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
 
-/* STREAK + SUMMARY */
-.streak-banner{background:linear-gradient(135deg,#ff9a56,#ff6b6b);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
-.streak-num{font-family:'Fredoka One',cursive;font-size:48px;color:white;line-height:1}
-.streak-text strong{display:block;font-size:16px;color:white}
+/* STREAK */
+.streak-banner{background:linear-gradient(135deg,#ff9a56,#ff6b6b);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.streak-num{font-family:'Fredoka One',cursive;font-size:44px;color:white;line-height:1}
+.streak-text strong{display:block;font-size:15px;color:white}
 .streak-text span{font-size:12px;color:rgba(255,255,255,0.88)}
 
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.summary-pill{background:white;border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);text-align:center}
-.summary-pill .s-num{font-family:'Fredoka One',cursive;font-size:28px}
-.summary-pill .s-lbl{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px}
+/* SUMMARY PILLS */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:8px;margin-bottom:14px}
+.summary-pill{background:white;border-radius:11px;padding:11px 12px;box-shadow:var(--shadow);text-align:center}
+.summary-pill .s-num{font-family:'Fredoka One',cursive;font-size:26px}
+.summary-pill .s-lbl{font-size:11px;color:var(--muted);font-weight:700;margin-top:1px}
 
 /* SUBJECT CARDS */
-.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.subject-card{border-radius:14px;padding:16px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;position:relative;overflow:hidden}
-.subject-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,0.14)}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:11px;margin-bottom:14px}
+.subject-card{border-radius:13px;padding:14px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;position:relative;overflow:hidden}
+.subject-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,0.14)}
 .subject-card.en{background:linear-gradient(135deg,#f87171,#ef4444)}
 .subject-card.math{background:linear-gradient(135deg,#34d399,#10b981)}
 .subject-card.cn{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
 .subject-card.fr{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
-.subject-card h3{color:white;font-size:18px;font-family:'Fredoka One',cursive}
-.subject-card .sub-status{color:rgba(255,255,255,0.9);font-size:12px;margin-top:3px;font-weight:700}
+.subject-card h3{color:white;font-size:17px;font-family:'Fredoka One',cursive}
+.subject-card .sub-status{color:rgba(255,255,255,0.9);font-size:11px;margin-top:3px;font-weight:700}
 .subject-card .hw-line{font-size:11px;color:rgba(255,255,255,0.82);margin-top:2px}
-.subject-card .big-emoji{font-size:40px;position:absolute;right:10px;top:10px;opacity:0.2}
+.subject-card .big-emoji{font-size:36px;position:absolute;right:8px;top:8px;opacity:0.2}
 
-/* CALENDAR STRIP */
+/* CALENDAR */
 .cal-strip{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px}
-.cal-day{flex-shrink:0;width:48px;text-align:center;padding:7px 4px;border-radius:10px;border:2px solid transparent;transition:all 0.2s;cursor:pointer}
+.cal-day{flex-shrink:0;width:46px;text-align:center;padding:6px 3px;border-radius:9px;border:2px solid transparent;transition:all 0.2s}
 .cal-day.today{border-color:var(--primary);background:#eef0ff}
-.cal-day.has-hw::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--primary);margin:3px auto 0}
-.cal-day.has-reading::after{background:var(--reading)}
-.cal-day-num{font-weight:800;font-size:14px}
+.cal-day.has-hw::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--primary);margin:2px auto 0}
+.cal-day-num{font-weight:800;font-size:13px}
 .cal-day-name{font-size:10px;color:var(--muted);font-weight:700}
 
-/* READING */
-.book-card{border:2px solid #f3e8ff;border-radius:14px;padding:14px;margin-bottom:10px;transition:border-color 0.2s;display:flex;align-items:flex-start;gap:12px}
-.book-card:hover{border-color:#c4b5fd}
-.book-spine{width:40px;height:56px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.book-info{flex:1}
-.book-title{font-weight:800;font-size:14px}
-.book-meta{font-size:12px;color:var(--muted);margin-top:2px}
-.book-progress{margin-top:8px}
-.prog-wrap{background:#f3f4f6;border-radius:50px;height:8px;overflow:hidden;margin-top:4px}
-.prog-bar{height:100%;border-radius:50px;transition:width 0.6s ease}
-
-.reading-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}
-.reading-cal-day{aspect-ratio:1;border-radius:6px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted)}
-.reading-cal-day.read{background:linear-gradient(135deg,#f472b6,#ec4899);color:white}
-.reading-cal-day.today-r{border:2px solid var(--primary)}
-
-.book-list-item{display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:8px}
-.book-list-item:hover{border-color:#e0e7ff}
-
-/* WORD CHIPS */
-.word-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.word-chip{padding:7px 13px;border-radius:50px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;border:2px solid transparent;display:flex;align-items:center;gap:5px}
-.word-chip.learned{background:#f0fdf4;color:#16a34a;border-color:#86efac}
-.word-chip.review{background:#fffbeb;color:#d97706;border-color:#fcd34d}
-.word-chip.new-word{background:#f5f3ff;color:#7c3aed;border-color:#c4b5fd}
-.word-chip:hover{transform:scale(1.05)}
-
 /* FORMS */
-.form-group{margin-bottom:13px}
-label{display:block;font-weight:700;font-size:13px;margin-bottom:5px;color:var(--muted)}
-input[type="text"],input[type="number"],input[type="date"],textarea,select{width:100%;padding:9px 12px;border:2px solid #e5e7eb;border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;transition:border 0.2s;background:#fafafa}
+.form-group{margin-bottom:12px}
+label{display:block;font-weight:700;font-size:12px;margin-bottom:4px;color:var(--muted)}
+input[type="text"],input[type="number"],input[type="date"],textarea,select{width:100%;padding:9px 11px;border:2px solid #e5e7eb;border-radius:9px;font-family:'Nunito',sans-serif;font-size:13px;transition:border 0.2s;background:#fafafa}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);background:white}
-textarea{min-height:72px;resize:vertical}
-.form-row{display:flex;gap:10px;flex-wrap:wrap}
-.form-row .form-group{flex:1;min-width:120px;margin:0}
+textarea{min-height:70px;resize:vertical}
+.form-row{display:flex;gap:8px;flex-wrap:wrap}
+.form-row .form-group{flex:1;min-width:110px;margin:0}
 
-.btn{padding:9px 20px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s}
+.btn{padding:8px 18px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(91,110,245,0.4)}
-.btn-sm{padding:6px 13px;font-size:12px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(91,110,245,0.4)}
+.btn-sm{padding:5px 12px;font-size:11px}
 .btn-ghost{background:#f3f4f6;color:var(--text)}
 .btn-danger{background:#fee2e2;color:#dc2626}
-.btn-reading{background:linear-gradient(135deg,#f472b6,#ec4899);color:white}
+.btn-gold{background:linear-gradient(135deg,#f59e0b,#d97706);color:white}
+.btn-fr{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:white}
+.btn-diary{background:linear-gradient(135deg,#6ee7b7,#10b981);color:white}
 
-/* BADGES */
-.badge{display:inline-block;padding:3px 9px;border-radius:50px;font-size:11px;font-weight:800;text-transform:uppercase}
-.badge-en{background:#fef2f2;color:#dc2626}
-.badge-math{background:#f0fdf4;color:#16a34a}
-.badge-cn{background:#fffbeb;color:#d97706}
-.badge-fr{background:#eff6ff;color:#2563eb}
-.badge-reading{background:#fdf2f8;color:#be185d}
-.badge-art{background:#f5f3ff;color:#7c3aed}
-.badge-sport{background:#fff7ed;color:#c2410c}
+.badge{display:inline-block;padding:2px 9px;border-radius:50px;font-size:10px;font-weight:800;text-transform:uppercase}
+.badge-en{background:#fef2f2;color:#dc2626}.badge-math{background:#f0fdf4;color:#16a34a}
+.badge-cn{background:#fffbeb;color:#d97706}.badge-fr{background:#eff6ff;color:#2563eb}
+.badge-art{background:#f5f3ff;color:#7c3aed}.badge-sport{background:#fff7ed;color:#c2410c}
 
-/* HW LIST */
-.hw-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:2px solid #f3f4f6;border-radius:12px;margin-bottom:8px;transition:border-color 0.2s}
+/* HW ITEMS */
+.hw-item{display:flex;align-items:flex-start;gap:9px;padding:11px;border:2px solid #f3f4f6;border-radius:11px;margin-bottom:7px;transition:border-color 0.2s}
 .hw-item:hover{border-color:#e0e7ff}
 .hw-check{width:20px;height:20px;border-radius:5px;border:2px solid #d1d5db;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;font-size:11px}
 .hw-check.done{background:var(--primary);border-color:var(--primary);color:white}
 .hw-content{flex:1}
 .hw-title{font-weight:700;font-size:13px}
-.hw-detail{font-size:11px;color:var(--muted);margin-top:2px}
+.hw-detail{font-size:11px;color:var(--muted);margin-top:1px}
 .hw-item.done-item .hw-title{text-decoration:line-through;color:var(--muted)}
 
+/* WORD CHIPS */
+.word-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.word-chip{padding:6px 12px;border-radius:50px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;border:2px solid transparent;display:flex;align-items:center;gap:5px}
+.word-chip.learned{background:#f0fdf4;color:#16a34a;border-color:#86efac}
+.word-chip.review{background:#fffbeb;color:#d97706;border-color:#fcd34d}
+.word-chip.new-word{background:#f5f3ff;color:#7c3aed;border-color:#c4b5fd}
+.word-chip:hover{transform:scale(1.05)}
+.speak-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:0;line-height:1;transition:transform 0.1s}
+.speak-btn:hover{transform:scale(1.3)}
+
+/* FRENCH DICTEE */
+.dictee-word{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:2px solid #eff6ff;border-radius:11px;margin-bottom:7px;transition:all 0.2s}
+.dictee-word:hover{border-color:#bfdbfe}
+.dictee-word-text{font-weight:800;font-size:15px;color:var(--text)}
+.dictee-word-meaning{font-size:12px;color:var(--muted);margin-top:1px}
+.dictee-score-badge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:50px;font-size:11px;font-weight:800}
+.dictee-score-badge.pass{background:#f0fdf4;color:#16a34a}
+.dictee-score-badge.fail{background:#fef2f2;color:#dc2626}
+
 /* QUIZ */
-.quiz-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
-.quiz-cat-btn{padding:20px 12px;border-radius:14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;transition:all 0.2s;text-align:center;line-height:1.6}
-.quiz-cat-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.13)}
-.quiz-question{font-family:'Fredoka One',cursive;font-size:22px;color:var(--text);margin:18px 0;line-height:1.4;text-align:center}
-.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:460px;margin:0 auto 18px}
-.quiz-opt{padding:13px;border-radius:12px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.2s;background:white;text-align:left}
+.quiz-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+.quiz-cat-btn{padding:18px 12px;border-radius:13px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;transition:all 0.2s;text-align:center;line-height:1.6}
+.quiz-cat-btn:hover{transform:translateY(-3px);box-shadow:0 7px 18px rgba(0,0,0,0.13)}
+.quiz-question{font-family:'Fredoka One',cursive;font-size:21px;color:var(--text);margin:16px 0;line-height:1.4;text-align:center}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:440px;margin:0 auto 16px}
+.quiz-opt{padding:12px;border-radius:11px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;background:white;text-align:left}
 .quiz-opt:hover{border-color:var(--primary);background:#f5f3ff}
 .quiz-opt.correct{border-color:#4ade80;background:#f0fdf4;color:#16a34a}
 .quiz-opt.wrong{border-color:#f87171;background:#fef2f2;color:#dc2626}
-.quiz-tf{display:flex;gap:12px;justify-content:center;margin-bottom:18px}
-.quiz-tf-btn{padding:14px 36px;border-radius:12px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;cursor:pointer;transition:all 0.2s;background:white}
+.quiz-tf{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
+.quiz-tf-btn{padding:12px 32px;border-radius:11px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;transition:all 0.2s;background:white}
 .quiz-tf-btn:hover{border-color:var(--primary);background:#f5f3ff}
 .quiz-tf-btn.correct{border-color:#4ade80;background:#f0fdf4;color:#16a34a}
 .quiz-tf-btn.wrong{border-color:#f87171;background:#fef2f2;color:#dc2626}
-.fill-input{width:100%;max-width:380px;display:block;margin:0 auto 16px;padding:12px 16px;border:2px solid #e5e7eb;border-radius:12px;font-family:'Nunito',sans-serif;font-size:17px;font-weight:700;text-align:center}
+.fill-input{width:100%;max-width:360px;display:block;margin:0 auto 14px;padding:11px 14px;border:2px solid #e5e7eb;border-radius:11px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;text-align:center}
 .fill-input:focus{outline:none;border-color:var(--primary)}
 .fill-input.correct{border-color:#4ade80;background:#f0fdf4}
 .fill-input.wrong{border-color:#f87171;background:#fef2f2}
-.quiz-progress{display:flex;gap:5px;justify-content:center;margin-bottom:14px}
+.quiz-progress{display:flex;gap:4px;justify-content:center;margin-bottom:12px}
 .qdot{width:10px;height:10px;border-radius:50%;background:#e5e7eb;transition:all 0.3s}
-.qdot.current{background:var(--primary)}
-.qdot.correct-q{background:#4ade80}
-.qdot.wrong-q{background:#f87171}
-.score-big{font-family:'Fredoka One',cursive;font-size:68px;background:linear-gradient(135deg,var(--primary),var(--primary2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+.qdot.current{background:var(--primary)}.qdot.correct-q{background:#4ade80}.qdot.wrong-q{background:#f87171}
+.score-big{font-family:'Fredoka One',cursive;font-size:64px;background:linear-gradient(135deg,var(--primary),var(--primary2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
 
-/* PROGRESS */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.stat-box{text-align:center;padding:16px 10px;background:white;border-radius:14px;box-shadow:var(--shadow)}
-.stat-num{font-family:'Fredoka One',cursive;font-size:32px}
+/* STARS / REWARDS */
+.reward-card{border-radius:13px;padding:14px;text-align:center;background:linear-gradient(135deg,#fef9c3,#fde68a);margin-bottom:10px}
+.star-count{font-family:'Fredoka One',cursive;font-size:52px;color:var(--gold)}
+.reward-item{display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #fde68a;border-radius:11px;margin-bottom:7px}
+.reward-stars{font-family:'Fredoka One',cursive;font-size:20px;color:var(--gold);min-width:55px;text-align:center}
+.reward-claimed{opacity:0.5;text-decoration:line-through}
+
+/* DIARY */
+.diary-entry{border:2px solid #d1fae5;border-radius:13px;padding:14px;margin-bottom:10px;position:relative}
+.diary-date{font-family:'Fredoka One',cursive;font-size:15px;color:var(--diary);margin-bottom:6px}
+.diary-weather{font-size:20px;margin-right:6px}
+.diary-text{font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.diary-word{display:inline-block;background:#f0fdf4;color:#16a34a;border-radius:50px;padding:2px 9px;font-size:11px;font-weight:700;margin-top:6px}
+
+/* WEEKLY TASKS */
+.weekly-task{display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #f3f4f6;border-radius:11px;margin-bottom:7px;transition:all 0.2s}
+.weekly-task:hover{border-color:#e0e7ff}
+.weekly-task.done-task{background:#f0fdf4;border-color:#bbf7d0}
+.task-check{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;cursor:pointer;flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center;font-size:12px}
+.task-check.done{background:#34d399;border-color:#34d399;color:white}
+
+/* PROGRESS BARS */
+.prog-wrap{background:#f3f4f6;border-radius:50px;height:9px;overflow:hidden;margin-top:4px}
+.prog-bar{height:100%;border-radius:50px;transition:width 0.6s ease}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;margin-bottom:14px}
+.stat-box{text-align:center;padding:14px 10px;background:white;border-radius:13px;box-shadow:var(--shadow)}
+.stat-num{font-family:'Fredoka One',cursive;font-size:30px}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px}
 
-/* ACTIVITY LOG (Art/Sport) */
-.activity-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:2px solid #f3f4f6;border-radius:12px;margin-bottom:8px}
-.activity-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+/* WEEK CHART */
+.week-chart{display:flex;align-items:flex-end;gap:6px;height:90px;margin-top:10px}
+.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.week-bar{width:100%;border-radius:5px 5px 0 0;transition:height 0.5s ease;min-height:3px}
+.week-bar-label{font-size:10px;font-weight:700;color:var(--muted)}
+.week-bar-num{font-size:10px;font-weight:800;color:var(--primary)}
+
+/* BOOK CARDS */
+.book-card{border:2px solid #f3e8ff;border-radius:13px;padding:12px;margin-bottom:9px;display:flex;align-items:flex-start;gap:10px}
+.book-card:hover{border-color:#c4b5fd}
+.book-spine{width:36px;height:50px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;color:white;font-family:'Fredoka One',cursive;font-size:18px}
+.book-info{flex:1}
+.book-title{font-weight:800;font-size:13px}
+.book-meta{font-size:11px;color:var(--muted);margin-top:1px}
+
+.reading-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px}
+.reading-cal-day{aspect-ratio:1;border-radius:5px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted)}
+.reading-cal-day.read{background:linear-gradient(135deg,#f472b6,#ec4899);color:white}
+.reading-cal-day.today-r{border:2px solid var(--primary)}
 
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;padding:14px}
 .modal-overlay.open{display:flex}
-.modal{background:white;border-radius:22px;padding:24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.modal{background:white;border-radius:20px;padding:22px;max-width:460px;width:100%;max-height:92vh;overflow-y:auto;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-title{font-family:'Fredoka One',cursive;font-size:20px;margin-bottom:16px}
+.modal-title{font-family:'Fredoka One',cursive;font-size:19px;margin-bottom:14px}
 .modal-close{float:right;background:#f3f4f6;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px}
 
-.subj-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
-.subj-tab{padding:5px 12px;border-radius:50px;border:2px solid #e5e7eb;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;background:white}
+.subj-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.subj-tab{padding:5px 11px;border-radius:50px;border:2px solid #e5e7eb;font-weight:700;font-size:11px;cursor:pointer;transition:all 0.2s;background:white}
 .subj-tab.en.active{background:#f87171;color:white;border-color:#f87171}
 .subj-tab.math.active{background:#34d399;color:white;border-color:#34d399}
 .subj-tab.cn.active{background:#fbbf24;color:#333;border-color:#fbbf24}
 .subj-tab.fr.active{background:#60a5fa;color:white;border-color:#60a5fa}
-
-.qtype-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
-.qtype-tab{padding:5px 12px;border-radius:50px;border:2px solid #e5e7eb;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;background:white;color:var(--muted)}
+.qtype-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.qtype-tab{padding:5px 11px;border-radius:50px;border:2px solid #e5e7eb;font-weight:700;font-size:11px;cursor:pointer;transition:all 0.2s;background:white;color:var(--muted)}
 .qtype-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
 
-/* TOAST */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1e1b4b;color:white;padding:11px 22px;border-radius:50px;font-weight:700;font-size:13px;z-index:300;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
+/* ACTIVITY */
+.activity-item{display:flex;align-items:flex-start;gap:9px;padding:11px;border:2px solid #f3f4f6;border-radius:11px;margin-bottom:7px}
+.activity-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e1b4b;color:white;padding:10px 20px;border-radius:50px;font-weight:700;font-size:12px;z-index:300;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
-
-.loading{text-align:center;padding:36px;color:var(--muted);font-weight:700}
-.spinner{display:inline-block;width:26px;height:26px;border:3px solid #e5e7eb;border-top-color:var(--primary);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:8px}
+.loading{text-align:center;padding:30px;color:var(--muted);font-weight:700}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid #e5e7eb;border-top-color:var(--primary);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:32px 20px;color:var(--muted)}
-.empty div{font-size:40px;margin-bottom:8px}
-.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.empty{text-align:center;padding:28px 18px;color:var(--muted)}
+.empty div{font-size:36px;margin-bottom:7px}
+.filter-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
 
-/* WEEKLY CHART */
-.week-chart{display:flex;align-items:flex-end;gap:8px;height:100px;margin-top:12px}
-.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.week-bar{width:100%;border-radius:6px 6px 0 0;transition:height 0.5s ease;min-height:4px}
-.week-bar-label{font-size:11px;font-weight:700;color:var(--muted)}
-.week-bar-num{font-size:11px;font-weight:800;color:var(--primary)}
+/* STAR ANIMATION */
+@keyframes starPop{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.4) rotate(10deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+.star-earned{animation:starPop 0.5s cubic-bezier(0.34,1.56,0.64,1)}
 
 @media(max-width:700px){
   .sidebar{display:none}
   .mobile-nav{display:flex}
-  .main-content{padding:14px}
+  .main-content{padding:12px}
   .quiz-opts{grid-template-columns:1fr}
 }
 </style>
@@ -234,29 +255,35 @@ textarea{min-height:72px;resize:vertical}
 
 <header>
   <div class="logo">⭐ Dangdang's Learning Hub</div>
-  <div class="mode-toggle">
-    <button class="mode-btn active" onclick="setMode('parent')">👩‍👦 Parent</button>
-    <button class="mode-btn" onclick="setMode('child')">🧒 Dangdang</button>
+  <div class="header-right">
+    <div class="stars-display">⭐ <span id="total-stars">0</span> stars</div>
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="setMode('parent')">👩‍👦 Parent</button>
+      <button class="mode-btn" onclick="setMode('child')">🧒 Dangdang</button>
+    </div>
   </div>
 </header>
 
-<!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobile-nav">
   <button class="tab active" onclick="showPage('today')">📅 Today</button>
   <button class="tab" onclick="showPage('homework')">📚 HW</button>
-  <button class="tab" onclick="showPage('reading')">📖 Reading</button>
+  <button class="tab" onclick="showPage('reading-current')">📖 Reading</button>
   <button class="tab" onclick="showPage('words')">🔤 Words</button>
+  <button class="tab" onclick="showPage('french-dictee')">🇫🇷 Dictée</button>
   <button class="tab" onclick="showPage('naplan')">📝 NAPLAN</button>
-  <button class="tab" onclick="showPage('activities')">🎨 Activities</button>
+  <button class="tab" onclick="showPage('diary')">📔 Diary</button>
+  <button class="tab" onclick="showPage('rewards')">🏆 Rewards</button>
   <button class="tab" onclick="showPage('progress')">📊 Progress</button>
 </div>
 
 <div class="app-layout">
-<!-- SIDEBAR -->
 <div class="sidebar">
   <div class="nav-section">
     <div class="nav-section-title">Overview</div>
     <button class="nav-item active" onclick="showPage('today')"><span class="nav-icon">📅</span>Today</button>
+    <button class="nav-item" onclick="showPage('weekly-tasks')"><span class="nav-icon">📋</span>Weekly Tasks</button>
+    <button class="nav-item" onclick="showPage('rewards')"><span class="nav-icon">🏆</span>Rewards</button>
+    <button class="nav-item" onclick="showPage('diary')"><span class="nav-icon">📔</span>My Diary</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Homework</div>
@@ -268,11 +295,11 @@ textarea{min-height:72px;resize:vertical}
     <button class="nav-item" onclick="showPage('reading-log')"><span class="nav-icon">📅</span>Reading Log</button>
     <button class="nav-item" onclick="showPage('reading-list')"><span class="nav-icon">📋</span>Reading List</button>
     <button class="nav-item" onclick="showPage('reading-done')"><span class="nav-icon">✅</span>Finished Books</button>
-    <button class="nav-item" onclick="showPage('reading-stats')"><span class="nav-icon">📊</span>Reading Stats</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Word Bank</div>
     <button class="nav-item" onclick="showPage('words')"><span class="nav-icon">🔤</span>All Words</button>
+    <button class="nav-item" onclick="showPage('french-dictee')"><span class="nav-icon">🇫🇷</span>French Dictée</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">NAPLAN Prep</div>
@@ -289,41 +316,100 @@ textarea{min-height:72px;resize:vertical}
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main-content">
 
 <!-- TODAY -->
 <div class="page active" id="page-today">
   <div class="streak-banner">
     <div class="streak-num" id="streak-num">0</div>
-    <div class="streak-text">
-      <strong>🔥 Day Streak!</strong>
-      <span>Keep it up, Dangdang! 💪</span>
-    </div>
+    <div class="streak-text"><strong>🔥 Day Streak!</strong><span>Amazing work Dangdang! 💪</span></div>
   </div>
-
-  <!-- AUTO STUDY SUMMARY -->
   <div class="card">
     <div class="card-title">✨ Today's Study Summary</div>
-    <div class="summary-grid" id="summary-grid">
-      <div class="loading"><div class="spinner"></div></div>
-    </div>
-    <div id="summary-text" style="font-size:13px;color:var(--muted);padding:6px 2px;line-height:1.7"></div>
+    <div class="summary-grid" id="summary-grid"><div class="loading"><div class="spinner"></div></div></div>
+    <div id="summary-text" style="font-size:13px;color:var(--muted);padding:4px 2px;line-height:1.8"></div>
   </div>
-
   <div class="card">
     <div class="card-title">📅 <span id="today-date"></span></div>
     <div class="cal-strip" id="cal-strip"></div>
   </div>
-
-  <div class="subject-grid" id="today-subjects">
-    <div class="loading"><div class="spinner"></div></div>
-  </div>
-
+  <div class="subject-grid" id="today-subjects"><div class="loading"><div class="spinner"></div></div></div>
   <div class="card" id="parent-add-card">
-    <div class="card-title">➕ Log Today's Homework</div>
-    <button class="btn btn-primary" onclick="openModal('hw-modal')">📝 Add Homework</button>
-    <button class="btn btn-reading" onclick="openModal('reading-modal')" style="margin-left:8px">📖 Log Reading</button>
+    <div class="card-title">➕ Log Today</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="openModal('hw-modal')">📚 Homework</button>
+      <button class="btn btn-fr" onclick="openModal('reading-modal')">📖 Reading</button>
+      <button class="btn btn-diary" onclick="showPage('diary')">📔 Write Diary</button>
+    </div>
+  </div>
+</div>
+
+<!-- WEEKLY TASKS -->
+<div class="page" id="page-weekly-tasks">
+  <div class="card" id="parent-task-form">
+    <div class="card-title">➕ Add Weekly Task</div>
+    <div class="form-row">
+      <div class="form-group"><label>Task Name</label><input type="text" id="task-name" placeholder="e.g. French spelling test practice"></div>
+      <div class="form-group" style="max-width:110px"><label>Stars 🌟</label><input type="number" id="task-stars" value="1" min="1" max="5"></div>
+    </div>
+    <button class="btn btn-primary" onclick="saveWeeklyTask()">✅ Add Task</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 This Week's Tasks</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Tasks reset every Monday. Complete tasks to earn ⭐ stars!</p>
+    <div id="weekly-task-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
+<!-- REWARDS -->
+<div class="page" id="page-rewards">
+  <div class="reward-card">
+    <div style="font-size:13px;font-weight:800;color:#92400e;margin-bottom:4px">TOTAL STARS EARNED</div>
+    <div class="star-count" id="reward-stars">0</div>
+    <div style="font-size:12px;color:#92400e;margin-top:4px">Keep completing tasks to earn more! ⭐</div>
+  </div>
+  <div class="card" id="parent-reward-form">
+    <div class="card-title">➕ Add a Reward</div>
+    <div class="form-row">
+      <div class="form-group"><label>Reward</label><input type="text" id="reward-name" placeholder="e.g. Ice cream, Movie night, New book"></div>
+      <div class="form-group" style="max-width:110px"><label>Stars needed</label><input type="number" id="reward-cost" value="10" min="1"></div>
+    </div>
+    <button class="btn btn-gold" onclick="saveReward()">✅ Add Reward</button>
+  </div>
+  <div class="card">
+    <div class="card-title">🎁 Reward Shop</div>
+    <div id="reward-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📜 Star History</div>
+    <div id="star-history"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
+<!-- DIARY -->
+<div class="page" id="page-diary">
+  <div class="card" id="diary-write-card">
+    <div class="card-title">📔 Write Today's Diary</div>
+    <div class="form-row" style="margin-bottom:10px">
+      <div class="form-group"><label>Date</label><input type="date" id="diary-date"></div>
+      <div class="form-group" style="max-width:130px"><label>Weather 🌤️</label>
+        <select id="diary-weather"><option value="☀️">☀️ Sunny</option><option value="⛅">⛅ Cloudy</option><option value="🌧️">🌧️ Rainy</option><option value="🌈">🌈 Rainbow</option><option value="❄️">❄️ Cold</option><option value="🌩️">🌩️ Stormy</option></select>
+      </div>
+      <div class="form-group"><label>Mood 😊</label>
+        <select id="diary-mood"><option value="😊">😊 Happy</option><option value="😄">😄 Excited</option><option value="😌">😌 Calm</option><option value="😔">😔 Sad</option><option value="😤">😤 Frustrated</option><option value="😴">😴 Tired</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>What happened today? What did you do? 📝</label>
+      <textarea id="diary-text" style="min-height:120px" placeholder="Today I..."></textarea>
+    </div>
+    <div class="form-group"><label>One thing I learned or a good word I used 🌟 (optional)</label>
+      <input type="text" id="diary-word" placeholder="e.g. magnificent, I learned how to...">
+    </div>
+    <button class="btn btn-diary" onclick="saveDiary()" style="width:100%">💾 Save Diary Entry</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📖 My Diary</div>
+    <div id="diary-list"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 </div>
 
@@ -342,45 +428,42 @@ textarea{min-height:72px;resize:vertical}
   </div>
 </div>
 
-<!-- READING - CURRENT -->
+<!-- READING CURRENT -->
 <div class="page" id="page-reading-current">
   <div class="card" id="parent-book-form">
-    <div class="card-title">➕ Add / Update Current Book</div>
+    <div class="card-title">➕ Update Current Book</div>
     <div class="form-row">
-      <div class="form-group"><label>Book Title</label><input type="text" id="book-title" placeholder="e.g. Charlotte's Web"></div>
-      <div class="form-group"><label>Author</label><input type="text" id="book-author" placeholder="e.g. E.B. White"></div>
+      <div class="form-group"><label>Title</label><input type="text" id="book-title" placeholder="Charlotte's Web"></div>
+      <div class="form-group"><label>Author</label><input type="text" id="book-author" placeholder="E.B. White"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Total Pages</label><input type="number" id="book-pages" placeholder="150" min="1"></div>
-      <div class="form-group"><label>Current Page</label><input type="number" id="book-current" placeholder="0" min="0"></div>
-      <div class="form-group"><label>Level / Series</label><input type="text" id="book-level" placeholder="e.g. Level 12"></div>
+      <div class="form-group"><label>Total Pages</label><input type="number" id="book-pages" placeholder="184"></div>
+      <div class="form-group"><label>Current Page</label><input type="number" id="book-current" placeholder="0"></div>
+      <div class="form-group"><label>Level</label><input type="text" id="book-level" placeholder="Level 12"></div>
     </div>
     <button class="btn btn-primary" onclick="saveCurrentBook()">✅ Save</button>
   </div>
-  <div id="current-book-display">
-    <div class="loading"><div class="spinner"></div></div>
-  </div>
+  <div id="current-book-display"><div class="loading"><div class="spinner"></div></div></div>
 </div>
 
 <!-- READING LOG -->
 <div class="page" id="page-reading-log">
   <div class="card" id="parent-log-form">
-    <div class="card-title">➕ Log Today's Reading</div>
+    <div class="card-title">➕ Log Reading</div>
     <div class="form-row">
       <div class="form-group"><label>Date</label><input type="date" id="log-date"></div>
-      <div class="form-group"><label>Pages Read</label><input type="number" id="log-pages" placeholder="10" min="1"></div>
-      <div class="form-group"><label>Minutes Read</label><input type="number" id="log-mins" placeholder="15" min="1"></div>
+      <div class="form-group"><label>Pages Read</label><input type="number" id="log-pages" placeholder="10"></div>
+      <div class="form-group"><label>Minutes</label><input type="number" id="log-mins" placeholder="15"></div>
     </div>
-    <div class="form-group"><label>Notes (optional)</label><input type="text" id="log-notes" placeholder="e.g. Learned new word: magnificent"></div>
-    <button class="btn btn-primary" onclick="saveReadingLog()">✅ Log Reading</button>
+    <div class="form-group"><label>Notes</label><input type="text" id="log-notes" placeholder="e.g. Up to chapter 4"></div>
+    <button class="btn btn-primary" onclick="saveReadingLog()">✅ Log</button>
   </div>
   <div class="card">
     <div class="card-title">📅 Reading Calendar</div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Pink = reading day 📖</p>
     <div class="reading-cal" id="reading-calendar"></div>
   </div>
   <div class="card">
-    <div class="card-title">📋 Reading History</div>
+    <div class="card-title">📋 History</div>
     <div id="reading-log-list"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 </div>
@@ -390,14 +473,13 @@ textarea{min-height:72px;resize:vertical}
   <div class="card" id="parent-wishlist-form">
     <div class="card-title">➕ Add to Reading List</div>
     <div class="form-row">
-      <div class="form-group"><label>Book Title</label><input type="text" id="wish-title" placeholder="e.g. Diary of a Wimpy Kid"></div>
-      <div class="form-group"><label>Author (optional)</label><input type="text" id="wish-author" placeholder="e.g. Jeff Kinney"></div>
+      <div class="form-group"><label>Title</label><input type="text" id="wish-title" placeholder="Diary of a Wimpy Kid"></div>
+      <div class="form-group"><label>Author</label><input type="text" id="wish-author" placeholder="Jeff Kinney"></div>
     </div>
-    <div class="form-group"><label>Notes (optional)</label><input type="text" id="wish-notes" placeholder="e.g. Recommended by teacher"></div>
-    <button class="btn btn-primary" onclick="saveWishlist()">✅ Add Book</button>
+    <button class="btn btn-primary" onclick="saveWishlist()">✅ Add</button>
   </div>
   <div class="card">
-    <div class="card-title">📋 Reading List <span id="wishlist-count" style="font-size:14px;color:var(--muted)"></span></div>
+    <div class="card-title">📋 Reading List <span id="wishlist-count" style="font-size:13px;color:var(--muted)"></span></div>
     <div id="wishlist-items"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 </div>
@@ -405,37 +487,24 @@ textarea{min-height:72px;resize:vertical}
 <!-- FINISHED BOOKS -->
 <div class="page" id="page-reading-done">
   <div class="card" id="parent-done-form">
-    <div class="card-title">➕ Add Finished Book</div>
+    <div class="card-title">➕ Finished a Book!</div>
     <div class="form-row">
-      <div class="form-group"><label>Book Title</label><input type="text" id="done-title" placeholder="e.g. The BFG"></div>
-      <div class="form-group"><label>Author</label><input type="text" id="done-author" placeholder="e.g. Roald Dahl"></div>
+      <div class="form-group"><label>Title</label><input type="text" id="done-title" placeholder="The BFG"></div>
+      <div class="form-group"><label>Author</label><input type="text" id="done-author" placeholder="Roald Dahl"></div>
     </div>
     <div class="form-row">
       <div class="form-group"><label>Pages</label><input type="number" id="done-pages" placeholder="175"></div>
       <div class="form-group"><label>Date Finished</label><input type="date" id="done-date"></div>
-      <div class="form-group"><label>Rating ⭐</label>
-        <select id="done-rating"><option value="5">⭐⭐⭐⭐⭐ Amazing!</option><option value="4">⭐⭐⭐⭐ Really good</option><option value="3">⭐⭐⭐ OK</option><option value="2">⭐⭐ Not great</option><option value="1">⭐ Didn't like it</option></select>
+      <div class="form-group"><label>Rating</label>
+        <select id="done-rating"><option value="5">⭐⭐⭐⭐⭐</option><option value="4">⭐⭐⭐⭐</option><option value="3">⭐⭐⭐</option><option value="2">⭐⭐</option><option value="1">⭐</option></select>
       </div>
     </div>
-    <div class="form-group"><label>Favourite part (optional)</label><input type="text" id="done-review" placeholder="e.g. When the giant sneezed!"></div>
-    <button class="btn btn-primary" onclick="saveFinishedBook()">✅ Save</button>
+    <div class="form-group"><label>Favourite part</label><input type="text" id="done-review" placeholder="When the giant sneezed!"></div>
+    <button class="btn btn-primary" onclick="saveFinishedBook()">🎉 Save</button>
   </div>
   <div class="card">
-    <div class="card-title">🏆 Books Finished <span id="done-count" style="font-size:14px;color:var(--muted)"></span></div>
+    <div class="card-title">🏆 Books Finished <span id="done-count" style="font-size:12px;color:var(--muted)"></span></div>
     <div id="done-books-list"><div class="loading"><div class="spinner"></div></div></div>
-  </div>
-</div>
-
-<!-- READING STATS -->
-<div class="page" id="page-reading-stats">
-  <div class="stat-grid" id="reading-stat-grid"></div>
-  <div class="card">
-    <div class="card-title">📊 Pages Read This Month</div>
-    <div class="week-chart" id="reading-weekly-chart"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">📚 Books by Month</div>
-    <div id="books-by-month"></div>
   </div>
 </div>
 
@@ -445,11 +514,11 @@ textarea{min-height:72px;resize:vertical}
     <div class="card-title">➕ Add Word</div>
     <div class="form-row">
       <div class="form-group"><label>Word</label><input type="text" id="new-word" placeholder="e.g. magnificent"></div>
-      <div class="form-group"><label>Meaning</label><input type="text" id="word-meaning" placeholder="e.g. impressively great"></div>
-      <div class="form-group" style="width:110px"><label>Subject</label>
+      <div class="form-group"><label>Meaning</label><input type="text" id="word-meaning" placeholder="e.g. very grand"></div>
+      <div class="form-group" style="max-width:110px"><label>Subject</label>
         <select id="word-subject"><option value="en">English</option><option value="fr">French</option><option value="cn">Chinese</option><option value="math">Maths</option></select>
       </div>
-      <div style="display:flex;align-items:flex-end;padding-bottom:13px"><button class="btn btn-primary" onclick="addWord()">Add</button></div>
+      <div style="display:flex;align-items:flex-end;padding-bottom:12px"><button class="btn btn-primary" onclick="addWord()">Add</button></div>
     </div>
   </div>
   <div class="card">
@@ -464,7 +533,42 @@ textarea{min-height:72px;resize:vertical}
       <button class="btn btn-sm" style="background:#fffbeb;color:#d97706" onclick="filterWords('cn-only')">中文</button>
     </div>
     <div class="word-grid" id="word-list"><div class="loading"><div class="spinner"></div></div></div>
-    <p style="font-size:11px;color:var(--muted);margin-top:12px">💡 Click a word: New → Needs Review → Mastered</p>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">💡 Click word to cycle status · 🔊 Click speaker to hear pronunciation</p>
+  </div>
+</div>
+
+<!-- FRENCH DICTEE -->
+<div class="page" id="page-french-dictee">
+  <div class="card" id="parent-dictee-form">
+    <div class="card-title">🇫🇷 Add This Week's Dictée Words</div>
+    <div class="form-group"><label>Week of</label><input type="date" id="dictee-week"></div>
+    <div class="form-group"><label>Words (one per line, format: french = english)</label>
+      <textarea id="dictee-words" style="min-height:120px;font-family:'Nunito',sans-serif" placeholder="rouge = red&#10;bleu = blue&#10;vert = green&#10;jaune = yellow"></textarea>
+    </div>
+    <button class="btn btn-fr" onclick="saveDicteeWords()">✅ Save Words</button>
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">📋 This Week's Words</div>
+      <button class="btn btn-sm btn-fr" onclick="practiceDictee()" id="practice-dictee-btn">🎯 Practice!</button>
+    </div>
+    <div id="dictee-word-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <div id="dictee-practice-area" style="display:none">
+    <div class="card">
+      <div class="section-header">
+        <div class="card-title" style="margin:0">🎯 Dictée Practice</div>
+        <button class="btn btn-sm btn-ghost" onclick="endDicteePractice()">End</button>
+      </div>
+      <div id="dictee-q-area"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Past Dictée Results</div>
+    <div id="dictee-history"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 </div>
 
@@ -487,55 +591,52 @@ textarea{min-height:72px;resize:vertical}
       </div>
       <div class="form-group"><label>Question</label><textarea id="q-question" placeholder="Type your question here..."></textarea></div>
       <div id="mcq-fields">
-        <label style="font-weight:700;font-size:13px;color:var(--muted);display:block;margin-bottom:8px">Options — tick the correct one</label>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="0" checked><input type="text" class="opt-input" placeholder="Option A"></div>
-          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="1"><input type="text" class="opt-input" placeholder="Option B"></div>
-          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="2"><input type="text" class="opt-input" placeholder="Option C"></div>
-          <div style="display:flex;gap:8px;align-items:center"><input type="radio" name="correct-ans" value="3"><input type="text" class="opt-input" placeholder="Option D"></div>
+        <label style="font-weight:700;font-size:12px;color:var(--muted);display:block;margin-bottom:7px">Options — tick the correct answer</label>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:7px;align-items:center"><input type="radio" name="correct-ans" value="0" checked><input type="text" class="opt-input" placeholder="Option A"></div>
+          <div style="display:flex;gap:7px;align-items:center"><input type="radio" name="correct-ans" value="1"><input type="text" class="opt-input" placeholder="Option B"></div>
+          <div style="display:flex;gap:7px;align-items:center"><input type="radio" name="correct-ans" value="2"><input type="text" class="opt-input" placeholder="Option C"></div>
+          <div style="display:flex;gap:7px;align-items:center"><input type="radio" name="correct-ans" value="3"><input type="text" class="opt-input" placeholder="Option D"></div>
         </div>
       </div>
-      <div id="fill-fields" style="display:none"><div class="form-group"><label>Correct Answer</label><input type="text" id="fill-answer" placeholder="The exact answer"></div></div>
+      <div id="fill-fields" style="display:none"><div class="form-group"><label>Correct Answer</label><input type="text" id="fill-answer" placeholder="Exact answer"></div></div>
       <div id="tf-fields" style="display:none"><div class="form-group"><label>Correct Answer</label><select id="tf-answer"><option value="true">True ✅</option><option value="false">False ❌</option></select></div></div>
       <button class="btn btn-primary" onclick="saveQuestion()" style="margin-top:8px">✅ Save Question</button>
     </div>
     <div class="card">
       <div class="card-title">📝 Choose Category</div>
       <div class="quiz-cat-grid">
-        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#f87171,#ef4444);color:white" onclick="startQuiz('reading')">📖<br><br>Reading<br><small style="opacity:0.85">Comprehension</small></button>
-        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:white" onclick="startQuiz('writing')">✍️<br><br>Writing<br><small style="opacity:0.85">Practice</small></button>
-        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#60a5fa,#3b82f6);color:white" onclick="startQuiz('spelling')">🔤<br><br>Spelling<br><small style="opacity:0.85">& Vocabulary</small></button>
-        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#34d399,#10b981);color:white" onclick="startQuiz('numeracy')">🔢<br><br>Numeracy<br><small style="opacity:0.85">Maths</small></button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#f87171,#ef4444);color:white" onclick="startQuiz('reading')">📖<br><br>Reading</button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:white" onclick="startQuiz('writing')">✍️<br><br>Writing</button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#60a5fa,#3b82f6);color:white" onclick="startQuiz('spelling')">🔤<br><br>Spelling</button>
+        <button class="quiz-cat-btn" style="background:linear-gradient(135deg,#34d399,#10b981);color:white" onclick="startQuiz('numeracy')">🔢<br><br>Numeracy</button>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title">🏆 Recent Practice</div>
-      <div id="quiz-history-list"><div class="loading"><div class="spinner"></div></div></div>
-    </div>
+    <div class="card"><div class="card-title">🏆 Recent Practice</div><div id="quiz-history-list"><div class="loading"><div class="spinner"></div></div></div></div>
   </div>
   <div id="naplan-quiz" style="display:none">
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <div class="card-title" style="margin:0" id="quiz-title">📖 Reading</div>
         <button class="btn btn-sm btn-ghost" onclick="endQuiz()">Exit</button>
       </div>
       <div class="quiz-progress" id="quiz-progress"></div>
-      <div style="text-align:center;color:var(--muted);font-size:12px;font-weight:700" id="q-num">Question 1</div>
+      <div style="text-align:center;color:var(--muted);font-size:12px;font-weight:700" id="q-num">Q1</div>
       <div class="quiz-question" id="q-text"></div>
       <div id="q-answer-area"></div>
-      <div id="q-feedback" style="text-align:center;min-height:36px;font-size:15px;font-weight:800;margin-bottom:10px"></div>
+      <div id="q-feedback" style="text-align:center;min-height:34px;font-size:14px;font-weight:800;margin-bottom:10px"></div>
       <div style="text-align:center"><button class="btn btn-primary" id="next-btn" style="display:none" onclick="nextQuestion()">Next →</button></div>
     </div>
   </div>
   <div id="naplan-result" style="display:none">
-    <div class="card" style="text-align:center;padding:36px 22px">
-      <div style="font-size:64px;margin-bottom:8px" id="result-emoji">🎉</div>
+    <div class="card" style="text-align:center;padding:32px 20px">
+      <div style="font-size:60px;margin-bottom:6px" id="result-emoji">🎉</div>
       <div class="score-big" id="score-text">4/5</div>
-      <div style="font-family:'Fredoka One',cursive;font-size:21px;margin:10px 0" id="result-msg">Great job!</div>
-      <p style="color:var(--muted);margin-bottom:24px" id="result-detail"></p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <div style="font-family:'Fredoka One',cursive;font-size:20px;margin:8px 0" id="result-msg">Great job!</div>
+      <p style="color:var(--muted);margin-bottom:22px" id="result-detail"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="retryQuiz()">Try Again 🔄</button>
-        <button class="btn btn-ghost" onclick="endQuiz()">Back to Menu</button>
+        <button class="btn btn-ghost" onclick="endQuiz()">Back</button>
       </div>
     </div>
   </div>
@@ -546,16 +647,14 @@ textarea{min-height:72px;resize:vertical}
   <div class="card" id="parent-activity-form">
     <div class="card-title">➕ Log Activity</div>
     <div class="form-row">
-      <div class="form-group"><label>Type</label>
-        <select id="act-type"><option value="art">🎨 Art</option><option value="sport">⚽ Sport / Class</option></select>
-      </div>
+      <div class="form-group"><label>Type</label><select id="act-type"><option value="art">🎨 Art</option><option value="sport">⚽ Sport / Class</option></select></div>
       <div class="form-group"><label>Date</label><input type="date" id="act-date"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Title</label><input type="text" id="act-title" placeholder="e.g. Painted a sunset, Swimming lesson"></div>
-      <div class="form-group"><label>Location / Class</label><input type="text" id="act-location" placeholder="e.g. School art class, YMCA"></div>
+      <div class="form-group"><label>Title</label><input type="text" id="act-title" placeholder="e.g. Painted a sunset"></div>
+      <div class="form-group"><label>Location</label><input type="text" id="act-location" placeholder="e.g. School art class"></div>
     </div>
-    <div class="form-group"><label>Notes</label><textarea id="act-notes" placeholder="What did Dangdang do? What did he learn?"></textarea></div>
+    <div class="form-group"><label>Notes</label><textarea id="act-notes" placeholder="What did Dangdang do?"></textarea></div>
     <button class="btn btn-primary" onclick="saveActivity()">✅ Save</button>
   </div>
   <div class="card">
@@ -571,37 +670,34 @@ textarea{min-height:72px;resize:vertical}
   </div>
 </div>
 
-<!-- PROGRESS WEEKLY -->
+<!-- PROGRESS -->
 <div class="page" id="page-progress">
   <div class="stat-grid" id="stat-grid"></div>
-  <div class="card">
-    <div class="card-title">📊 This Week's Homework</div>
-    <div class="week-chart" id="week-hw-chart"></div>
-  </div>
+  <div class="card"><div class="card-title">📊 This Week's Homework</div><div class="week-chart" id="week-hw-chart"></div></div>
   <div class="card"><div class="card-title">📚 Homework by Subject</div><div id="subject-progress"></div></div>
   <div class="card"><div class="card-title">🔤 Word Mastery</div><div id="word-progress"></div></div>
-  <div class="card"><div class="card-title">📝 NAPLAN Recent Scores</div><div id="naplan-progress"></div></div>
+  <div class="card"><div class="card-title">📝 NAPLAN Scores</div><div id="naplan-progress"></div></div>
 </div>
 
 <!-- PROGRESS MONTHLY -->
 <div class="page" id="page-progress-monthly">
   <div class="card">
-    <div class="card-title">📅 Monthly Stats — <span id="month-label"></span></div>
+    <div class="card-title">📅 <span id="month-label"></span></div>
     <div class="stat-grid" id="monthly-stat-grid"></div>
   </div>
-  <div class="card"><div class="card-title">📖 Reading This Month</div><div id="monthly-reading"></div></div>
-  <div class="card"><div class="card-title">📝 NAPLAN This Month</div><div id="monthly-naplan"></div></div>
-  <div class="card"><div class="card-title">🎨 Activities This Month</div><div id="monthly-activities"></div></div>
+  <div class="card"><div class="card-title">📖 Reading</div><div id="monthly-reading"></div></div>
+  <div class="card"><div class="card-title">📝 NAPLAN</div><div id="monthly-naplan"></div></div>
+  <div class="card"><div class="card-title">🎨 Activities</div><div id="monthly-activities"></div></div>
 </div>
 
-</div><!-- end main-content -->
-</div><!-- end app-layout -->
+</div><!-- main-content -->
+</div><!-- app-layout -->
 
 <!-- MODALS -->
 <div class="modal-overlay" id="hw-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('hw-modal')">✕</button>
-    <div class="modal-title">📝 Log Homework</div>
+    <div class="modal-title">📚 Log Homework</div>
     <div class="form-group"><label>Subject</label>
       <div class="subj-tabs">
         <button class="subj-tab en active" data-s="en" onclick="selectSubject(this)">🇬🇧 English</button>
@@ -610,8 +706,8 @@ textarea{min-height:72px;resize:vertical}
         <button class="subj-tab fr" data-s="fr" onclick="selectSubject(this)">🇫🇷 French</button>
       </div>
     </div>
-    <div class="form-group"><label>What did Dangdang do? *</label><input type="text" id="hw-title-input" placeholder="e.g. Read Chapter 3, Worksheet P12"></div>
-    <div class="form-group"><label>What was learned?</label><textarea id="hw-notes-input" placeholder="e.g. Learned sight words: the, was, said"></textarea></div>
+    <div class="form-group"><label>What did Dangdang do? *</label><input type="text" id="hw-title-input" placeholder="e.g. Read Chapter 3"></div>
+    <div class="form-group"><label>What was learned?</label><textarea id="hw-notes-input" placeholder="e.g. Learned sight words"></textarea></div>
     <div class="form-group"><label>New words (comma separated)</label><input type="text" id="hw-words-input" placeholder="e.g. beautiful, wonderful"></div>
     <button class="btn btn-primary" onclick="saveHomework()" style="width:100%">✅ Save</button>
   </div>
@@ -623,19 +719,20 @@ textarea{min-height:72px;resize:vertical}
     <div class="modal-title">📖 Log Reading</div>
     <div class="form-row">
       <div class="form-group"><label>Date</label><input type="date" id="modal-log-date"></div>
-      <div class="form-group"><label>Pages Read</label><input type="number" id="modal-log-pages" placeholder="10" min="1"></div>
-      <div class="form-group"><label>Minutes</label><input type="number" id="modal-log-mins" placeholder="15" min="1"></div>
+      <div class="form-group"><label>Pages</label><input type="number" id="modal-log-pages" placeholder="10"></div>
+      <div class="form-group"><label>Minutes</label><input type="number" id="modal-log-mins" placeholder="15"></div>
     </div>
     <div class="form-group"><label>Notes</label><input type="text" id="modal-log-notes" placeholder="e.g. Up to chapter 4"></div>
-    <button class="btn btn-primary" onclick="saveReadingLogFromModal()" style="width:100%">✅ Log Reading</button>
+    <button class="btn btn-primary" onclick="saveReadingLogFromModal()" style="width:100%">✅ Save</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<!-- FIREBASE + APP LOGIC -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8bXQ4p41C7iD1EfyoEzXCiSwoL1HEGE0",
@@ -645,7 +742,6 @@ const firebaseConfig = {
   messagingSenderId: "827559609121",
   appId: "1:827559609121:web:6430b9e63649da64beb460"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -654,29 +750,59 @@ window.state = {
   selectedSubject:'en', selectedQType:'mcq',
   homework:[], words:[], questions:[], quizHistory:[],
   readingLogs:[], currentBook:null, wishlist:[], finishedBooks:[], activities:[],
-  currentQuiz:{type:null,questions:[],idx:0,score:0,answers:[]}
+  weeklyTasks:[], rewards:[], starHistory:[], diaries:[],
+  dicteeWords:[], dicteeHistory:[],
+  currentQuiz:{type:null,questions:[],idx:0,score:0,answers:[]},
+  dicteeSession:{words:[],idx:0,score:0}
 };
 
-const SUBJ = {en:'🇬🇧 English',math:'🔢 Maths',cn:'🀄 Chinese',fr:'🇫🇷 French'};
-const SUBJ_COLOR = {en:'#f87171',math:'#34d399',cn:'#fbbf24',fr:'#60a5fa'};
-const QUIZ_NAMES = {reading:'📖 Reading',writing:'✍️ Writing',spelling:'🔤 Spelling',numeracy:'🔢 Numeracy'};
-const BOOK_COLORS = ['#f87171','#34d399','#fbbf24','#60a5fa','#a78bfa','#fb923c','#f472b6'];
+const SUBJ={en:'🇬🇧 English',math:'🔢 Maths',cn:'🀄 Chinese',fr:'🇫🇷 French'};
+const SUBJ_COLOR={en:'#f87171',math:'#34d399',cn:'#fbbf24',fr:'#60a5fa'};
+const QUIZ_NAMES={reading:'📖 Reading',writing:'✍️ Writing',spelling:'🔤 Spelling',numeracy:'🔢 Numeracy'};
+const BOOK_COLORS=['#f87171','#34d399','#fbbf24','#60a5fa','#a78bfa','#fb923c','#f472b6'];
+
+// ── SPEECH ──
+function speak(text, lang='en-AU') {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang; u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+window.speakWord = function(word, lang) { speak(word, lang || 'en-AU'); };
+window.speakFr = function(word) { speak(word, 'fr-FR'); };
 
 // ── TOAST ──
 function toast(msg) {
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  setTimeout(()=>t.classList.remove('show'),2600);
 }
 window.toast=toast;
 
-// ── MODAL ──
-window.openModal=function(id){document.getElementById(id).classList.add('open')};
-window.closeModal=function(id){document.getElementById(id).classList.remove('open')};
+// ── MODALS ──
+window.openModal=id=>document.getElementById(id).classList.add('open');
+window.closeModal=id=>document.getElementById(id).classList.remove('open');
 
-// ── LOAD ALL DATA ──
+// ── STARS ──
+function getTotalStars() { return state.starHistory.reduce((s,h)=>s+h.amount,0); }
+function updateStarsDisplay() {
+  const t=getTotalStars();
+  document.getElementById('total-stars').textContent=t;
+  document.getElementById('reward-stars').textContent=t;
+}
+async function earnStars(amount, reason) {
+  const data={amount,reason,date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'starHistory'),data);
+  state.starHistory.push({id:r.id,...data});
+  updateStarsDisplay();
+  renderStarHistory();
+  toast(`⭐ +${amount} star${amount>1?'s':''}! ${reason}`);
+}
+
+// ── LOAD ALL ──
 async function loadAll() {
-  const [hw,words,qs,qh,rl,wl,fb,acts] = await Promise.all([
+  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh] = await Promise.all([
     getDocs(query(collection(db,'homework'),orderBy('date','desc'))),
     getDocs(collection(db,'words')),
     getDocs(collection(db,'questions')),
@@ -684,104 +810,99 @@ async function loadAll() {
     getDocs(query(collection(db,'readingLogs'),orderBy('date','desc'))),
     getDocs(collection(db,'wishlist')),
     getDocs(query(collection(db,'finishedBooks'),orderBy('dateFinished','desc'))),
-    getDocs(query(collection(db,'activities'),orderBy('date','desc')))
+    getDocs(query(collection(db,'activities'),orderBy('date','desc'))),
+    getDocs(collection(db,'weeklyTasks')),
+    getDocs(collection(db,'rewards')),
+    getDocs(query(collection(db,'starHistory'),orderBy('timestamp','desc'))),
+    getDocs(query(collection(db,'diaries'),orderBy('date','desc'))),
+    getDocs(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
+    getDocs(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc')))
   ]);
-  state.homework = hw.docs.map(d=>({id:d.id,...d.data()}));
-  state.words = words.docs.map(d=>({id:d.id,...d.data()}));
-  state.questions = qs.docs.map(d=>({id:d.id,...d.data()}));
-  state.quizHistory = qh.docs.map(d=>({id:d.id,...d.data()}));
-  state.readingLogs = rl.docs.map(d=>({id:d.id,...d.data()}));
-  state.wishlist = wl.docs.map(d=>({id:d.id,...d.data()}));
-  state.finishedBooks = fb.docs.map(d=>({id:d.id,...d.data()}));
-  state.activities = acts.docs.map(d=>({id:d.id,...d.data()}));
-  // current book
-  try {
-    const cbSnap = await getDocs(collection(db,'currentBook'));
-    if (cbSnap.docs.length) state.currentBook = {id:cbSnap.docs[0].id,...cbSnap.docs[0].data()};
-  } catch(e){}
+  state.homework=hw.docs.map(d=>({id:d.id,...d.data()}));
+  state.words=words.docs.map(d=>({id:d.id,...d.data()}));
+  state.questions=qs.docs.map(d=>({id:d.id,...d.data()}));
+  state.quizHistory=qh.docs.map(d=>({id:d.id,...d.data()}));
+  state.readingLogs=rl.docs.map(d=>({id:d.id,...d.data()}));
+  state.wishlist=wl.docs.map(d=>({id:d.id,...d.data()}));
+  state.finishedBooks=fb.docs.map(d=>({id:d.id,...d.data()}));
+  state.activities=acts.docs.map(d=>({id:d.id,...d.data()}));
+  state.weeklyTasks=wt.docs.map(d=>({id:d.id,...d.data()}));
+  state.rewards=rw.docs.map(d=>({id:d.id,...d.data()}));
+  state.starHistory=sh.docs.map(d=>({id:d.id,...d.data()}));
+  state.diaries=di.docs.map(d=>({id:d.id,...d.data()}));
+  state.dicteeWords=dw.docs.map(d=>({id:d.id,...d.data()}));
+  state.dicteeHistory=dh.docs.map(d=>({id:d.id,...d.data()}));
+  try{const cb=await getDocs(collection(db,'currentBook'));if(cb.docs.length)state.currentBook={id:cb.docs[0].id,...cb.docs[0].data()};}catch(e){}
   renderAll();
 }
 
-function renderAll() {
-  renderTodaySubjects(); renderHWList(); renderWords(); renderQuizHistory();
-  renderCurrentBook(); renderReadingLog(); renderWishlist(); renderFinishedBooks();
-  renderReadingStats(); renderActivities(); renderProgress(); renderProgressMonthly();
-  renderSummary(); renderCalStrip();
+function renderAll(){
+  renderTodaySubjects();renderHWList();renderWords();renderQuizHistory();
+  renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
+  renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
+  renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
+  renderDicteeWords();renderDicteeHistory();updateStarsDisplay();
 }
 
-// ── INIT ──
-async function init() {
-  const today = new Date();
-  document.getElementById('today-date').textContent = today.toLocaleDateString('en-AU',{weekday:'long',month:'long',day:'numeric'});
-  document.getElementById('log-date').value = today.toISOString().split('T')[0];
-  document.getElementById('modal-log-date').value = today.toISOString().split('T')[0];
-  document.getElementById('act-date').value = today.toISOString().split('T')[0];
-  document.getElementById('done-date').value = today.toISOString().split('T')[0];
-  document.getElementById('month-label').textContent = today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
+async function init(){
+  const today=new Date();
+  document.getElementById('today-date').textContent=today.toLocaleDateString('en-AU',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('diary-date').value=today.toISOString().split('T')[0];
+  document.getElementById('log-date').value=today.toISOString().split('T')[0];
+  document.getElementById('modal-log-date').value=today.toISOString().split('T')[0];
+  document.getElementById('act-date').value=today.toISOString().split('T')[0];
+  document.getElementById('done-date').value=today.toISOString().split('T')[0];
+  document.getElementById('dictee-week').value=today.toISOString().split('T')[0];
+  document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
   await loadAll();
 }
 
-// ── AUTO SUMMARY ──
-function renderSummary() {
-  const today = new Date().toISOString().split('T')[0];
-  const todayHW = state.homework.filter(h=>h.date===today);
-  const todayRL = state.readingLogs.filter(r=>r.date===today);
-  const todayActs = state.activities.filter(a=>a.date===today);
-  const doneHW = todayHW.filter(h=>h.done).length;
-  const totalHW = todayHW.length;
-  const pagesRead = todayRL.reduce((s,r)=>s+parseInt(r.pages||0),0);
-  const minsRead = todayRL.reduce((s,r)=>s+parseInt(r.mins||0),0);
-
-  document.getElementById('summary-grid').innerHTML = `
-    <div class="summary-pill"><div class="s-num" style="color:var(--primary)">${doneHW}/${totalHW}</div><div class="s-lbl">📚 HW Done</div></div>
-    <div class="summary-pill"><div class="s-num" style="color:var(--reading)">${pagesRead}</div><div class="s-lbl">📖 Pages Read</div></div>
-    <div class="summary-pill"><div class="s-num" style="color:#f59e0b">${minsRead}</div><div class="s-lbl">⏱️ Mins Reading</div></div>
-    <div class="summary-pill"><div class="s-num" style="color:var(--art)">${todayActs.length}</div><div class="s-lbl">🎨 Activities</div></div>
-  `;
-
-  let lines = [];
-  if (totalHW===0) lines.push("No homework logged yet today.");
-  else if (doneHW===totalHW) lines.push(`✅ All ${totalHW} homework task${totalHW>1?'s':''} completed!`);
-  else lines.push(`📚 ${doneHW} of ${totalHW} homework tasks done.`);
-  if (pagesRead>0) lines.push(`📖 Read ${pagesRead} pages${minsRead>0?` for ${minsRead} minutes`:''}!`);
-  const subjects = [...new Set(todayHW.map(h=>h.subject))];
-  if (subjects.length) lines.push(`📋 Subjects today: ${subjects.map(s=>SUBJ[s]).join(', ')}.`);
-  const allWords = todayHW.flatMap(h=>h.words||[]);
-  if (allWords.length) lines.push(`🔤 New words learned: ${allWords.join(', ')}.`);
-  if (todayActs.length) lines.push(`🎨 Activities: ${todayActs.map(a=>a.title).join(', ')}.`);
-
-  document.getElementById('summary-text').innerHTML = lines.join('<br>') || 'Start logging to see your summary!';
-
-  // streak
-  let streak=0;
-  const d=new Date();
-  for(let i=0;i<365;i++){
-    const ds=d.toISOString().split('T')[0];
-    const hasActivity = state.homework.some(h=>h.date===ds&&h.done) || state.readingLogs.some(r=>r.date===ds);
-    if(hasActivity){streak++;d.setDate(d.getDate()-1);}else break;
-  }
-  document.getElementById('streak-num').textContent=streak;
-}
-
 // ── CALENDAR ──
-function renderCalStrip() {
-  const today=new Date();
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let html='';
+function renderCalStrip(){
+  const today=new Date();const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];let html='';
   for(let i=-5;i<=3;i++){
     const d=new Date(today);d.setDate(today.getDate()+i);
     const ds=d.toISOString().split('T')[0];
-    const hasHW=state.homework.some(h=>h.date===ds);
-    const hasR=state.readingLogs.some(r=>r.date===ds);
-    html+=`<div class="cal-day${i===0?' today':''}${hasHW?' has-hw':hasR?' has-reading':''}">
-      <div class="cal-day-name">${days[d.getDay()]}</div>
-      <div class="cal-day-num">${d.getDate()}</div>
-    </div>`;
+    const has=state.homework.some(h=>h.date===ds)||state.readingLogs.some(r=>r.date===ds);
+    html+=`<div class="cal-day${i===0?' today':''}${has?' has-hw':''}"><div class="cal-day-name">${days[d.getDay()]}</div><div class="cal-day-num">${d.getDate()}</div></div>`;
   }
   document.getElementById('cal-strip').innerHTML=html;
 }
 
-// ── TODAY ──
+// ── SUMMARY ──
+function renderSummary(){
+  const today=new Date().toISOString().split('T')[0];
+  const tHW=state.homework.filter(h=>h.date===today);
+  const tRL=state.readingLogs.filter(r=>r.date===today);
+  const tActs=state.activities.filter(a=>a.date===today);
+  const done=tHW.filter(h=>h.done).length;
+  const pages=tRL.reduce((s,r)=>s+parseInt(r.pages||0),0);
+  const mins=tRL.reduce((s,r)=>s+parseInt(r.mins||0),0);
+  const hasDiary=state.diaries.some(d=>d.date===today);
+  document.getElementById('summary-grid').innerHTML=`
+    <div class="summary-pill"><div class="s-num" style="color:var(--primary)">${done}/${tHW.length||0}</div><div class="s-lbl">📚 HW Done</div></div>
+    <div class="summary-pill"><div class="s-num" style="color:var(--reading)">${pages}</div><div class="s-lbl">📖 Pages</div></div>
+    <div class="summary-pill"><div class="s-num" style="color:#f59e0b">${mins}</div><div class="s-lbl">⏱️ Mins</div></div>
+    <div class="summary-pill"><div class="s-num" style="color:var(--diary)">${hasDiary?'✅':'—'}</div><div class="s-lbl">📔 Diary</div></div>`;
+  let lines=[];
+  if(!tHW.length) lines.push("No homework logged yet today.");
+  else if(done===tHW.length) lines.push(`✅ All ${tHW.length} homework task${tHW.length>1?'s':''} done!`);
+  else lines.push(`📚 ${done} of ${tHW.length} tasks done.`);
+  if(pages>0) lines.push(`📖 Read ${pages} pages${mins?` for ${mins} minutes`:''}!`);
+  if(hasDiary) lines.push(`📔 Diary written today — great job!`);
+  const ws=tHW.flatMap(h=>h.words||[]);
+  if(ws.length) lines.push(`🔤 New words: ${ws.join(', ')}.`);
+  document.getElementById('summary-text').innerHTML=lines.join('<br>')||'Start logging to see your summary!';
+  // streak
+  let streak=0;const d=new Date();
+  for(let i=0;i<365;i++){
+    const ds=d.toISOString().split('T')[0];
+    if(state.homework.some(h=>h.date===ds&&h.done)||state.readingLogs.some(r=>r.date===ds)){streak++;d.setDate(d.getDate()-1);}else break;
+  }
+  document.getElementById('streak-num').textContent=streak;
+}
+
+// ── TODAY SUBJECTS ──
 function renderTodaySubjects(){
   const today=new Date().toISOString().split('T')[0];
   const todayHW=state.homework.filter(h=>h.date===today);
@@ -790,7 +911,7 @@ function renderTodaySubjects(){
   document.getElementById('today-subjects').innerHTML=['en','math','cn','fr'].map(s=>{
     const hw=todayHW.filter(h=>h.subject===s);
     const done=hw.filter(h=>h.done).length;
-    return `<div class="subject-card ${s}" onclick="showPage('homework');filterHW('${s}')">
+    return`<div class="subject-card ${s}" onclick="showPage('homework');filterHW('${s}')">
       <div class="big-emoji">${emojis[s]}</div>
       <h3>${names[s]}</h3>
       <div class="sub-status">${hw.length===0?'No homework yet':`${done}/${hw.length} done`}</div>
@@ -803,16 +924,16 @@ function renderTodaySubjects(){
 // ── HOMEWORK ──
 function renderHWList(){
   let hw=[...state.homework];
-  if(state.hwFilter!=='all')hw=hw.filter(h=>h.subject===state.hwFilter);
+  if(state.hwFilter!=='all') hw=hw.filter(h=>h.subject===state.hwFilter);
   if(!hw.length){document.getElementById('hw-list').innerHTML='<div class="empty"><div>📭</div>No homework yet</div>';return;}
   document.getElementById('hw-list').innerHTML=hw.map(h=>`
     <div class="hw-item${h.done?' done-item':''}">
       <div class="hw-check${h.done?' done':''}" onclick="toggleHW('${h.id}',${!h.done})">${h.done?'✓':''}</div>
       <div class="hw-content">
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
           <span class="hw-title">${h.title}</span>
           <span class="badge badge-${h.subject}">${SUBJ[h.subject]}</span>
-          <span style="font-size:11px;color:var(--muted)">${h.date}</span>
+          <span style="font-size:10px;color:var(--muted)">${h.date}</span>
         </div>
         ${h.notes?`<div class="hw-detail">📝 ${h.notes}</div>`:''}
         ${h.words&&h.words.length?`<div class="hw-detail">🔤 ${h.words.join(' · ')}</div>`:''}
@@ -822,15 +943,12 @@ function renderHWList(){
 async function toggleHW(id,done){
   await updateDoc(doc(db,'homework',id),{done});
   state.homework=state.homework.map(h=>h.id===id?{...h,done}:h);
+  if(done) earnStars(1,'Homework done! 📚');
   renderHWList();renderTodaySubjects();renderSummary();renderProgress();
 }
 window.toggleHW=toggleHW;
-window.filterHW=function(s){state.hwFilter=s;renderHWList()};
-
-window.selectSubject=function(btn){
-  document.querySelectorAll('.subj-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');state.selectedSubject=btn.dataset.s;
-};
+window.filterHW=s=>{state.hwFilter=s;renderHWList()};
+window.selectSubject=btn=>{document.querySelectorAll('.subj-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.selectedSubject=btn.dataset.s};
 
 window.saveHomework=async function(){
   const title=document.getElementById('hw-title-input').value.trim();
@@ -847,214 +965,31 @@ window.saveHomework=async function(){
       state.words.push({id:wr.id,word:w,meaning:'',subject:state.selectedSubject,status:'new-word'});
     }
   }
-  document.getElementById('hw-title-input').value='';
-  document.getElementById('hw-notes-input').value='';
-  document.getElementById('hw-words-input').value='';
+  ['hw-title-input','hw-notes-input','hw-words-input'].forEach(id=>document.getElementById(id).value='');
   closeModal('hw-modal');
   renderHWList();renderTodaySubjects();renderWords();renderCalStrip();renderSummary();
   toast('✅ Homework saved!');
 };
 
-// ── READING ──
-function renderCurrentBook(){
-  const el=document.getElementById('current-book-display');
-  if(!state.currentBook){el.innerHTML='<div class="card"><div class="empty"><div>📖</div>No current book — add one above!</div></div>';return;}
-  const b=state.currentBook;
-  const pct=b.totalPages?Math.round((b.currentPage||0)/b.totalPages*100):0;
-  const color=BOOK_COLORS[0];
-  el.innerHTML=`<div class="card">
-    <div class="card-title">📖 Currently Reading</div>
-    <div class="book-card">
-      <div class="book-spine" style="background:${color}">${b.title?b.title[0].toUpperCase():'📖'}</div>
-      <div class="book-info">
-        <div class="book-title">${b.title}</div>
-        <div class="book-meta">by ${b.author||'Unknown'}${b.level?` · ${b.level}`:''}</div>
-        <div class="book-progress">
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted)">
-            <span>Page ${b.currentPage||0} of ${b.totalPages||'?'}</span>
-            <span>${pct}%</span>
-          </div>
-          <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${color}"></div></div>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
-window.saveCurrentBook=async function(){
-  const title=document.getElementById('book-title').value.trim();
-  if(!title){toast('⚠️ Please enter a book title');return;}
-  const data={title,author:document.getElementById('book-author').value.trim(),totalPages:parseInt(document.getElementById('book-pages').value)||0,currentPage:parseInt(document.getElementById('book-current').value)||0,level:document.getElementById('book-level').value.trim()};
-  if(state.currentBook){await updateDoc(doc(db,'currentBook',state.currentBook.id),data);state.currentBook={...state.currentBook,...data};}
-  else{const r=await addDoc(collection(db,'currentBook'),data);state.currentBook={id:r.id,...data};}
-  renderCurrentBook();toast('✅ Book saved!');
-};
-
-function renderReadingLog(){
-  const logs=state.readingLogs;
-  // calendar for current month
-  const now=new Date();
-  const year=now.getFullYear(),month=now.getMonth();
-  const firstDay=new Date(year,month,1).getDay();
-  const daysInMonth=new Date(year,month+1,0).getDate();
-  const readDates=new Set(logs.map(r=>r.date));
-  let calHTML='';
-  for(let i=0;i<firstDay;i++) calHTML+=`<div class="reading-cal-day"></div>`;
-  for(let d=1;d<=daysInMonth;d++){
-    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday=ds===now.toISOString().split('T')[0];
-    calHTML+=`<div class="reading-cal-day${readDates.has(ds)?' read':''}${isToday?' today-r':''}">${d}</div>`;
-  }
-  document.getElementById('reading-calendar').innerHTML=calHTML;
-  document.getElementById('reading-log-list').innerHTML=logs.length?logs.slice(0,20).map(r=>`
-    <div class="hw-item">
-      <div style="font-size:20px;flex-shrink:0">📖</div>
-      <div class="hw-content">
-        <div style="font-weight:700;font-size:13px">${r.date} — ${r.pages} pages${r.mins?` · ${r.mins} min`:''}</div>
-        ${r.notes?`<div class="hw-detail">${r.notes}</div>`:''}
-      </div>
-    </div>`).join(''):'<div class="empty"><div>📭</div>No reading logged yet</div>';
-}
-
-async function saveRL(date,pages,mins,notes){
-  if(!pages){toast('⚠️ Please enter pages read');return false;}
-  const data={date,pages:parseInt(pages),mins:parseInt(mins)||0,notes,timestamp:serverTimestamp()};
-  const r=await addDoc(collection(db,'readingLogs'),data);
-  state.readingLogs.unshift({id:r.id,...data});
-  // update current book page if set
-  if(state.currentBook&&state.currentBook.id){
-    const newPage=Math.min((state.currentBook.currentPage||0)+parseInt(pages),(state.currentBook.totalPages||9999));
-    await updateDoc(doc(db,'currentBook',state.currentBook.id),{currentPage:newPage});
-    state.currentBook.currentPage=newPage;
-    renderCurrentBook();
-  }
-  renderReadingLog();renderReadingStats();renderSummary();renderCalStrip();renderAll();
-  toast('✅ Reading logged!');
-  return true;
-}
-
-window.saveReadingLog=async function(){
-  const ok=await saveRL(document.getElementById('log-date').value,document.getElementById('log-pages').value,document.getElementById('log-mins').value,document.getElementById('log-notes').value.trim());
-  if(ok){document.getElementById('log-pages').value='';document.getElementById('log-mins').value='';document.getElementById('log-notes').value='';}
-};
-window.saveReadingLogFromModal=async function(){
-  const ok=await saveRL(document.getElementById('modal-log-date').value,document.getElementById('modal-log-pages').value,document.getElementById('modal-log-mins').value,document.getElementById('modal-log-notes').value.trim());
-  if(ok){closeModal('reading-modal');document.getElementById('modal-log-pages').value='';document.getElementById('modal-log-mins').value='';document.getElementById('modal-log-notes').value='';}
-};
-
-function renderWishlist(){
-  const el=document.getElementById('wishlist-items');
-  document.getElementById('wishlist-count').textContent=`(${state.wishlist.length})`;
-  el.innerHTML=state.wishlist.length?state.wishlist.map((b,i)=>`
-    <div class="book-list-item">
-      <div style="width:32px;height:44px;border-radius:5px;background:${BOOK_COLORS[i%BOOK_COLORS.length]};display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0">${b.title[0].toUpperCase()}</div>
-      <div style="flex:1"><div style="font-weight:700;font-size:13px">${b.title}</div><div style="font-size:11px;color:var(--muted)">${b.author||''}${b.notes?` · ${b.notes}`:''}</div></div>
-      <button class="btn btn-sm btn-ghost" onclick="deleteWishlist('${b.id}')">✕</button>
-    </div>`).join(''):'<div class="empty"><div>📋</div>No books on the list yet</div>';
-}
-
-window.saveWishlist=async function(){
-  const title=document.getElementById('wish-title').value.trim();
-  if(!title){toast('⚠️ Please enter a book title');return;}
-  const data={title,author:document.getElementById('wish-author').value.trim(),notes:document.getElementById('wish-notes').value.trim()};
-  const r=await addDoc(collection(db,'wishlist'),data);
-  state.wishlist.push({id:r.id,...data});
-  document.getElementById('wish-title').value='';document.getElementById('wish-author').value='';document.getElementById('wish-notes').value='';
-  renderWishlist();toast('✅ Added to reading list!');
-};
-window.deleteWishlist=async function(id){
-  await deleteDoc(doc(db,'wishlist',id));
-  state.wishlist=state.wishlist.filter(b=>b.id!==id);
-  renderWishlist();toast('Removed!');
-};
-
-function renderFinishedBooks(){
-  const el=document.getElementById('done-books-list');
-  document.getElementById('done-count').textContent=`(${state.finishedBooks.length} books)`;
-  const stars=n=>'⭐'.repeat(parseInt(n)||0);
-  el.innerHTML=state.finishedBooks.length?state.finishedBooks.map((b,i)=>`
-    <div class="book-card">
-      <div class="book-spine" style="background:${BOOK_COLORS[i%BOOK_COLORS.length]}">${b.title[0].toUpperCase()}</div>
-      <div class="book-info">
-        <div class="book-title">${b.title}</div>
-        <div class="book-meta">by ${b.author||'Unknown'} · ${b.pages||'?'} pages · Finished ${b.dateFinished||''}</div>
-        <div style="margin-top:4px">${stars(b.rating)}</div>
-        ${b.review?`<div style="font-size:12px;color:var(--muted);margin-top:4px;font-style:italic">"${b.review}"</div>`:''}
-      </div>
-    </div>`).join(''):'<div class="empty"><div>📚</div>No finished books yet — keep reading!</div>';
-}
-window.saveFinishedBook=async function(){
-  const title=document.getElementById('done-title').value.trim();
-  if(!title){toast('⚠️ Please enter a book title');return;}
-  const data={title,author:document.getElementById('done-author').value.trim(),pages:parseInt(document.getElementById('done-pages').value)||0,dateFinished:document.getElementById('done-date').value,rating:document.getElementById('done-rating').value,review:document.getElementById('done-review').value.trim(),timestamp:serverTimestamp()};
-  const r=await addDoc(collection(db,'finishedBooks'),data);
-  state.finishedBooks.unshift({id:r.id,...data});
-  ['done-title','done-author','done-pages','done-review'].forEach(id=>document.getElementById(id).value='');
-  renderFinishedBooks();renderReadingStats();toast('🎉 Book finished! Well done Dangdang!');
-};
-
-function renderReadingStats(){
-  const logs=state.readingLogs;
-  const finished=state.finishedBooks;
-  const totalPages=logs.reduce((s,r)=>s+parseInt(r.pages||0),0);
-  const totalMins=logs.reduce((s,r)=>s+parseInt(r.mins||0),0);
-  const readDays=new Set(logs.map(r=>r.date)).size;
-  document.getElementById('reading-stat-grid').innerHTML=`
-    <div class="stat-box"><div class="stat-num" style="color:var(--reading)">${finished.length}</div><div class="stat-lbl">📚 Books Finished</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${totalPages}</div><div class="stat-lbl">📄 Total Pages</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#f59e0b">${Math.round(totalMins/60*10)/10}h</div><div class="stat-lbl">⏱️ Total Hours</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#34d399">${readDays}</div><div class="stat-lbl">📅 Days Read</div></div>`;
-  // weekly chart - last 7 days pages
-  const now=new Date();
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let chartHTML='';
-  let maxP=1;
-  const dayData=[];
-  for(let i=6;i>=0;i--){
-    const d=new Date(now);d.setDate(now.getDate()-i);
-    const ds=d.toISOString().split('T')[0];
-    const p=logs.filter(r=>r.date===ds).reduce((s,r)=>s+parseInt(r.pages||0),0);
-    dayData.push({label:days[d.getDay()],pages:p});
-    maxP=Math.max(maxP,p);
-  }
-  chartHTML=dayData.map(d=>`
-    <div class="week-bar-wrap">
-      <div class="week-bar-num">${d.pages||''}</div>
-      <div class="week-bar" style="height:${Math.max(4,d.pages/maxP*80)}px;background:linear-gradient(to top,#f472b6,#ec4899)"></div>
-      <div class="week-bar-label">${d.label}</div>
-    </div>`).join('');
-  document.getElementById('reading-weekly-chart').innerHTML=chartHTML;
-  // books by month
-  const byMonth={};
-  finished.forEach(b=>{
-    const m=b.dateFinished?b.dateFinished.substring(0,7):'Unknown';
-    byMonth[m]=(byMonth[m]||0)+1;
-  });
-  document.getElementById('books-by-month').innerHTML=Object.keys(byMonth).sort().reverse().map(m=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f3f4f6">
-      <div style="font-weight:700;min-width:80px;font-size:13px">${m}</div>
-      <div style="flex:1;background:#f3f4f6;border-radius:50px;height:10px;overflow:hidden">
-        <div style="height:100%;width:${byMonth[m]*20}%;background:linear-gradient(to right,#f472b6,#ec4899);border-radius:50px"></div>
-      </div>
-      <div style="font-family:'Fredoka One',cursive;color:var(--reading)">${byMonth[m]} book${byMonth[m]>1?'s':''}</div>
-    </div>`).join('')||'<div class="empty" style="padding:20px"><div>📚</div>No finished books yet</div>';
-}
-
 // ── WORDS ──
 function renderWords(){
   const statusEmoji={learned:'✅',review:'⚠️','new-word':'🆕'};
   const subLbl={en:'EN',fr:'FR',cn:'中',math:'M'};
+  const subLang={en:'en-AU',fr:'fr-FR',cn:'zh-CN',math:'en-AU'};
   let words=state.words;
   if(state.wordFilter==='review'||state.wordFilter==='learned'||state.wordFilter==='new-word') words=words.filter(w=>w.status===state.wordFilter);
   else if(state.wordFilter==='en-only') words=words.filter(w=>w.subject==='en');
   else if(state.wordFilter==='fr-only') words=words.filter(w=>w.subject==='fr');
   else if(state.wordFilter==='cn-only') words=words.filter(w=>w.subject==='cn');
   document.getElementById('word-list').innerHTML=words.length?words.map(w=>`
-    <div class="word-chip ${w.status}" onclick="cycleWord('${w.id}','${w.status}')" title="${w.meaning}">
-      ${statusEmoji[w.status]||'🆕'} <strong>${w.word}</strong>
-      ${w.meaning?`<span style="opacity:0.65;font-size:11px">${w.meaning}</span>`:''}
-      <span class="badge badge-${w.subject}" style="font-size:10px;padding:2px 7px">${subLbl[w.subject]}</span>
-    </div>`).join(''):'<div class="empty"><div>📭</div>No words yet</div>';
+    <div class="word-chip ${w.status}" title="${w.meaning}">
+      <button class="speak-btn" onclick="speakWord('${w.word.replace(/'/g,"\\'")}','${subLang[w.subject]||'en-AU'}')" title="Listen">🔊</button>
+      <span onclick="cycleWord('${w.id}','${w.status}')" style="cursor:pointer">
+        ${statusEmoji[w.status]||'🆕'} <strong>${w.word}</strong>
+        ${w.meaning?`<span style="opacity:0.65;font-size:11px">${w.meaning}</span>`:''}
+      </span>
+      <span class="badge badge-${w.subject}" style="font-size:9px;padding:1px 6px">${subLbl[w.subject]}</span>
+    </div>`).join(''):'<div class="empty"><div>📭</div>No words yet — add some above!</div>';
 }
 window.addWord=async function(){
   const word=document.getElementById('new-word').value.trim();
@@ -1072,41 +1007,357 @@ window.cycleWord=async function(id,cur){
   const newS=cycle[cur]||'new-word';
   await updateDoc(doc(db,'words',id),{status:newS});
   state.words=state.words.map(w=>w.id===id?{...w,status:newS}:w);
+  if(newS==='learned') earnStars(1,'Word mastered! 🔤');
   renderWords();renderProgress();
 };
-window.filterWords=function(s){state.wordFilter=s;renderWords()};
+window.filterWords=s=>{state.wordFilter=s;renderWords()};
+
+// ── FRENCH DICTEE ──
+window.saveDicteeWords=async function(){
+  const week=document.getElementById('dictee-week').value;
+  const raw=document.getElementById('dictee-words').value.trim();
+  if(!raw){toast('⚠️ Please enter some words');return;}
+  const pairs=raw.split('\n').map(l=>l.split('=')).filter(p=>p.length>=2).map(p=>({fr:p[0].trim(),en:p[1].trim()}));
+  if(!pairs.length){toast('⚠️ Format: french = english (one per line)');return;}
+  const data={week,words:pairs,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'dicteeWords'),data);
+  state.dicteeWords.unshift({id:r.id,...data});
+  document.getElementById('dictee-words').value='';
+  renderDicteeWords();toast('✅ Dictée words saved!');
+};
+
+function renderDicteeWords(){
+  const el=document.getElementById('dictee-word-list');
+  const latest=state.dicteeWords[0];
+  if(!latest){el.innerHTML='<div class="empty"><div>🇫🇷</div>No words yet — add this week\'s words above!</div>';document.getElementById('practice-dictee-btn').style.display='none';return;}
+  document.getElementById('practice-dictee-btn').style.display='';
+  el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">Week of ${latest.week} · ${latest.words.length} words · 🔊 Click to hear</p>`+
+  latest.words.map(w=>`
+    <div class="dictee-word" onclick="speakFr('${w.fr.replace(/'/g,"\\'")}')">
+      <div>
+        <div class="dictee-word-text">🇫🇷 ${w.fr}</div>
+        <div class="dictee-word-meaning">🇬🇧 ${w.en}</div>
+      </div>
+      <button class="btn btn-sm btn-fr" onclick="event.stopPropagation();speakFr('${w.fr.replace(/'/g,"\\'")}')">🔊 Listen</button>
+    </div>`).join('');
+}
+
+function renderDicteeHistory(){
+  const el=document.getElementById('dictee-history');
+  el.innerHTML=state.dicteeHistory.length?state.dicteeHistory.slice(0,8).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px">
+      <span style="font-size:18px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1"><div style="font-weight:700;font-size:12px">Dictée Practice</div><div style="font-size:10px;color:var(--muted)">${h.date}</div></div>
+      <span style="font-family:'Fredoka One',cursive;color:var(--fr);font-size:16px">${h.score}/${h.total}</span>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>📊</div>No results yet</div>';
+}
+
+// dictee practice
+let dicteeQ=0,dicteeScore=0,dicteeSession=[];
+window.practiceDictee=function(){
+  const latest=state.dicteeWords[0];
+  if(!latest||!latest.words.length){toast('No words to practice!');return;}
+  dicteeSession=[...latest.words].sort(()=>Math.random()-0.5);
+  dicteeQ=0;dicteeScore=0;
+  document.getElementById('dictee-practice-area').style.display='';
+  renderDicteeQ();
+};
+window.endDicteePractice=function(){
+  document.getElementById('dictee-practice-area').style.display='none';
+};
+function renderDicteeQ(){
+  const area=document.getElementById('dictee-q-area');
+  if(dicteeQ>=dicteeSession.length){
+    // show result
+    const pct=dicteeScore/dicteeSession.length;
+    area.innerHTML=`<div style="text-align:center;padding:20px">
+      <div style="font-size:52px">${pct>=0.8?'🌟':'💪'}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:36px;color:var(--fr)">${dicteeScore}/${dicteeSession.length}</div>
+      <div style="font-weight:800;font-size:16px;margin:8px 0">${pct>=0.8?'Fantastique! 🎉':'Keep practising! 💪'}</div>
+      <button class="btn btn-fr" onclick="practiceDictee()" style="margin-right:8px">Try Again 🔄</button>
+      <button class="btn btn-ghost" onclick="endDicteePractice()">Done</button>
+    </div>`;
+    // save result
+    const data={score:dicteeScore,total:dicteeSession.length,date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
+    addDoc(collection(db,'dicteeHistory'),data).then(r=>{state.dicteeHistory.unshift({id:r.id,...data});renderDicteeHistory();});
+    if(pct>=0.8) earnStars(3,'Dictée practice completed! 🇫🇷');
+    else earnStars(1,'Dictée practice done! 🇫🇷');
+    return;
+  }
+  const w=dicteeSession[dicteeQ];
+  area.innerHTML=`
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--muted);font-weight:700">Word ${dicteeQ+1} of ${dicteeSession.length}</div>
+      <button class="btn btn-fr" style="margin:12px 0" onclick="speakFr('${w.fr.replace(/'/g,"\\'")}')">🔊 Listen to word</button>
+      <p style="font-size:12px;color:var(--muted)">Type what you hear:</p>
+    </div>
+    <input class="fill-input" id="dictee-input" placeholder="Type the French word..." onkeydown="if(event.key==='Enter')checkDicteeAns('${w.fr.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" onclick="checkDicteeAns('${w.fr.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">Check ✅</button></div>
+    <div id="dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800"></div>`;
+  setTimeout(()=>document.getElementById('dictee-input')?.focus(),100);
+  // auto-play
+  setTimeout(()=>speakFr(w.fr),400);
+};
+window.checkDicteeAns=function(fr,en){
+  const inp=document.getElementById('dictee-input');
+  const val=inp?.value.trim().toLowerCase();
+  const correct=val===fr.toLowerCase();
+  if(correct){dicteeScore++;inp.classList.add('correct');}else inp.classList.add('wrong');
+  inp.disabled=true;
+  document.getElementById('dictee-feedback').innerHTML=correct?
+    `<span style="color:#16a34a">✅ Correct! "${fr}" = ${en}</span>`:
+    `<span style="color:#dc2626">❌ The answer is: <strong>${fr}</strong> (${en})</span>`;
+  setTimeout(()=>{dicteeQ++;renderDicteeQ();},1800);
+};
+
+// ── DIARY ──
+function renderDiaries(){
+  const el=document.getElementById('diary-list');
+  el.innerHTML=state.diaries.length?state.diaries.map(d=>`
+    <div class="diary-entry">
+      <div class="diary-date">${d.weather||''} ${d.mood||''} ${d.date}</div>
+      <div class="diary-text">${d.text||''}</div>
+      ${d.word?`<span class="diary-word">🌟 ${d.word}</span>`:''}
+    </div>`).join(''):'<div class="empty"><div>📔</div>No diary entries yet — write your first one!</div>';
+}
+window.saveDiary=async function(){
+  const date=document.getElementById('diary-date').value;
+  const text=document.getElementById('diary-text').value.trim();
+  if(!text){toast('⚠️ Please write something in your diary!');return;}
+  const weather=document.getElementById('diary-weather').value;
+  const mood=document.getElementById('diary-mood').value;
+  const word=document.getElementById('diary-word').value.trim();
+  const data={date,text,weather,mood,word,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'diaries'),data);
+  state.diaries.unshift({id:r.id,...data});
+  document.getElementById('diary-text').value='';document.getElementById('diary-word').value='';
+  renderDiaries();renderSummary();
+  earnStars(2,'Diary written today! 📔');
+  toast('📔 Diary saved! Great writing Dangdang!');
+};
+
+// ── WEEKLY TASKS ──
+function renderWeeklyTasks(){
+  const el=document.getElementById('weekly-task-list');
+  const monday=getMonday();
+  const tasks=state.weeklyTasks;
+  if(!tasks.length){el.innerHTML='<div class="empty"><div>📋</div>No tasks yet — add some above!</div>';return;}
+  el.innerHTML=tasks.map(t=>{
+    const isDone=t.completedWeek===monday;
+    return`<div class="weekly-task${isDone?' done-task':''}">
+      <div class="task-check${isDone?' done':''}" onclick="toggleTask('${t.id}','${monday}',${!isDone})">${isDone?'✓':''}</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:13px">${t.name}</div></div>
+      <div style="font-family:'Fredoka One',cursive;color:var(--gold);font-size:14px">⭐×${t.stars||1}</div>
+      ${state.mode==='parent'?`<button class="btn btn-sm btn-danger" onclick="deleteTask('${t.id}')">✕</button>`:''}
+    </div>`;
+  }).join('');
+}
+function getMonday(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);return d.toISOString().split('T')[0];}
+async function toggleTask(id,monday,done){
+  await updateDoc(doc(db,'weeklyTasks',id),{completedWeek:done?monday:''});
+  state.weeklyTasks=state.weeklyTasks.map(t=>t.id===id?{...t,completedWeek:done?monday:''}:t);
+  const task=state.weeklyTasks.find(t=>t.id===id);
+  if(done&&task) earnStars(task.stars||1,`Weekly task done: ${task.name}! 📋`);
+  renderWeeklyTasks();
+}
+window.toggleTask=toggleTask;
+window.saveWeeklyTask=async function(){
+  const name=document.getElementById('task-name').value.trim();
+  if(!name){toast('⚠️ Please enter a task name');return;}
+  const stars=parseInt(document.getElementById('task-stars').value)||1;
+  const r=await addDoc(collection(db,'weeklyTasks'),{name,stars,completedWeek:''});
+  state.weeklyTasks.push({id:r.id,name,stars,completedWeek:''});
+  document.getElementById('task-name').value='';
+  renderWeeklyTasks();toast('✅ Task added!');
+};
+window.deleteTask=async function(id){
+  await deleteDoc(doc(db,'weeklyTasks',id));
+  state.weeklyTasks=state.weeklyTasks.filter(t=>t.id!==id);
+  renderWeeklyTasks();toast('Task removed');
+};
+
+// ── REWARDS ──
+function renderRewards(){
+  const total=getTotalStars();
+  document.getElementById('reward-list').innerHTML=state.rewards.length?state.rewards.map(r=>`
+    <div class="reward-item${r.claimed?' reward-claimed':''}">
+      <div class="reward-stars">⭐ ${r.cost}</div>
+      <div style="flex:1"><div style="font-weight:800;font-size:14px">${r.name}</div><div style="font-size:11px;color:var(--muted)">${r.claimed?'✅ Claimed!':'Needs '+r.cost+' stars'}</div></div>
+      ${!r.claimed&&total>=r.cost&&state.mode==='parent'?`<button class="btn btn-sm btn-gold" onclick="claimReward('${r.id}')">Claim! 🎉</button>`:''}
+      ${state.mode==='parent'?`<button class="btn btn-sm btn-danger" onclick="deleteReward('${r.id}')">✕</button>`:''}
+    </div>`).join(''):'<div class="empty"><div>🎁</div>No rewards yet — add some!</div>';
+}
+function renderStarHistory(){
+  document.getElementById('star-history').innerHTML=state.starHistory.length?state.starHistory.slice(0,10).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f3f4f6">
+      <span style="font-family:'Fredoka One',cursive;color:var(--gold)">+${h.amount}⭐</span>
+      <div style="flex:1;font-size:12px;font-weight:700">${h.reason}</div>
+      <span style="font-size:11px;color:var(--muted)">${h.date}</span>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>⭐</div>No stars yet — complete tasks!</div>';
+}
+window.saveReward=async function(){
+  const name=document.getElementById('reward-name').value.trim();
+  const cost=parseInt(document.getElementById('reward-cost').value)||10;
+  if(!name){toast('⚠️ Please enter a reward name');return;}
+  const r=await addDoc(collection(db,'rewards'),{name,cost,claimed:false});
+  state.rewards.push({id:r.id,name,cost,claimed:false});
+  document.getElementById('reward-name').value='';
+  renderRewards();toast('🎁 Reward added!');
+};
+window.claimReward=async function(id){
+  await updateDoc(doc(db,'rewards',id),{claimed:true});
+  state.rewards=state.rewards.map(r=>r.id===id?{...r,claimed:true}:r);
+  renderRewards();toast('🎉 Reward claimed! Well done Dangdang!');
+};
+window.deleteReward=async function(id){
+  await deleteDoc(doc(db,'rewards',id));
+  state.rewards=state.rewards.filter(r=>r.id!==id);
+  renderRewards();
+};
+
+// ── READING ──
+function renderCurrentBook(){
+  const el=document.getElementById('current-book-display');
+  if(!state.currentBook){el.innerHTML='<div class="card"><div class="empty"><div>📖</div>No current book — add one above!</div></div>';return;}
+  const b=state.currentBook;
+  const pct=b.totalPages?Math.round((b.currentPage||0)/b.totalPages*100):0;
+  el.innerHTML=`<div class="card"><div class="card-title">📖 Currently Reading</div>
+    <div class="book-card">
+      <div class="book-spine" style="background:${BOOK_COLORS[0]}">${b.title?b.title[0].toUpperCase():'📖'}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-meta">by ${b.author||'Unknown'}${b.level?` · ${b.level}`:''}</div>
+        <div style="margin-top:7px"><div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted)"><span>Page ${b.currentPage||0} of ${b.totalPages||'?'}</span><span>${pct}%</span></div>
+        <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${BOOK_COLORS[0]}"></div></div></div>
+      </div>
+    </div></div>`;
+}
+window.saveCurrentBook=async function(){
+  const title=document.getElementById('book-title').value.trim();
+  if(!title){toast('⚠️ Please enter a title');return;}
+  const data={title,author:document.getElementById('book-author').value.trim(),totalPages:parseInt(document.getElementById('book-pages').value)||0,currentPage:parseInt(document.getElementById('book-current').value)||0,level:document.getElementById('book-level').value.trim()};
+  if(state.currentBook){await updateDoc(doc(db,'currentBook',state.currentBook.id),data);state.currentBook={...state.currentBook,...data};}
+  else{const r=await addDoc(collection(db,'currentBook'),data);state.currentBook={id:r.id,...data};}
+  renderCurrentBook();toast('✅ Book saved!');
+};
+
+async function saveRL(date,pages,mins,notes){
+  if(!pages){toast('⚠️ Please enter pages read');return false;}
+  const data={date,pages:parseInt(pages),mins:parseInt(mins)||0,notes,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'readingLogs'),data);
+  state.readingLogs.unshift({id:r.id,...data});
+  if(state.currentBook?.id){
+    const np=Math.min((state.currentBook.currentPage||0)+parseInt(pages),state.currentBook.totalPages||9999);
+    await updateDoc(doc(db,'currentBook',state.currentBook.id),{currentPage:np});
+    state.currentBook.currentPage=np;renderCurrentBook();
+  }
+  earnStars(1,'Reading logged! 📖');
+  renderReadingLog();renderSummary();renderCalStrip();renderProgress();
+  return true;
+}
+window.saveReadingLog=async function(){
+  const ok=await saveRL(document.getElementById('log-date').value,document.getElementById('log-pages').value,document.getElementById('log-mins').value,document.getElementById('log-notes').value.trim());
+  if(ok){document.getElementById('log-pages').value='';document.getElementById('log-mins').value='';document.getElementById('log-notes').value='';}
+};
+window.saveReadingLogFromModal=async function(){
+  const ok=await saveRL(document.getElementById('modal-log-date').value,document.getElementById('modal-log-pages').value,document.getElementById('modal-log-mins').value,document.getElementById('modal-log-notes').value.trim());
+  if(ok){closeModal('reading-modal');['modal-log-pages','modal-log-mins','modal-log-notes'].forEach(id=>document.getElementById(id).value='');}
+};
+
+function renderReadingLog(){
+  const now=new Date();const year=now.getFullYear(),month=now.getMonth();
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const readDates=new Set(state.readingLogs.map(r=>r.date));
+  let cal='';
+  for(let i=0;i<firstDay;i++) cal+=`<div class="reading-cal-day"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=ds===now.toISOString().split('T')[0];
+    cal+=`<div class="reading-cal-day${readDates.has(ds)?' read':''}${isToday?' today-r':''}">${d}</div>`;
+  }
+  document.getElementById('reading-calendar').innerHTML=cal;
+  document.getElementById('reading-log-list').innerHTML=state.readingLogs.length?state.readingLogs.slice(0,20).map(r=>`
+    <div class="hw-item"><div style="font-size:18px">📖</div>
+    <div class="hw-content"><div style="font-weight:700;font-size:12px">${r.date} — ${r.pages} pages${r.mins?` · ${r.mins} min`:''}</div>${r.notes?`<div class="hw-detail">${r.notes}</div>`:''}</div></div>`).join(''):'<div class="empty"><div>📭</div>No reading logged yet</div>';
+}
+
+function renderWishlist(){
+  document.getElementById('wishlist-count').textContent=`(${state.wishlist.length})`;
+  document.getElementById('wishlist-items').innerHTML=state.wishlist.length?state.wishlist.map((b,i)=>`
+    <div class="hw-item">
+      <div style="width:28px;height:38px;border-radius:4px;background:${BOOK_COLORS[i%BOOK_COLORS.length]};display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:13px;flex-shrink:0">${b.title[0].toUpperCase()}</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:13px">${b.title}</div><div style="font-size:11px;color:var(--muted)">${b.author||''}</div></div>
+      <button class="btn btn-sm btn-danger" onclick="deleteWishlist('${b.id}')">✕</button>
+    </div>`).join(''):'<div class="empty"><div>📋</div>No books on the list</div>';
+}
+window.saveWishlist=async function(){
+  const title=document.getElementById('wish-title').value.trim();
+  if(!title){toast('⚠️ Enter a title');return;}
+  const data={title,author:document.getElementById('wish-author').value.trim()};
+  const r=await addDoc(collection(db,'wishlist'),data);
+  state.wishlist.push({id:r.id,...data});
+  document.getElementById('wish-title').value='';document.getElementById('wish-author').value='';
+  renderWishlist();toast('✅ Added!');
+};
+window.deleteWishlist=async function(id){
+  await deleteDoc(doc(db,'wishlist',id));
+  state.wishlist=state.wishlist.filter(b=>b.id!==id);renderWishlist();
+};
+
+function renderFinishedBooks(){
+  const stars=n=>'⭐'.repeat(parseInt(n)||0);
+  document.getElementById('done-count').textContent=`(${state.finishedBooks.length})`;
+  document.getElementById('done-books-list').innerHTML=state.finishedBooks.length?state.finishedBooks.map((b,i)=>`
+    <div class="book-card">
+      <div class="book-spine" style="background:${BOOK_COLORS[i%BOOK_COLORS.length]}">${b.title[0].toUpperCase()}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-meta">by ${b.author||'Unknown'} · ${b.pages||'?'} pages · ${b.dateFinished||''}</div>
+        <div style="margin-top:3px">${stars(b.rating)}</div>
+        ${b.review?`<div style="font-size:11px;color:var(--muted);margin-top:3px;font-style:italic">"${b.review}"</div>`:''}
+      </div>
+    </div>`).join(''):'<div class="empty"><div>📚</div>No finished books yet!</div>';
+}
+window.saveFinishedBook=async function(){
+  const title=document.getElementById('done-title').value.trim();
+  if(!title){toast('⚠️ Enter a title');return;}
+  const data={title,author:document.getElementById('done-author').value.trim(),pages:parseInt(document.getElementById('done-pages').value)||0,dateFinished:document.getElementById('done-date').value,rating:document.getElementById('done-rating').value,review:document.getElementById('done-review').value.trim(),timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'finishedBooks'),data);
+  state.finishedBooks.unshift({id:r.id,...data});
+  ['done-title','done-author','done-pages','done-review'].forEach(id=>document.getElementById(id).value='');
+  earnStars(5,'Finished a book! 📚🎉');
+  renderFinishedBooks();toast('🎉 Book finished! +5 stars!');
+};
 
 // ── ACTIVITIES ──
 function renderActivities(){
   let acts=state.activities;
   if(state.actFilter!=='all') acts=acts.filter(a=>a.type===state.actFilter);
-  const icons={art:'🎨',sport:'⚽'};
-  const colors={art:'#f5f3ff',sport:'#fff7ed'};
-  const iconColors={art:'#a78bfa',sport:'#fb923c'};
   document.getElementById('activity-list').innerHTML=acts.length?acts.map(a=>`
     <div class="activity-item">
-      <div class="activity-icon" style="background:${colors[a.type]};color:${iconColors[a.type]}">${icons[a.type]||'📌'}</div>
+      <div class="activity-icon" style="background:${a.type==='art'?'#f5f3ff':'#fff7ed'}">${a.type==='art'?'🎨':'⚽'}</div>
       <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <span style="font-weight:700;font-size:13px">${a.title}</span>
-          <span class="badge badge-${a.type}">${a.type==='art'?'🎨 Art':'⚽ Sport'}</span>
-          <span style="font-size:11px;color:var(--muted)">${a.date}</span>
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+          <span style="font-weight:700;font-size:12px">${a.title}</span>
+          <span class="badge badge-${a.type}">${a.type==='art'?'Art':'Sport'}</span>
+          <span style="font-size:10px;color:var(--muted)">${a.date}</span>
         </div>
-        ${a.location?`<div style="font-size:11px;color:var(--muted);margin-top:2px">📍 ${a.location}</div>`:''}
-        ${a.notes?`<div style="font-size:12px;color:var(--muted);margin-top:2px">${a.notes}</div>`:''}
+        ${a.location?`<div style="font-size:11px;color:var(--muted)">📍 ${a.location}</div>`:''}
+        ${a.notes?`<div style="font-size:11px;color:var(--muted)">${a.notes}</div>`:''}
       </div>
-    </div>`).join(''):'<div class="empty"><div>🎨</div>No activities logged yet</div>';
+    </div>`).join(''):'<div class="empty"><div>🎨</div>No activities yet</div>';
 }
 window.saveActivity=async function(){
   const title=document.getElementById('act-title').value.trim();
-  if(!title){toast('⚠️ Please enter a title');return;}
+  if(!title){toast('⚠️ Enter a title');return;}
   const data={type:document.getElementById('act-type').value,date:document.getElementById('act-date').value,title,location:document.getElementById('act-location').value.trim(),notes:document.getElementById('act-notes').value.trim(),timestamp:serverTimestamp()};
   const r=await addDoc(collection(db,'activities'),data);
   state.activities.unshift({id:r.id,...data});
   ['act-title','act-location','act-notes'].forEach(id=>document.getElementById(id).value='');
   renderActivities();renderProgressMonthly();renderSummary();toast('✅ Activity saved!');
 };
-window.filterActivities=function(s){state.actFilter=s;renderActivities()};
+window.filterActivities=s=>{state.actFilter=s;renderActivities()};
 
 // ── QUIZ ──
 window.selectQType=function(btn){
@@ -1119,7 +1370,7 @@ window.selectQType=function(btn){
 window.saveQuestion=async function(){
   const category=document.getElementById('q-category').value;
   const question=document.getElementById('q-question').value.trim();
-  if(!question){toast('⚠️ Please enter a question');return;}
+  if(!question){toast('⚠️ Enter a question');return;}
   let qData={category,question,type:state.selectedQType,timestamp:serverTimestamp()};
   if(state.selectedQType==='mcq'){
     const opts=[...document.querySelectorAll('.opt-input')].map(i=>i.value.trim());
@@ -1128,7 +1379,7 @@ window.saveQuestion=async function(){
     qData.options=opts;qData.answer=correct;
   }else if(state.selectedQType==='fill'){
     const ans=document.getElementById('fill-answer').value.trim();
-    if(!ans){toast('⚠️ Please enter the correct answer');return;}
+    if(!ans){toast('⚠️ Enter the correct answer');return;}
     qData.answer=ans;
   }else qData.answer=document.getElementById('tf-answer').value;
   const r=await addDoc(collection(db,'questions'),qData);
@@ -1138,6 +1389,7 @@ window.saveQuestion=async function(){
   document.getElementById('fill-answer').value='';
   toast('✅ Question saved!');
 };
+
 window.startQuiz=function(type){
   const qs=state.questions.filter(q=>q.category===type);
   if(!qs.length){toast(`⚠️ No questions yet for ${QUIZ_NAMES[type]}! Add some first.`);return;}
@@ -1150,9 +1402,8 @@ window.startQuiz=function(type){
   renderQuestion();
 };
 function renderQuestion(){
-  const{questions,idx}=state.currentQuiz;
-  const q=questions[idx];
-  document.getElementById('q-num').textContent=`Question ${idx+1} of ${questions.length}`;
+  const{questions,idx}=state.currentQuiz;const q=questions[idx];
+  document.getElementById('q-num').textContent=`Q${idx+1} of ${questions.length}`;
   document.getElementById('q-text').textContent=q.question;
   document.getElementById('q-feedback').innerHTML='';
   document.getElementById('next-btn').style.display='none';
@@ -1164,8 +1415,7 @@ function renderQuestion(){
   const area=document.getElementById('q-answer-area');
   if(q.type==='mcq') area.innerHTML=`<div class="quiz-opts">${q.options.map((o,i)=>`<button class="quiz-opt" onclick="answerQ(${i})">${o}</button>`).join('')}</div>`;
   else if(q.type==='tf') area.innerHTML=`<div class="quiz-tf"><button class="quiz-tf-btn" onclick="answerQ('true')">✅ True</button><button class="quiz-tf-btn" onclick="answerQ('false')">❌ False</button></div>`;
-  else area.innerHTML=`<input class="fill-input" id="fill-in" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')submitFill()"><div style="text-align:center;margin-bottom:14px"><button class="btn btn-primary" onclick="submitFill()">Submit ✅</button></div>`;
-  if(q.type==='fill') setTimeout(()=>document.getElementById('fill-in')?.focus(),100);
+  else{area.innerHTML=`<input class="fill-input" id="fill-in" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')submitFill()"><div style="text-align:center;margin-bottom:12px"><button class="btn btn-primary" onclick="submitFill()">Submit ✅</button></div>`;setTimeout(()=>document.getElementById('fill-in')?.focus(),100);}
 }
 function checkAnswer(q,ans){
   if(q.type==='mcq') return parseInt(ans)===q.answer;
@@ -1173,28 +1423,22 @@ function checkAnswer(q,ans){
   return ans?.toLowerCase().trim()===q.answer?.toLowerCase().trim();
 }
 window.answerQ=function(ans){
-  const{questions,idx}=state.currentQuiz;
-  const q=questions[idx];
-  state.currentQuiz.answers.push(ans);
-  const correct=checkAnswer(q,ans);
+  const{questions,idx}=state.currentQuiz;const q=questions[idx];
+  state.currentQuiz.answers.push(ans);const correct=checkAnswer(q,ans);
   if(correct)state.currentQuiz.score++;
   if(q.type==='mcq') document.querySelectorAll('.quiz-opt').forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');if(i===ans&&!correct)b.classList.add('wrong');});
   else if(q.type==='tf') document.querySelectorAll('.quiz-tf-btn').forEach(b=>{b.disabled=true;const v=b.textContent.includes('True')?'true':'false';if(v===q.answer)b.classList.add('correct');else if(v===ans&&!correct)b.classList.add('wrong');});
-  document.getElementById('q-feedback').innerHTML=correct?`<span style="color:#16a34a">🎉 Correct! Great job!</span>`:`<span style="color:#dc2626">❌ Answer: <em>${q.type==='mcq'?q.options[q.answer]:q.answer==='true'?'True':'False'}</em></span>`;
+  document.getElementById('q-feedback').innerHTML=correct?`<span style="color:#16a34a">🎉 Correct!</span>`:`<span style="color:#dc2626">❌ Answer: <em>${q.type==='mcq'?q.options[q.answer]:q.answer==='true'?'True':'False'}</em></span>`;
   document.getElementById('next-btn').style.display='';
   document.getElementById('next-btn').textContent=idx===questions.length-1?'See Results 🎯':'Next →';
   renderQuestion();
 };
 window.submitFill=function(){
-  const val=document.getElementById('fill-in')?.value.trim();
-  if(!val){toast('Type your answer first!');return;}
-  const{questions,idx}=state.currentQuiz;
-  const q=questions[idx];
+  const val=document.getElementById('fill-in')?.value.trim();if(!val){toast('Type your answer!');return;}
+  const{questions,idx}=state.currentQuiz;const q=questions[idx];
   const correct=val.toLowerCase()===q.answer.toLowerCase().trim();
-  const inp=document.getElementById('fill-in');
-  inp.disabled=true;inp.classList.add(correct?'correct':'wrong');
-  state.currentQuiz.answers.push(val);
-  if(correct)state.currentQuiz.score++;
+  const inp=document.getElementById('fill-in');inp.disabled=true;inp.classList.add(correct?'correct':'wrong');
+  state.currentQuiz.answers.push(val);if(correct)state.currentQuiz.score++;
   document.getElementById('q-feedback').innerHTML=correct?`<span style="color:#16a34a">🎉 Correct!</span>`:`<span style="color:#dc2626">❌ Answer: <em>${q.answer}</em></span>`;
   document.querySelector('#q-answer-area .btn-primary').style.display='none';
   document.getElementById('next-btn').style.display='';
@@ -1207,36 +1451,29 @@ window.nextQuestion=function(){
   renderQuestion();
 };
 async function showResult(){
-  document.getElementById('naplan-quiz').style.display='none';
-  document.getElementById('naplan-result').style.display='';
-  const{score,questions,type}=state.currentQuiz;
-  const total=questions.length;
+  document.getElementById('naplan-quiz').style.display='none';document.getElementById('naplan-result').style.display='';
+  const{score,questions,type}=state.currentQuiz;const total=questions.length;
   document.getElementById('score-text').textContent=`${score}/${total}`;
   const pct=score/total;
-  const[emoji,msg]=pct===1?['🏆','Perfect score!']:pct>=0.8?['🌟','Great job!']:pct>=0.6?['👍','Good effort!']:['💪','Keep practising!'];
-  document.getElementById('result-emoji').textContent=emoji;
-  document.getElementById('result-msg').textContent=msg;
+  const[emoji,msg]=pct===1?['🏆','Perfect!']:pct>=0.8?['🌟','Great job!']:pct>=0.6?['👍','Good effort!']:['💪','Keep going!'];
+  document.getElementById('result-emoji').textContent=emoji;document.getElementById('result-msg').textContent=msg;
   document.getElementById('result-detail').textContent=`You got ${score} out of ${total} right!`;
+  const stars=pct>=0.8?3:pct>=0.6?2:1;
   const hd={type:QUIZ_NAMES[type],category:type,score,total,date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
-  await addDoc(collection(db,'quizHistory'),hd);
-  state.quizHistory.unshift(hd);
-  renderQuizHistory();renderProgress();renderProgressMonthly();
+  await addDoc(collection(db,'quizHistory'),hd);state.quizHistory.unshift(hd);
+  earnStars(stars,`NAPLAN ${QUIZ_NAMES[type]} practice! 📝`);
+  renderQuizHistory();renderProgress();
 }
-window.retryQuiz=function(){startQuiz(state.currentQuiz.type)};
-window.endQuiz=function(){
-  document.getElementById('naplan-home').style.display='';
-  document.getElementById('naplan-quiz').style.display='none';
-  document.getElementById('naplan-result').style.display='none';
-};
+window.retryQuiz=()=>startQuiz(state.currentQuiz.type);
+window.endQuiz=()=>{document.getElementById('naplan-home').style.display='';document.getElementById('naplan-quiz').style.display='none';document.getElementById('naplan-result').style.display='none';};
 function renderQuizHistory(){
-  const qh=state.quizHistory;
-  document.getElementById('quiz-history-list').innerHTML=qh.length?qh.slice(0,8).map(h=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:7px">
-      <span style="font-size:18px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
-      <div style="flex:1;font-weight:700;font-size:13px">${h.type}</div>
-      <span style="font-family:'Fredoka One',cursive;color:var(--primary);font-size:17px">${h.score}/${h.total}</span>
-      <span style="font-size:11px;color:var(--muted)">${h.date}</span>
-    </div>`).join(''):'<div class="empty" style="padding:20px"><div>📭</div>No practice yet!</div>';
+  document.getElementById('quiz-history-list').innerHTML=state.quizHistory.length?state.quizHistory.slice(0,8).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px">
+      <span style="font-size:16px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1;font-weight:700;font-size:12px">${h.type}</div>
+      <span style="font-family:'Fredoka One',cursive;color:var(--primary);font-size:15px">${h.score}/${h.total}</span>
+      <span style="font-size:10px;color:var(--muted)">${h.date}</span>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>📭</div>No practice yet!</div>';
 }
 
 // ── PROGRESS ──
@@ -1247,84 +1484,65 @@ function renderProgress(){
   const totalPages=state.readingLogs.reduce((s,r)=>s+parseInt(r.pages||0),0);
   document.getElementById('stat-grid').innerHTML=`
     <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${done}/${total}</div><div class="stat-lbl">📚 HW Done</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#16a34a">${learned}</div><div class="stat-lbl">✅ Words Mastered</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#16a34a">${learned}</div><div class="stat-lbl">✅ Mastered</div></div>
     <div class="stat-box"><div class="stat-num" style="color:#d97706">${review}</div><div class="stat-lbl">⚠️ Review</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--reading)">${state.finishedBooks.length}</div><div class="stat-lbl">📚 Books Read</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${totalPages}</div><div class="stat-lbl">📄 Pages Read</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#7c3aed">${state.quizHistory.length}</div><div class="stat-lbl">📝 Quizzes</div></div>`;
-  // week hw chart
-  const now=new Date();
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const dayData=[];
-  for(let i=6;i>=0;i--){
-    const d=new Date(now);d.setDate(now.getDate()-i);
-    const ds=d.toISOString().split('T')[0];
-    const count=state.homework.filter(h=>h.date===ds&&h.done).length;
-    dayData.push({label:days[d.getDay()],count});
-  }
+    <div class="stat-box"><div class="stat-num" style="color:var(--reading)">${state.finishedBooks.length}</div><div class="stat-lbl">📚 Books</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${totalPages}</div><div class="stat-lbl">📄 Pages</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--gold)">${getTotalStars()}</div><div class="stat-lbl">⭐ Stars</div></div>`;
+  const now=new Date();const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dayData=[];for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);const ds=d.toISOString().split('T')[0];const count=state.homework.filter(h=>h.date===ds&&h.done).length;dayData.push({label:days[d.getDay()],count});}
   const maxC=Math.max(1,...dayData.map(d=>d.count));
-  document.getElementById('week-hw-chart').innerHTML=dayData.map(d=>`
-    <div class="week-bar-wrap">
-      <div class="week-bar-num">${d.count||''}</div>
-      <div class="week-bar" style="height:${Math.max(4,d.count/maxC*80)}px;background:linear-gradient(to top,var(--primary),var(--primary2))"></div>
-      <div class="week-bar-label">${d.label}</div>
-    </div>`).join('');
+  document.getElementById('week-hw-chart').innerHTML=dayData.map(d=>`<div class="week-bar-wrap"><div class="week-bar-num">${d.count||''}</div><div class="week-bar" style="height:${Math.max(3,d.count/maxC*80)}px;background:linear-gradient(to top,var(--primary),var(--primary2))"></div><div class="week-bar-label">${d.label}</div></div>`).join('');
   document.getElementById('subject-progress').innerHTML=['en','math','cn','fr'].map(s=>{
-    const hw=state.homework.filter(h=>h.subject===s);
-    const pct=hw.length?Math.round(hw.filter(h=>h.done).length/hw.length*100):0;
-    return`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-weight:700;font-size:13px">${SUBJ[s]}</span><span style="font-size:12px;color:var(--muted)">${pct}%</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${SUBJ_COLOR[s]}"></div></div></div>`;
+    const hw=state.homework.filter(h=>h.subject===s);const pct=hw.length?Math.round(hw.filter(h=>h.done).length/hw.length*100):0;
+    return`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-weight:700;font-size:12px">${SUBJ[s]}</span><span style="font-size:11px;color:var(--muted)">${pct}%</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${SUBJ_COLOR[s]}"></div></div></div>`;
   }).join('');
-  document.getElementById('word-progress').innerHTML=`
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#f0fdf4;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:28px;color:#16a34a">${learned}</div><div style="font-size:11px;color:#065f46;font-weight:700">✅ Mastered</div></div>
-      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#fffbeb;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:28px;color:#d97706">${review}</div><div style="font-size:11px;color:#92400e;font-weight:700">⚠️ Review</div></div>
-      <div style="flex:1;min-width:80px;text-align:center;padding:14px;background:#f5f3ff;border-radius:12px"><div style="font-family:'Fredoka One',cursive;font-size:28px;color:#7c3aed">${state.words.length-learned-review}</div><div style="font-size:11px;color:#5b21b6;font-weight:700">🆕 New</div></div>
-    </div>`;
+  const wTotal=state.words.length;
+  document.getElementById('word-progress').innerHTML=`<div style="display:flex;gap:9px;flex-wrap:wrap">
+    <div style="flex:1;min-width:75px;text-align:center;padding:12px;background:#f0fdf4;border-radius:11px"><div style="font-family:'Fredoka One',cursive;font-size:26px;color:#16a34a">${learned}</div><div style="font-size:11px;color:#065f46;font-weight:700">✅ Mastered</div></div>
+    <div style="flex:1;min-width:75px;text-align:center;padding:12px;background:#fffbeb;border-radius:11px"><div style="font-family:'Fredoka One',cursive;font-size:26px;color:#d97706">${review}</div><div style="font-size:11px;color:#92400e;font-weight:700">⚠️ Review</div></div>
+    <div style="flex:1;min-width:75px;text-align:center;padding:12px;background:#f5f3ff;border-radius:11px"><div style="font-family:'Fredoka One',cursive;font-size:26px;color:#7c3aed">${wTotal-learned-review}</div><div style="font-size:11px;color:#5b21b6;font-weight:700">🆕 New</div></div>
+  </div>`;
   document.getElementById('naplan-progress').innerHTML=state.quizHistory.length?state.quizHistory.slice(0,5).map(h=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:7px">
-      <span style="font-size:16px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
-      <div style="flex:1"><div style="font-weight:700;font-size:12px">${h.type}</div><div style="font-size:11px;color:var(--muted)">${h.date}</div></div>
-      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:${h.score/h.total>=0.8?'#16a34a':h.score/h.total>=0.6?'#d97706':'#dc2626'}">${h.score}/${h.total}</div>
-    </div>`).join(''):'<div class="empty" style="padding:20px"><div>📝</div>No quiz results yet</div>';
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px">
+      <span>${h.score/h.total>=0.8?'🌟':'💪'}</span><div style="flex:1;font-weight:700;font-size:12px">${h.type}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:16px;color:${h.score/h.total>=0.8?'#16a34a':'#dc2626'}">${h.score}/${h.total}</div>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>📝</div>No scores yet</div>';
 }
-
 function renderProgressMonthly(){
-  const now=new Date();
-  const ym=now.toISOString().substring(0,7);
-  const mHW=state.homework.filter(h=>h.date&&h.date.startsWith(ym));
-  const mRL=state.readingLogs.filter(r=>r.date&&r.date.startsWith(ym));
-  const mFB=state.finishedBooks.filter(b=>b.dateFinished&&b.dateFinished.startsWith(ym));
-  const mQH=state.quizHistory.filter(h=>h.date&&h.date.includes(now.toLocaleDateString('en-AU',{month:'numeric',year:'numeric'}).split('/')[1]));
-  const mActs=state.activities.filter(a=>a.date&&a.date.startsWith(ym));
+  const now=new Date();const ym=now.toISOString().substring(0,7);
+  const mHW=state.homework.filter(h=>h.date?.startsWith(ym));
+  const mRL=state.readingLogs.filter(r=>r.date?.startsWith(ym));
+  const mFB=state.finishedBooks.filter(b=>b.dateFinished?.startsWith(ym));
+  const mActs=state.activities.filter(a=>a.date?.startsWith(ym));
+  const mDi=state.diaries.filter(d=>d.date?.startsWith(ym));
   const mPages=mRL.reduce((s,r)=>s+parseInt(r.pages||0),0);
   document.getElementById('monthly-stat-grid').innerHTML=`
-    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${mHW.filter(h=>h.done).length}</div><div class="stat-lbl">📚 HW Done</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${mHW.filter(h=>h.done).length}</div><div class="stat-lbl">📚 HW</div></div>
     <div class="stat-box"><div class="stat-num" style="color:var(--reading)">${mFB.length}</div><div class="stat-lbl">📚 Books</div></div>
     <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${mPages}</div><div class="stat-lbl">📄 Pages</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#7c3aed">${mQH.length}</div><div class="stat-lbl">📝 Quizzes</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--diary)">${mDi.length}</div><div class="stat-lbl">📔 Diaries</div></div>
     <div class="stat-box"><div class="stat-num" style="color:var(--art)">${mActs.length}</div><div class="stat-lbl">🎨 Activities</div></div>`;
-  document.getElementById('monthly-reading').innerHTML=mFB.length?mFB.map(b=>`<div class="book-list-item"><div style="font-size:20px">📚</div><div><div style="font-weight:700;font-size:13px">${b.title}</div><div style="font-size:11px;color:var(--muted)">${b.pages||0} pages · ${'⭐'.repeat(b.rating||0)}</div></div></div>`).join(''):'<div class="empty" style="padding:16px"><div>📚</div>No books finished this month</div>';
-  document.getElementById('monthly-naplan').innerHTML=mQH.length?mQH.map(h=>`<div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px"><span>${h.score/h.total>=0.8?'🌟':'💪'}</span><div style="flex:1;font-size:13px;font-weight:700">${h.type}</div><span style="font-family:'Fredoka One',cursive;color:var(--primary)">${h.score}/${h.total}</span></div>`).join(''):'<div class="empty" style="padding:16px"><div>📝</div>No quizzes this month</div>';
-  document.getElementById('monthly-activities').innerHTML=mActs.length?mActs.map(a=>`<div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px"><span style="font-size:20px">${a.type==='art'?'🎨':'⚽'}</span><div><div style="font-weight:700;font-size:13px">${a.title}</div><div style="font-size:11px;color:var(--muted)">${a.date}${a.location?` · ${a.location}`:''}</div></div></div>`).join(''):'<div class="empty" style="padding:16px"><div>🎨</div>No activities this month</div>';
+  document.getElementById('monthly-reading').innerHTML=mFB.length?mFB.map(b=>`<div class="hw-item"><span style="font-size:18px">📚</span><div><div style="font-weight:700;font-size:12px">${b.title}</div><div style="font-size:11px;color:var(--muted)">${b.pages||0}p · ${'⭐'.repeat(b.rating||0)}</div></div></div>`).join(''):'<div class="empty" style="padding:14px"><div>📚</div>No books this month</div>';
+  document.getElementById('monthly-naplan').innerHTML=state.quizHistory.slice(0,5).map(h=>`<div style="display:flex;align-items:center;gap:7px;padding:7px;border:2px solid #f3f4f6;border-radius:9px;margin-bottom:5px"><span>${h.score/h.total>=0.8?'🌟':'💪'}</span><div style="flex:1;font-size:12px;font-weight:700">${h.type}</div><span style="font-family:'Fredoka One',cursive;color:var(--primary)">${h.score}/${h.total}</span></div>`).join('')||'<div class="empty" style="padding:14px"><div>📝</div>No quizzes</div>';
+  document.getElementById('monthly-activities').innerHTML=mActs.map(a=>`<div style="display:flex;align-items:center;gap:7px;padding:7px;border:2px solid #f3f4f6;border-radius:9px;margin-bottom:5px"><span>${a.type==='art'?'🎨':'⚽'}</span><div><div style="font-weight:700;font-size:12px">${a.title}</div><div style="font-size:10px;color:var(--muted)">${a.date}</div></div></div>`).join('')||'<div class="empty" style="padding:14px"><div>🎨</div>No activities</div>';
 }
 
 // ── NAV ──
 window.showPage=function(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item,.tab').forEach(t=>t.classList.remove('active'));
-  const pg=document.getElementById('page-'+name);
-  if(pg) pg.classList.add('active');
-  document.querySelectorAll(`.nav-item`).forEach(n=>{
-    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes(`'${name}'`)) n.classList.add('active');
-  });
+  const pg=document.getElementById('page-'+name);if(pg)pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')?.includes(`'${name}'`))n.classList.add('active');});
+  if(name==='progress')renderProgress();
+  if(name==='progress-monthly')renderProgressMonthly();
+  if(name==='rewards'){renderRewards();renderStarHistory();}
 };
-
 window.setMode=function(m){
   state.mode=m;
   document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',i===(m==='parent'?0:1)));
-  const po=['parent-add-card','parent-word-form','parent-quiz-mgmt','parent-book-form','parent-log-form','parent-wishlist-form','parent-done-form','parent-activity-form'];
-  po.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=m==='parent'?'':'none';});
-  renderTodaySubjects();
+  ['parent-add-card','parent-word-form','parent-quiz-mgmt','parent-book-form','parent-log-form','parent-wishlist-form','parent-done-form','parent-activity-form','parent-task-form','parent-reward-form','parent-dictee-form'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=m==='parent'?'':'none';});
+  renderTodaySubjects();renderWeeklyTasks();renderRewards();
 };
 
 init();
