@@ -3049,11 +3049,11 @@ function renderTimetable(){
 }
 
 const AFTER_SCHOOL={
-  0:{tip:"Kumon day! Maths + English at Kumon tonight.",plan:"Kumon (Maths + English)\nReading 15 mins\nChinese practice (optional)",urgency:"normal"},
-  1:{tip:"French test this Friday! Practice dictee today.",plan:"French dictee practice\nReading 15 mins\nAny homework from school",urgency:"urgent"},
-  2:{tip:"Kumon day again! Good work this week.",plan:"Kumon (Maths + English)\nReading 15 mins\nChinese practice",urgency:"normal"},
-  3:{tip:"French dictee TOMORROW! Practice tonight!",plan:"French dictee practice - IMPORTANT!\nReading 15 mins\nAny homework",urgency:"urgent"},
-  4:{tip:"Last day of school week! Light homework tonight.",plan:"Reading 15 mins\nAny catch-up work\nWell done this week!",urgency:"relax"},
+  0:{tip:"Kumon day! Maths + English tonight.",items:["Kumon (Maths + English)","Reading 15 mins","Chinese practice (optional)"],urgency:"normal"},
+  1:{tip:"French test this Friday! Practice dictee today.",items:["French dictee practice","Reading 15 mins","Any homework from school"],urgency:"urgent"},
+  2:{tip:"Kumon day again! Good work this week.",items:["Kumon (Maths + English)","Reading 15 mins","Chinese practice"],urgency:"normal"},
+  3:{tip:"French dictee TOMORROW! Practice tonight!",items:["French dictee practice - IMPORTANT!","Reading 15 mins","Any homework"],urgency:"urgent"},
+  4:{tip:"Last day of school week! Light homework tonight.",items:["Reading 15 mins","Any catch-up work","Well done this week!"],urgency:"relax"},
 };
 
 function renderTodayTip(idx){
@@ -3065,12 +3065,14 @@ function renderTodayTip(idx){
 }
 
 function renderAfterSchool(idx){
-  const el=document.getElementById('afterschool-plan');
+  var el=document.getElementById("afterschool-plan");
   if(!el) return;
-  if(idx<0){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px">It&#39;s the weekend — enjoy! 😊</div>';return;}
-  const info=AFTER_SCHOOL[idx];
-  const lines=info.plan.split('\n');
-  el.innerHTML=lines.map(l=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:13px;font-weight:700">${l}</div>`).join('');
+  if(idx<0){el.innerHTML="<div style='color:var(--muted);font-size:13px;padding:8px'>It is the weekend — enjoy!</div>";return;}
+  var info=AFTER_SCHOOL[idx];
+  if(!info){el.innerHTML="";return;}
+  el.innerHTML=info.items.map(function(item){
+    return "<div style='display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:13px;font-weight:700'>"+item+"</div>";
+  }).join("");
 }
 
 // ── MOTS MAGIQUES SEED ──
