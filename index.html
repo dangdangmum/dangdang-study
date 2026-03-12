@@ -316,6 +316,7 @@ textarea{min-height:70px;resize:vertical}
   <button class="tab" onclick="showPage('reading-current')">📖 Reading</button>
   <button class="tab" onclick="showPage('words')">🔤 Words</button>
   <button class="tab" onclick="showPage('french-dictee')">🇫🇷 Dictée</button>
+  <button class="tab" onclick="showPage('english-dictee')">🇬🇧 Spelling</button>
   <button class="tab" onclick="showPage('naplan')">📝 NAPLAN</button>
   <button class="tab" onclick="showPage('diary')">📔 Diary</button>
   <button class="tab" onclick="showPage('rewards')">🏆 Rewards</button>
@@ -347,6 +348,7 @@ textarea{min-height:70px;resize:vertical}
     <div class="nav-section-title">Word Bank</div>
     <button class="nav-item" onclick="showPage('words')"><span class="nav-icon">🔤</span>All Words</button>
     <button class="nav-item" onclick="showPage('french-dictee')"><span class="nav-icon">🇫🇷</span>French Dictée</button>
+    <button class="nav-item" onclick="showPage('english-dictee')"><span class="nav-icon">🇬🇧</span>English Spelling</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">NAPLAN Prep</div>
@@ -681,6 +683,67 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </div>
 
+<!-- ENGLISH SPELLING DICTEE -->
+<div class="page" id="page-english-dictee">
+
+  <div class="card" id="parent-en-dictee-form">
+    <div class="card-title">🇬🇧 Add This Week's Spelling Words</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">
+      Format: <strong>word = meaning</strong> (one per line). Or leave meaning blank if using from Word Bank.
+    </p>
+    <div class="form-group"><label>Week of</label><input type="date" id="en-dictee-week"></div>
+    <div class="form-group"><label>Words (word = meaning, one per line)</label>
+      <textarea id="en-dictee-words" style="min-height:120px;font-family:'Nunito',sans-serif"
+        placeholder="beautiful = very pretty&#10;because = for the reason that&#10;different = not the same&#10;favourite = the one you like best"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="saveEnDicteeWords()">✅ Save Words</button>
+      <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:2px solid #fca5a5" onclick="importFromWordBank()">📥 Import from Word Bank</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">📋 This Week's Words</div>
+      <button class="btn btn-sm btn-primary" onclick="practiceEnDictee('week')" id="practice-en-dictee-btn">🎯 Practice!</button>
+    </div>
+    <div id="en-dictee-word-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- WRONG WORDS BANK -->
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">❌ Wrong Words — Retry List</div>
+      <button class="btn btn-sm btn-danger" id="retry-wrong-btn" onclick="practiceEnDictee('wrong')" style="display:none">🔁 Practice Wrong Words</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Words Dangdang got wrong — automatically added here for extra practice!</p>
+    <div id="en-wrong-list"></div>
+  </div>
+
+  <div id="en-dictee-practice-area" style="display:none">
+    <div class="card">
+      <div class="section-header">
+        <div class="card-title" style="margin:0" id="en-practice-title">🎯 Spelling Practice</div>
+        <button class="btn btn-sm btn-ghost" onclick="endEnDicteePractice()">End</button>
+      </div>
+      <div id="en-dictee-q-area"></div>
+    </div>
+  </div>
+
+  <!-- DAILY CHECKIN -->
+  <div class="card">
+    <div class="card-title">📅 Daily Spelling Checkin</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">每天练一遍拼写 → 打卡 → 得⭐</p>
+    <div id="en-checkin-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px"></div>
+    <div id="en-checkin-btn-area" style="text-align:center"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Past Spelling Results</div>
+    <div id="en-dictee-history"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
 <!-- NAPLAN -->
 <div class="page" id="page-naplan">
   <div id="naplan-home">
@@ -911,7 +974,7 @@ async function earnStars(amount, reason) {
 
 // ── LOAD ALL ──
 async function loadAll() {
-  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc] = await Promise.all([
+  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww] = await Promise.all([
     getDocs(query(collection(db,'homework'),orderBy('date','desc'))),
     getDocs(collection(db,'words')),
     getDocs(collection(db,'questions')),
@@ -926,7 +989,11 @@ async function loadAll() {
     getDocs(query(collection(db,'diaries'),orderBy('date','desc'))),
     getDocs(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
     getDocs(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'dicteeCheckins'),orderBy('date','desc')))
+    getDocs(query(collection(db,'dicteeCheckins'),orderBy('date','desc'))),
+    getDocs(query(collection(db,'enDicteeWords'),orderBy('week','desc'))),
+    getDocs(query(collection(db,'enDicteeHistory'),orderBy('timestamp','desc'))),
+    getDocs(query(collection(db,'enCheckins'),orderBy('date','desc'))),
+    getDocs(collection(db,'enWrongWords'))
   ]);
   state.homework=hw.docs.map(d=>({id:d.id,...d.data()}));
   state.words=words.docs.map(d=>({id:d.id,...d.data()}));
@@ -943,6 +1010,10 @@ async function loadAll() {
   state.dicteeWords=dw.docs.map(d=>({id:d.id,...d.data()}));
   state.dicteeHistory=dh.docs.map(d=>({id:d.id,...d.data()}));
   state.dicteeCheckins=dc.docs.map(d=>({id:d.id,...d.data()}));
+  state.enDicteeWords=endw.docs.map(d=>({id:d.id,...d.data()}));
+  state.enDicteeHistory=endh.docs.map(d=>({id:d.id,...d.data()}));
+  state.enCheckins=enc.docs.map(d=>({id:d.id,...d.data()}));
+  state.enWrongWords=enww.docs.map(d=>({id:d.id,...d.data()}));
   try{const cb=await getDocs(collection(db,'currentBook'));if(cb.docs.length)state.currentBook={id:cb.docs[0].id,...cb.docs[0].data()};}catch(e){}
   renderAll();
 }
@@ -952,7 +1023,7 @@ function renderAll(){
   renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
   renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
   renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
-  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();
+  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();
 }
 
 async function init(){
@@ -965,6 +1036,7 @@ async function init(){
   document.getElementById('done-date').value=today.toISOString().split('T')[0];
   document.getElementById('dictee-week').value=today.toISOString().split('T')[0];
   const hwDateEl=document.getElementById('hw-date');if(hwDateEl)hwDateEl.value=today.toISOString().split('T')[0];
+  const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
   document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
   await loadAll();
 }
@@ -1746,6 +1818,237 @@ function renderProgressMonthly(){
 }
 
 
+
+// ═══════════════════════════════════════
+// ── ENGLISH SPELLING DICTEE ──
+// ═══════════════════════════════════════
+
+window.saveEnDicteeWords = async function(){
+  const week = document.getElementById('en-dictee-week').value;
+  const raw = document.getElementById('en-dictee-words').value.trim();
+  if(!raw){toast('⚠️ Please enter some words');return;}
+  const pairs = raw.split('\n').map(l=>{
+    const parts=l.split('=');
+    return {word:parts[0].trim(), meaning:(parts[1]||'').trim()};
+  }).filter(p=>p.word);
+  if(!pairs.length){toast('⚠️ Enter at least one word');return;}
+  const data={week,words:pairs,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'enDicteeWords'),data);
+  state.enDicteeWords.unshift({id:r.id,...data});
+  document.getElementById('en-dictee-words').value='';
+  renderEnDicteeWords();
+  toast('✅ Spelling words saved!');
+};
+
+// Import "New" or "Review" English words from Word Bank
+window.importFromWordBank = function(){
+  const enWords = state.words.filter(w=>w.subject==='en'&&(w.status==='new-word'||w.status==='review'));
+  if(!enWords.length){toast('No English new/review words in Word Bank yet!');return;}
+  const lines = enWords.map(w=>w.meaning?`${w.word} = ${w.meaning}`:w.word).join('\n');
+  document.getElementById('en-dictee-words').value = lines;
+  toast(`✅ Imported ${enWords.length} words from Word Bank!`);
+};
+
+function renderEnDicteeWords(){
+  const el=document.getElementById('en-dictee-word-list');
+  if(!el) return;
+  const latest=state.enDicteeWords[0];
+  const btn=document.getElementById('practice-en-dictee-btn');
+  if(!latest){
+    el.innerHTML='<div class="empty"><div>🇬🇧</div>No words yet — add this week\'s words above!</div>';
+    if(btn) btn.style.display='none';
+    return;
+  }
+  if(btn) btn.style.display='';
+  el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">Week of ${latest.week} · ${latest.words.length} words · 🔊 Click to hear</p>`+
+  latest.words.map(w=>`
+    <div class="dictee-word" onclick="speakWord('${w.word.replace(/'/g,"\\'")}','en-AU')" style="border-color:#fef2f2">
+      <div>
+        <div class="dictee-word-text">🇬🇧 ${w.word}</div>
+        ${w.meaning?`<div class="dictee-word-meaning">💡 ${w.meaning}</div>`:''}
+      </div>
+      <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:2px solid #fca5a5" onclick="event.stopPropagation();speakWord('${w.word.replace(/'/g,"\\'")}','en-AU')">🔊 Listen</button>
+    </div>`).join('');
+}
+
+function renderEnDicteeHistory(){
+  const el=document.getElementById('en-dictee-history');
+  if(!el) return;
+  el.innerHTML=state.enDicteeHistory.length?state.enDicteeHistory.slice(0,8).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px">
+      <span style="font-size:18px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:12px">${h.mode==='wrong'?'❌ Wrong Words Retry':'Spelling Practice'}</div>
+        <div style="font-size:10px;color:var(--muted)">${h.date} · ${h.wrong&&h.wrong.length?`${h.wrong.length} wrong: ${h.wrong.slice(0,3).join(', ')}${h.wrong.length>3?'...':''}`:' all correct! 🎉'}</div>
+      </div>
+      <span style="font-family:'Fredoka One',cursive;color:var(--en);font-size:16px">${h.score}/${h.total}</span>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>📊</div>No results yet</div>';
+}
+
+function renderEnWrongWords(){
+  const el=document.getElementById('en-wrong-list');
+  const btn=document.getElementById('retry-wrong-btn');
+  if(!el) return;
+  const wrong=state.enWrongWords||[];
+  if(btn) btn.style.display=wrong.length?'':'none';
+  el.innerHTML=wrong.length?wrong.map(w=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #fef2f2;border-radius:10px;margin-bottom:6px;background:#fffafa">
+      <span style="font-size:16px">❌</span>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:13px">${w.word}</div>
+        ${w.meaning?`<div style="font-size:11px;color:var(--muted)">${w.meaning}</div>`:''}
+      </div>
+      <span style="font-size:10px;color:#dc2626;font-weight:700">wrong ${w.count||1}×</span>
+      <button class="btn btn-sm btn-ghost" onclick="removeWrongWord('${w.id}')">✓ Got it</button>
+    </div>`).join(''):'<div style="color:var(--muted);font-size:13px;padding:8px;text-align:center">🎉 No wrong words — great job!</div>';
+}
+
+window.removeWrongWord=async function(id){
+  await deleteDoc(doc(db,'enWrongWords',id));
+  state.enWrongWords=state.enWrongWords.filter(w=>w.id!==id);
+  renderEnWrongWords();
+  toast('✅ Removed from retry list!');
+};
+
+function renderEnCheckin(){
+  const grid=document.getElementById('en-checkin-grid');
+  const btnArea=document.getElementById('en-checkin-btn-area');
+  if(!grid||!btnArea) return;
+  const today=new Date();
+  const dayNames=['周日','周一','周二','周三','周四','周五','周六'];
+  const checkins=new Set((state.enCheckins||[]).map(c=>c.date));
+  const todayStr=today.toISOString().split('T')[0];
+  const todayDone=checkins.has(todayStr);
+  let html='';
+  for(let i=6;i>=0;i--){
+    const d=new Date(today);d.setDate(today.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    const done=checkins.has(ds);
+    const isToday=i===0;
+    html+=`<div style="text-align:center;padding:8px 4px;border-radius:10px;border:2px solid ${isToday?'var(--en)':done?'#fca5a5':'#f3f4f6'};background:${done?'linear-gradient(135deg,#f87171,#ef4444)':'white'}">
+      <div style="font-size:10px;font-weight:800;color:${done?'white':'var(--muted)'}">${dayNames[d.getDay()]}</div>
+      <div style="font-size:18px;margin:3px 0">${done?'✅':'⬜'}</div>
+      <div style="font-size:10px;font-weight:700;color:${done?'rgba(255,255,255,0.85)':'var(--muted)'}">${d.getDate()}/${d.getMonth()+1}</div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+  let streak=0;
+  const d2=new Date(today);
+  for(let i=0;i<30;i++){
+    if(checkins.has(d2.toISOString().split('T')[0])){streak++;d2.setDate(d2.getDate()-1);}else break;
+  }
+  btnArea.innerHTML=todayDone
+    ?`<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 20px;display:inline-block;text-align:center"><div style="font-size:24px">✅</div><div style="font-weight:800;color:#16a34a;font-size:14px">今天已练习！</div><div style="font-size:11px;color:#065f46;margin-top:3px">🔥 连续 ${streak} 天</div></div>`
+    :`<div style="text-align:center"><button class="btn btn-primary" style="font-size:15px;padding:12px 28px" onclick="checkInEnDictee()">🇬🇧 今天练好了！打卡 ✅</button>${streak>0?`<div style="font-size:11px;color:var(--muted);margin-top:8px">🔥 已连续 ${streak} 天</div>`:''}</div>`;
+}
+
+window.checkInEnDictee=async function(){
+  const todayStr=new Date().toISOString().split('T')[0];
+  if((state.enCheckins||[]).find(c=>c.date===todayStr)){toast('今天英语拼写已打卡！');return;}
+  const data={date:todayStr,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'enCheckins'),data);
+  if(!state.enCheckins) state.enCheckins=[];
+  state.enCheckins.push({id:r.id,...data});
+  renderEnCheckin();
+  earnStars(1,'英语拼写练习打卡！🇬🇧');
+  toast('🇬🇧 打卡成功！+1⭐ 棒棒的！');
+};
+
+// ── ENGLISH PRACTICE SESSION ──
+let enQ=0,enScore=0,enSession=[],enWrongThisRound=[],enMode='week';
+
+window.practiceEnDictee=function(mode){
+  mode=mode||'week';
+  enMode=mode;
+  let words=[];
+  if(mode==='wrong'){
+    words=(state.enWrongWords||[]).map(w=>({word:w.word,meaning:w.meaning||''}));
+    document.getElementById('en-practice-title').textContent='🔁 Wrong Words Retry';
+  } else {
+    const latest=state.enDicteeWords[0];
+    if(!latest||!latest.words.length){toast('No spelling words to practice!');return;}
+    words=[...latest.words];
+    document.getElementById('en-practice-title').textContent='🎯 Spelling Practice';
+  }
+  if(!words.length){toast('No words to practice!');return;}
+  enSession=words.sort(()=>Math.random()-0.5);
+  enQ=0;enScore=0;enWrongThisRound=[];
+  document.getElementById('en-dictee-practice-area').style.display='';
+  renderEnDicteeQ();
+};
+
+window.endEnDicteePractice=function(){
+  document.getElementById('en-dictee-practice-area').style.display='none';
+};
+
+function renderEnDicteeQ(){
+  const area=document.getElementById('en-dictee-q-area');
+  if(enQ>=enSession.length){
+    // ── SHOW RESULT ──
+    const pct=enScore/enSession.length;
+    const wrongList=enWrongThisRound;
+    area.innerHTML=`<div style="text-align:center;padding:20px">
+      <div style="font-size:52px">${pct>=0.8?'🌟':pct>=0.6?'👍':'💪'}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:40px;color:var(--en)">${enScore}/${enSession.length}</div>
+      <div style="font-weight:800;font-size:16px;margin:8px 0">${pct>=0.8?'Excellent! 🎉':pct>=0.6?'Good effort! 👍':'Keep practising! 💪'}</div>
+      ${wrongList.length?`<div style="background:#fef2f2;border-radius:12px;padding:10px 14px;margin:12px 0;text-align:left"><div style="font-weight:800;color:#dc2626;font-size:12px;margin-bottom:6px">❌ Wrong words (saved for retry):</div>${wrongList.map(w=>`<span style="background:white;border:1px solid #fca5a5;border-radius:50px;padding:2px 9px;font-size:12px;font-weight:700;margin:2px;display:inline-block">${w.word}</span>`).join('')}</div>`:''}
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-primary" onclick="practiceEnDictee('week')">Try Again 🔄</button>
+        ${wrongList.length?`<button class="btn btn-danger" onclick="practiceEnDictee('wrong')">Retry Wrong ❌</button>`:''}
+        <button class="btn btn-ghost" onclick="endEnDicteePractice()">Done</button>
+      </div>
+    </div>`;
+    // save result + save wrong words to Firebase
+    const data={score:enScore,total:enSession.length,mode:enMode,wrong:wrongList.map(w=>w.word),date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
+    addDoc(collection(db,'enDicteeHistory'),data).then(r=>{state.enDicteeHistory.unshift({id:r.id,...data});renderEnDicteeHistory();});
+    // save wrong words to retry bank
+    Promise.all(wrongList.map(async w=>{
+      const existing=state.enWrongWords.find(x=>x.word.toLowerCase()===w.word.toLowerCase());
+      if(existing){
+        await updateDoc(doc(db,'enWrongWords',existing.id),{count:(existing.count||1)+1});
+        existing.count=(existing.count||1)+1;
+      } else {
+        const wr=await addDoc(collection(db,'enWrongWords'),{word:w.word,meaning:w.meaning||'',count:1,timestamp:serverTimestamp()});
+        state.enWrongWords.push({id:wr.id,word:w.word,meaning:w.meaning||'',count:1});
+      }
+    })).then(()=>renderEnWrongWords());
+    const stars=pct>=0.8?3:pct>=0.6?2:1;
+    earnStars(stars,`Spelling practice done! 🇬🇧`);
+    return;
+  }
+
+  const w=enSession[enQ];
+  area.innerHTML=`
+    <div style="text-align:center;padding:0 0 14px">
+      <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px">Word ${enQ+1} of ${enSession.length}</div>
+      ${enWrongThisRound.length?`<div style="font-size:11px;color:#dc2626;margin-bottom:8px">❌ ${enWrongThisRound.length} wrong so far</div>`:''}
+      <button class="btn btn-primary" style="margin:0 0 8px" onclick="speakWord('${w.word.replace(/'/g,"\'")}','en-AU')">🔊 Hear the word</button>
+      ${w.meaning?`<div style="font-size:12px;color:var(--muted);margin-bottom:10px">💡 Hint: ${w.meaning}</div>`:''}
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Spell what you hear:</p>
+    </div>
+    <input class="fill-input" id="en-dictee-input" placeholder="Type the spelling..."
+      onkeydown="if(event.key==='Enter')checkEnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" onclick="checkEnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">Check ✅</button></div>
+    <div id="en-dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800"></div>`;
+  setTimeout(()=>document.getElementById('en-dictee-input')?.focus(),100);
+  setTimeout(()=>speakWord(w.word,'en-AU'),400);
+}
+
+window.checkEnAns=function(word,meaning){
+  const inp=document.getElementById('en-dictee-input');
+  const val=inp?.value.trim().toLowerCase();
+  const correct=val===word.toLowerCase();
+  if(correct){enScore++;}else{enWrongThisRound.push({word,meaning});}
+  inp.classList.add(correct?'correct':'wrong');
+  inp.disabled=true;
+  document.getElementById('en-dictee-feedback').innerHTML=correct
+    ?`<span style="color:#16a34a">✅ Correct! Well done! 🎉</span>`
+    :`<span style="color:#dc2626">❌ It\'s spelled: <strong>${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
+  setTimeout(()=>{enQ++;renderEnDicteeQ();},1900);
+};
+
+// ── END ENGLISH DICTEE ──
+
 // ── TIMETABLE ──
 const TT = {
   sessions:[
@@ -1948,6 +2251,7 @@ window.showPage=function(name){
   document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')?.includes(`'${name}'`))n.classList.add('active');});
   if(name==='progress')renderProgress();
   if(name==='timetable')renderTimetable();
+  if(name==='english-dictee'){renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();}
   if(name==='progress-monthly')renderProgressMonthly();
   if(name==='rewards'){renderRewards();renderStarHistory();}
 };
