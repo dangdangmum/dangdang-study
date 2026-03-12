@@ -3021,23 +3021,29 @@ function subjectClass(s){
 }
 
 function renderTimetable(){
-  const dayOfWeek=new Date().getDay(); // 0=Sun,1=Mon...5=Fri
-  const todayIdx=dayOfWeek>=1&&dayOfWeek<=5?dayOfWeek-1:-1; // 0=Mon
-  const grid=document.getElementById('tt-grid');
+  var dayOfWeek=new Date().getDay();
+  var todayIdx=(dayOfWeek>=1&&dayOfWeek<=5)?dayOfWeek-1:-1;
+  var grid=document.getElementById("tt-grid");
   if(!grid) return;
-  let html='<div class="tt-cell empty-c"></div>';
-  TT.dayNames.forEach(function(d,i){var cls=(i===todayIdx)?" today-col":"";html+='<div class="tt-head'+cls+'">'+d+'</div>';});
-  TT.sessions.forEach(s=>{
-    if(s.break){html+=`<div class="tt-break">${s.label==='BREAK'?'🍱 Lunch Play 11:00 – 12:00':'☕ Afternoon Break 2:00 – 2:30'}</div>`;return;}
-    html+=`<div class="tt-time">${s.label.replace('\n','<br>')}</div>`;
-    TT.days.forEach((d,i)=>{
-      const cell=s[d]||'';
-      html+=`<div class="tt-cell ${subjectClass(cell)}${i===todayIdx?' today-col':''}">${cell}</div>`;
+  var html="<div class=\"tt-cell empty-c\"></div>";
+  TT.dayNames.forEach(function(d,i){
+    var cls=(i===todayIdx)?" today-col":"";
+    html+="<div class=\"tt-head"+cls+"\">"+d+"</div>";
+  });
+  TT.sessions.forEach(function(s){
+    if(s.break){
+      var lbl=(s.label==="BREAK")?"🍱 Lunch Play 11:00 – 12:00":"☕ Afternoon Break 2:00 – 2:30";
+      html+="<div class=\"tt-break\">"+lbl+"</div>";
+      return;
+    }
+    html+="<div class=\"tt-time\">"+s.label.replace("\n","<br>")+"</div>";
+    TT.days.forEach(function(d,i){
+      var cell=s[d]||"";
+      var cls2=(i===todayIdx)?" today-col":"";
+      html+="<div class=\"tt-cell "+subjectClass(cell)+cls2+"\">"+cell+"</div>";
     });
   });
   grid.innerHTML=html;
-
-  // today tip
   renderTodayTip(todayIdx);
   renderAfterSchool(todayIdx);
 }
