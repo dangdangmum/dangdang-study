@@ -3026,7 +3026,7 @@ function renderTimetable(){
   const grid=document.getElementById('tt-grid');
   if(!grid) return;
   let html='<div class="tt-cell empty-c"></div>';
-  TT.dayNames.forEach((d,i)=>`${html+=\`<div class="tt-head${i===todayIdx?' today-col':''}">${d}</div>\`}`);
+  TT.dayNames.forEach((d,i)=>{html+=`<div class="tt-head${i===todayIdx?' today-col':''}">${d}</div>`;});
   TT.sessions.forEach(s=>{
     if(s.break){html+=`<div class="tt-break">${s.label==='BREAK'?'🍱 Lunch Play 11:00 – 12:00':'☕ Afternoon Break 2:00 – 2:30'}</div>`;return;}
     html+=`<div class="tt-time">${s.label.replace('\n','<br>')}</div>`;
