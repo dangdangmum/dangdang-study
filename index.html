@@ -289,6 +289,38 @@ textarea{min-height:70px;resize:vertical}
 .time-bar{flex:1;background:#f3f4f6;border-radius:50px;height:8px;overflow:hidden}
 .time-bar-fill{height:100%;border-radius:50px;transition:width 0.5s ease}
 
+
+/* TIMES TABLES */
+.tt-select-btn{padding:12px 20px;border-radius:12px;border:3px solid #e5e7eb;font-family:'Fredoka One',cursive;font-size:20px;cursor:pointer;background:white;transition:all 0.2s;min-width:70px}
+.tt-select-btn:hover{transform:scale(1.08);border-color:var(--primary)}
+.tt-question-big{font-family:'Fredoka One',cursive;font-size:52px;color:var(--primary);margin:10px 0}
+.tt-input{font-family:'Fredoka One',cursive;font-size:36px;text-align:center;width:140px;border:3px solid #e5e7eb;border-radius:14px;padding:10px;outline:none;transition:border-color 0.2s}
+.tt-input:focus{border-color:var(--primary)}
+.tt-input.correct{border-color:#16a34a;background:#f0fdf4;color:#16a34a}
+.tt-input.wrong{border-color:#dc2626;background:#fef2f2;color:#dc2626}
+.tt-history-row{display:flex;align-items:center;gap:10px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px}
+
+/* BADGES */
+.badge-card{border-radius:16px;padding:16px;text-align:center;border:3px solid #f3f4f6;transition:all 0.3s;position:relative;overflow:hidden}
+.badge-card.unlocked{border-color:#fbbf24;background:linear-gradient(135deg,#fffbeb,#fef3c7)}
+.badge-card.locked{opacity:0.5;filter:grayscale(0.6)}
+.badge-icon{font-size:40px;margin-bottom:8px;display:block}
+.badge-name{font-weight:800;font-size:13px;margin-bottom:4px}
+.badge-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.badge-unlocked-tag{position:absolute;top:8px;right:8px;background:#fbbf24;color:white;font-size:9px;font-weight:800;border-radius:50px;padding:2px 7px}
+.badge-prog{margin-top:8px;font-size:11px;font-weight:700;color:var(--primary)}
+
+/* NOTES */
+.note-card{border-radius:13px;padding:14px;margin-bottom:10px;border-left:4px solid #e5e7eb;background:white;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.note-card.urgent{border-left-color:#dc2626;background:#fffafa}
+.note-card.reminder{border-left-color:#2563eb;background:#f8faff}
+.note-card.school{border-left-color:#059669;background:#f0fdf8}
+.note-card.note{border-left-color:#9333ea;background:#faf5ff}
+.note-due-tag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:50px;margin-top:5px}
+.note-due-overdue{background:#fef2f2;color:#dc2626}
+.note-due-soon{background:#fef9c3;color:#92400e}
+.note-due-ok{background:#f0fdf4;color:#16a34a}
+
 @media(max-width:700px){
   .sidebar{display:none}
   .mobile-nav{display:flex}
@@ -312,14 +344,20 @@ textarea{min-height:70px;resize:vertical}
 
 <div class="mobile-nav" id="mobile-nav">
   <button class="tab active" onclick="showPage('today')">📅 Today</button>
-  <button class="tab" onclick="showPage('homework')">📚 HW</button>
+  <button class="tab" onclick="showPage('timetable')">🗓️ Timetable</button>
+  <button class="tab" onclick="showPage('homework')">⏱️ Study</button>
   <button class="tab" onclick="showPage('reading-current')">📖 Reading</button>
+  <button class="tab" onclick="showPage('reading-checkin')">✅ Read Log</button>
   <button class="tab" onclick="showPage('words')">🔤 Words</button>
-  <button class="tab" onclick="showPage('french-dictee')">🇫🇷 Dictée</button>
-  <button class="tab" onclick="showPage('english-dictee')">🇬🇧 Spelling</button>
+  <button class="tab" onclick="showPage('french-dictee')">🇫🇷 FR</button>
+  <button class="tab" onclick="showPage('english-dictee')">🇬🇧 EN</button>
+  <button class="tab" onclick="showPage('chinese-dictee')">🀄 CN</button>
   <button class="tab" onclick="showPage('naplan')">📝 NAPLAN</button>
+  <button class="tab" onclick="showPage('times-tables')">🔢 Times</button>
+  <button class="tab" onclick="showPage('badges')">🏅 Badges</button>
+  <button class="tab" onclick="showPage('notes')">📋 Notes</button>
   <button class="tab" onclick="showPage('diary')">📔 Diary</button>
-  <button class="tab" onclick="showPage('rewards')">🏆 Rewards</button>
+  <button class="tab" onclick="showPage('rewards')">🏆 Stars</button>
   <button class="tab" onclick="showPage('progress')">📊 Progress</button>
 </div>
 
@@ -328,31 +366,34 @@ textarea{min-height:70px;resize:vertical}
   <div class="nav-section">
     <div class="nav-section-title">Overview</div>
     <button class="nav-item active" onclick="showPage('today')"><span class="nav-icon">📅</span>Today</button>
+    <button class="nav-item" onclick="showPage('timetable')"><span class="nav-icon">🗓️</span>Timetable</button>
     <button class="nav-item" onclick="showPage('weekly-tasks')"><span class="nav-icon">📋</span>Weekly Tasks</button>
     <button class="nav-item" onclick="showPage('rewards')"><span class="nav-icon">🏆</span>Rewards</button>
     <button class="nav-item" onclick="showPage('diary')"><span class="nav-icon">📔</span>My Diary</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Homework</div>
-    <button class="nav-item" onclick="showPage('timetable')"><span class="nav-icon">📅</span>Timetable</button>
     <button class="nav-item" onclick="showPage('homework')"><span class="nav-icon">⏱️</span>Study Log</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Reading</div>
     <button class="nav-item" onclick="showPage('reading-current')"><span class="nav-icon">📖</span>Current Book</button>
     <button class="nav-item" onclick="showPage('reading-log')"><span class="nav-icon">📅</span>Reading Log</button>
+    <button class="nav-item" onclick="showPage('reading-checkin')"><span class="nav-icon">✅</span>Daily Checkin</button>
     <button class="nav-item" onclick="showPage('reading-list')"><span class="nav-icon">📋</span>Reading List</button>
-    <button class="nav-item" onclick="showPage('reading-done')"><span class="nav-icon">✅</span>Finished Books</button>
+    <button class="nav-item" onclick="showPage('reading-done')"><span class="nav-icon">🏆</span>Finished Books</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Word Bank</div>
     <button class="nav-item" onclick="showPage('words')"><span class="nav-icon">🔤</span>All Words</button>
     <button class="nav-item" onclick="showPage('french-dictee')"><span class="nav-icon">🇫🇷</span>French Dictée</button>
     <button class="nav-item" onclick="showPage('english-dictee')"><span class="nav-icon">🇬🇧</span>English Spelling</button>
+    <button class="nav-item" onclick="showPage('chinese-dictee')"><span class="nav-icon">🀄</span>Chinese 听写</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">NAPLAN Prep</div>
     <button class="nav-item" onclick="showPage('naplan')"><span class="nav-icon">📝</span>Practice</button>
+    <button class="nav-item" onclick="showPage('times-tables')"><span class="nav-icon">🔢</span>Times Tables</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Activities</div>
@@ -362,6 +403,11 @@ textarea{min-height:70px;resize:vertical}
     <div class="nav-section-title">Progress</div>
     <button class="nav-item" onclick="showPage('progress')"><span class="nav-icon">📊</span>Weekly Report</button>
     <button class="nav-item" onclick="showPage('progress-monthly')"><span class="nav-icon">📅</span>Monthly Stats</button>
+    <button class="nav-item" onclick="showPage('badges')"><span class="nav-icon">🏅</span>My Badges</button>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">Parent</div>
+    <button class="nav-item" onclick="showPage('notes')"><span class="nav-icon">📝</span>Notes &amp; Reminders</button>
   </div>
 </div>
 
@@ -610,6 +656,35 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </div>
 
+
+<!-- READING DAILY CHECKIN -->
+<div class="page" id="page-reading-checkin">
+  <div class="card">
+    <div class="card-title">📖 Daily Reading Checkin</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">每天读书后打卡 → 得⭐ · 坚持阅读是最好的习惯！</p>
+    <div id="read-checkin-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px"></div>
+    <div id="read-checkin-btn-area" style="text-align:center;margin-bottom:16px"></div>
+    <div style="background:#f0fdf4;border-radius:12px;padding:12px 16px">
+      <div style="font-size:12px;font-weight:800;color:#065f46;margin-bottom:8px">📊 Reading Stats</div>
+      <div id="read-checkin-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 This Month's Reading Calendar</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Green = reading day 📖</p>
+    <div class="reading-cal" id="reading-checkin-calendar"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Reading Log (Quick)</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <input type="number" id="quick-pages" placeholder="Pages" style="width:90px;padding:8px 10px;border:2px solid #e5e7eb;border-radius:9px;font-family:Nunito,sans-serif;font-size:13px">
+      <input type="number" id="quick-mins" placeholder="Mins" style="width:80px;padding:8px 10px;border:2px solid #e5e7eb;border-radius:9px;font-family:Nunito,sans-serif;font-size:13px">
+      <input type="text" id="quick-note" placeholder="What did you read?" style="flex:1;min-width:150px;padding:8px 10px;border:2px solid #e5e7eb;border-radius:9px;font-family:Nunito,sans-serif;font-size:13px">
+      <button class="btn btn-primary btn-sm" onclick="quickLogReading()">Log + Checkin ✅</button>
+    </div>
+  </div>
+</div>
+
 <!-- WORD BANK -->
 <div class="page" id="page-words">
   <div class="card" id="parent-word-form">
@@ -744,6 +819,92 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </div>
 
+<!-- CHINESE DICTEE -->
+<div class="page" id="page-chinese-dictee">
+
+  <div class="card" id="parent-cn-dictee-form">
+    <div class="card-title">🀄 Add This Week's Chinese Characters</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">
+      Format: <strong>汉字 = meaning/pinyin</strong> (one per line)
+    </p>
+    <div class="form-group"><label>Week of</label><input type="date" id="cn-dictee-week"></div>
+    <div class="form-group"><label>Characters (汉字 = meaning, one per line)</label>
+      <textarea id="cn-dictee-words" style="min-height:140px;font-family:'Nunito',sans-serif;font-size:15px"
+        placeholder="你好 = hello (nǐ hǎo)&#10;谢谢 = thank you (xiè xiè)&#10;朋友 = friend (péng yǒu)&#10;学校 = school (xué xiào)"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="saveCnDicteeWords()" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none">✅ Save Characters</button>
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">📋 This Week's Characters</div>
+      <button class="btn btn-sm" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:white;border:none" onclick="practiceCnDictee('week')" id="practice-cn-dictee-btn">🎯 Practice!</button>
+    </div>
+    <div id="cn-dictee-word-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- WRONG WORDS -->
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">❌ Wrong Characters — Retry List</div>
+      <button class="btn btn-sm btn-danger" id="retry-cn-wrong-btn" onclick="practiceCnDictee('wrong')" style="display:none">🔁 Retry</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px">写错的字，自动加入这里多练！</p>
+    <div id="cn-wrong-list"></div>
+  </div>
+
+  <div id="cn-dictee-practice-area" style="display:none">
+    <div class="card">
+      <div class="section-header">
+        <div class="card-title" style="margin:0" id="cn-practice-title">🎯 Chinese Practice</div>
+        <button class="btn btn-sm btn-ghost" onclick="endCnDicteePractice()">End</button>
+      </div>
+      <div id="cn-dictee-q-area"></div>
+    </div>
+  </div>
+
+  <!-- DAILY CHECKIN -->
+  <div class="card">
+    <div class="card-title">📅 Daily Chinese Practice Checkin</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">每天练中文 → 打卡 → 得⭐ · 学好中文很重要！</p>
+    <div id="cn-checkin-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px"></div>
+    <div id="cn-checkin-btn-area" style="text-align:center"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Past Chinese Practice Results</div>
+    <div id="cn-dictee-history"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
+<!-- TIMES TABLES -->
+<div class="page" id="page-times-tables">
+  <div class="card">
+    <div class="card-title">🔢 Times Tables Practice</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Choose a table to practice — answer as fast as you can! ⚡</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px" id="tt-select-btns">
+      <button class="tt-select-btn" data-t="2" onclick="startTimesTable(2)">× 2</button>
+      <button class="tt-select-btn" data-t="5" onclick="startTimesTable(5)">× 5</button>
+      <button class="tt-select-btn" data-t="10" onclick="startTimesTable(10)">× 10</button>
+      <button class="tt-select-btn" data-t="0" onclick="startTimesTable(0)" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white">🎲 Mixed!</button>
+    </div>
+    <div id="tt-practice-area" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div id="tt-progress-label" style="font-size:12px;color:var(--muted);font-weight:700"></div>
+        <div id="tt-score-label" style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--primary)"></div>
+        <button class="btn btn-sm btn-ghost" onclick="endTimesTable()">End</button>
+      </div>
+      <div class="prog-wrap" style="margin-bottom:16px"><div id="tt-prog-bar" class="prog-bar" style="background:var(--primary);transition:width 0.3s"></div></div>
+      <div id="tt-question-area" style="text-align:center;padding:12px 0"></div>
+    </div>
+    <div id="tt-result-area" style="display:none"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📊 Best Scores</div>
+    <div id="tt-history"></div>
+  </div>
+</div>
+
 <!-- NAPLAN -->
 <div class="page" id="page-naplan">
   <div id="naplan-home">
@@ -814,6 +975,19 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </div>
 
+<!-- BADGES -->
+<div class="page" id="page-badges">
+  <div class="card">
+    <div class="card-title">🏅 My Achievement Badges</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Keep going — unlock all the badges! 🌟</p>
+    <div id="badges-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🌟 Recently Unlocked</div>
+    <div id="badges-recent"></div>
+  </div>
+</div>
+
 <!-- ACTIVITIES -->
 <div class="page" id="page-activities">
   <div class="card" id="parent-activity-form">
@@ -849,6 +1023,46 @@ textarea{min-height:70px;resize:vertical}
   <div class="card"><div class="card-title">📚 Homework by Subject</div><div id="subject-progress"></div></div>
   <div class="card"><div class="card-title">🔤 Word Mastery</div><div id="word-progress"></div></div>
   <div class="card"><div class="card-title">📝 NAPLAN Scores</div><div id="naplan-progress"></div></div>
+</div>
+
+<!-- NOTES & REMINDERS -->
+<div class="page" id="page-notes">
+  <div class="card" id="parent-notes-form">
+    <div class="card-title">📝 Add Note / Reminder</div>
+    <div class="form-group"><label>Title</label>
+      <input type="text" id="note-title" placeholder="e.g. Science fair due, Parent-teacher night...">
+    </div>
+    <div class="form-group"><label>Details</label>
+      <textarea id="note-content" style="min-height:80px;font-family:'Nunito',sans-serif" placeholder="Add details here..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Due Date (optional)</label>
+        <input type="date" id="note-due">
+      </div>
+      <div class="form-group" style="max-width:130px">
+        <label>Type</label>
+        <select id="note-type">
+          <option value="reminder">⏰ Reminder</option>
+          <option value="note">📝 Note</option>
+          <option value="urgent">🔴 Urgent</option>
+          <option value="school">🏫 School</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveNote()">💾 Save</button>
+  </div>
+  <div class="card">
+    <div class="section-header">
+      <div class="card-title" style="margin:0">📋 All Notes</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-ghost" onclick="filterNotes('all')">All</button>
+        <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626" onclick="filterNotes('urgent')">🔴 Urgent</button>
+        <button class="btn btn-sm" style="background:#eff6ff;color:#2563eb" onclick="filterNotes('reminder')">⏰ Due Soon</button>
+      </div>
+    </div>
+    <div id="notes-list" style="margin-top:12px"></div>
+  </div>
 </div>
 
 <!-- PROGRESS MONTHLY -->
@@ -974,7 +1188,7 @@ async function earnStars(amount, reason) {
 
 // ── LOAD ALL ──
 async function loadAll() {
-  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww] = await Promise.all([
+  const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww,cndw,cndh,cnc,cnww,rchk,nts,tth,bdg] = await Promise.all([
     getDocs(query(collection(db,'homework'),orderBy('date','desc'))),
     getDocs(collection(db,'words')),
     getDocs(collection(db,'questions')),
@@ -993,7 +1207,15 @@ async function loadAll() {
     getDocs(query(collection(db,'enDicteeWords'),orderBy('week','desc'))),
     getDocs(query(collection(db,'enDicteeHistory'),orderBy('timestamp','desc'))),
     getDocs(query(collection(db,'enCheckins'),orderBy('date','desc'))),
-    getDocs(collection(db,'enWrongWords'))
+    getDocs(collection(db,'enWrongWords')),
+    getDocs(query(collection(db,'cnDicteeWords'),orderBy('week','desc'))),
+    getDocs(query(collection(db,'cnDicteeHistory'),orderBy('timestamp','desc'))),
+    getDocs(query(collection(db,'cnCheckins'),orderBy('date','desc'))),
+    getDocs(collection(db,'cnWrongWords')),
+    getDocs(query(collection(db,'readCheckins'),orderBy('date','desc'))),
+    getDocs(query(collection(db,'notes'),orderBy('createdAt','desc'))),
+    getDocs(query(collection(db,'ttHistory'),orderBy('timestamp','desc'))),
+    getDocs(query(collection(db,'badges'),orderBy('unlockedAt','desc')))
   ]);
   state.homework=hw.docs.map(d=>({id:d.id,...d.data()}));
   state.words=words.docs.map(d=>({id:d.id,...d.data()}));
@@ -1014,6 +1236,15 @@ async function loadAll() {
   state.enDicteeHistory=endh.docs.map(d=>({id:d.id,...d.data()}));
   state.enCheckins=enc.docs.map(d=>({id:d.id,...d.data()}));
   state.enWrongWords=enww.docs.map(d=>({id:d.id,...d.data()}));
+  state.cnDicteeWords=cndw.docs.map(d=>({id:d.id,...d.data()}));
+  state.cnDicteeHistory=cndh.docs.map(d=>({id:d.id,...d.data()}));
+  state.cnCheckins=cnc.docs.map(d=>({id:d.id,...d.data()}));
+  state.cnWrongWords=cnww.docs.map(d=>({id:d.id,...d.data()}));
+  state.readCheckins=rchk.docs.map(d=>({id:d.id,...d.data()}));
+  state.notes=nts.docs.map(d=>({id:d.id,...d.data()}));
+  state.ttHistory=tth.docs.map(d=>({id:d.id,...d.data()}));
+  state.badges=bdg.docs.map(d=>({id:d.id,...d.data()}));
+  state.noteFilter='all';
   try{const cb=await getDocs(collection(db,'currentBook'));if(cb.docs.length)state.currentBook={id:cb.docs[0].id,...cb.docs[0].data()};}catch(e){}
   renderAll();
 }
@@ -1023,7 +1254,12 @@ function renderAll(){
   renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
   renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
   renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
-  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();
+  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();
+  renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();
+  renderCnDicteeWords();renderCnDicteeHistory();renderCnCheckin();renderCnWrongWords();
+  renderReadCheckin();
+  renderNotes();renderTTHistory();renderBadges();
+  checkBadges();
 }
 
 async function init(){
@@ -1036,6 +1272,8 @@ async function init(){
   document.getElementById('done-date').value=today.toISOString().split('T')[0];
   document.getElementById('dictee-week').value=today.toISOString().split('T')[0];
   const hwDateEl=document.getElementById('hw-date');if(hwDateEl)hwDateEl.value=today.toISOString().split('T')[0];
+  const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
+  const cnDW=document.getElementById('cn-dictee-week');if(cnDW)cnDW.value=today.toISOString().split('T')[0];
   const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
   document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
   await loadAll();
@@ -2049,6 +2287,663 @@ window.checkEnAns=function(word,meaning){
 
 // ── END ENGLISH DICTEE ──
 
+// ═══════════════════════════════════════
+// ── CHINESE DICTEE (听写) ──
+// ═══════════════════════════════════════
+
+window.saveCnDicteeWords = async function(){
+  const week = document.getElementById('cn-dictee-week').value;
+  const raw = document.getElementById('cn-dictee-words').value.trim();
+  if(!raw){toast('⚠️ 请输入汉字');return;}
+  const pairs = raw.split('\n').map(l=>{
+    const parts = l.split('=');
+    return {word: parts[0].trim(), meaning: (parts[1]||'').trim()};
+  }).filter(p=>p.word);
+  if(!pairs.length){toast('⚠️ 格式: 汉字 = 意思');return;}
+  const data={week,words:pairs,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'cnDicteeWords'),data);
+  state.cnDicteeWords.unshift({id:r.id,...data});
+  document.getElementById('cn-dictee-words').value='';
+  renderCnDicteeWords();
+  toast('✅ 汉字保存成功！');
+};
+
+function speakCn(text){
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN'; u.rate=0.85;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function renderCnDicteeWords(){
+  const el=document.getElementById('cn-dictee-word-list');
+  if(!el) return;
+  const latest=state.cnDicteeWords[0];
+  const btn=document.getElementById('practice-cn-dictee-btn');
+  if(!latest){
+    el.innerHTML='<div class="empty"><div>🀄</div>还没有汉字 — 在上面添加本周要学的字！</div>';
+    if(btn) btn.style.display='none';
+    return;
+  }
+  if(btn) btn.style.display='';
+  el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">第${latest.week}周 · ${latest.words.length}个字 · 🔊 点击听读音</p>`+
+  latest.words.map(w=>`
+    <div class="dictee-word" onclick="speakCn('${w.word.replace(/'/g,"\\'")}')" style="border-color:#fef9c3">
+      <div>
+        <div class="dictee-word-text" style="font-size:22px;font-weight:900">🀄 ${w.word}</div>
+        ${w.meaning?`<div class="dictee-word-meaning">💡 ${w.meaning}</div>`:''}
+      </div>
+      <button class="btn btn-sm" style="background:#fef9c3;color:#92400e;border:2px solid #fcd34d"
+        onclick="event.stopPropagation();speakCn('${w.word.replace(/'/g,"\\'")}')">🔊 听</button>
+    </div>`).join('');
+}
+
+function renderCnDicteeHistory(){
+  const el=document.getElementById('cn-dictee-history');
+  if(!el) return;
+  el.innerHTML=state.cnDicteeHistory.length?state.cnDicteeHistory.slice(0,8).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #f3f4f6;border-radius:10px;margin-bottom:6px">
+      <span style="font-size:18px">${h.score/h.total>=0.8?'🌟':'💪'}</span>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:12px">${h.mode==='wrong'?'❌ 错字重练':'汉字听写练习'}</div>
+        <div style="font-size:10px;color:var(--muted)">${h.date}${h.wrong&&h.wrong.length?' · 错: '+h.wrong.slice(0,4).join(' '):'  · 全对！🎉'}</div>
+      </div>
+      <span style="font-family:'Fredoka One',cursive;color:#f59e0b;font-size:16px">${h.score}/${h.total}</span>
+    </div>`).join(''):'<div class="empty" style="padding:16px"><div>📊</div>还没有练习记录</div>';
+}
+
+function renderCnWrongWords(){
+  const el=document.getElementById('cn-wrong-list');
+  const btn=document.getElementById('retry-cn-wrong-btn');
+  if(!el) return;
+  const wrong=state.cnWrongWords||[];
+  if(btn) btn.style.display=wrong.length?'':'none';
+  el.innerHTML=wrong.length?wrong.map(w=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #fef9c3;border-radius:10px;margin-bottom:6px;background:#fffdf0">
+      <span style="font-size:24px;font-weight:900">${w.word}</span>
+      <div style="flex:1">
+        ${w.meaning?`<div style="font-size:11px;color:var(--muted)">${w.meaning}</div>`:''}
+      </div>
+      <span style="font-size:10px;color:#d97706;font-weight:700">错${w.count||1}次</span>
+      <button class="btn btn-sm btn-ghost" onclick="removeCnWrongWord('${w.id}')">✓ 会了</button>
+    </div>`).join(''):'<div style="color:var(--muted);font-size:13px;padding:8px;text-align:center">🎉 没有错字！棒棒的！</div>';
+}
+
+window.removeCnWrongWord = async function(id){
+  await deleteDoc(doc(db,'cnWrongWords',id));
+  state.cnWrongWords=state.cnWrongWords.filter(w=>w.id!==id);
+  renderCnWrongWords();
+  toast('✅ 已移出错字本！');
+};
+
+function renderCnCheckin(){
+  const grid=document.getElementById('cn-checkin-grid');
+  const btnArea=document.getElementById('cn-checkin-btn-area');
+  if(!grid||!btnArea) return;
+  const today=new Date();
+  const dayNames=['周日','周一','周二','周三','周四','周五','周六'];
+  const checkins=new Set((state.cnCheckins||[]).map(c=>c.date));
+  const todayStr=today.toISOString().split('T')[0];
+  const todayDone=checkins.has(todayStr);
+  let html='';
+  for(let i=6;i>=0;i--){
+    const d=new Date(today);d.setDate(today.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    const done=checkins.has(ds);
+    const isToday=i===0;
+    html+=`<div style="text-align:center;padding:8px 4px;border-radius:10px;border:2px solid ${isToday?'#f59e0b':done?'#fcd34d':'#f3f4f6'};background:${done?'linear-gradient(135deg,#fbbf24,#f59e0b)':'white'}">
+      <div style="font-size:10px;font-weight:800;color:${done?'white':'var(--muted)'}">${dayNames[d.getDay()]}</div>
+      <div style="font-size:18px;margin:3px 0">${done?'✅':'⬜'}</div>
+      <div style="font-size:10px;font-weight:700;color:${done?'rgba(255,255,255,0.9)':'var(--muted)'}">${d.getDate()}/${d.getMonth()+1}</div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+  let streak=0; const d2=new Date(today);
+  for(let i=0;i<30;i++){if(checkins.has(d2.toISOString().split('T')[0])){streak++;d2.setDate(d2.getDate()-1);}else break;}
+  btnArea.innerHTML=todayDone
+    ?`<div style="background:#fffbeb;border:2px solid #fcd34d;border-radius:12px;padding:14px 20px;display:inline-block;text-align:center"><div style="font-size:24px">✅</div><div style="font-weight:800;color:#92400e;font-size:14px">今天已练习！</div><div style="font-size:11px;color:#78350f;margin-top:3px">🔥 连续 ${streak} 天</div></div>`
+    :`<div style="text-align:center"><button class="btn btn-primary" style="font-size:15px;padding:12px 28px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="checkInCnDictee()">🀄 今天练好了！打卡 ✅</button>${streak>0?`<div style="font-size:11px;color:var(--muted);margin-top:8px">🔥 已连续 ${streak} 天</div>`:''}</div>`;
+}
+
+window.checkInCnDictee = async function(){
+  const todayStr=new Date().toISOString().split('T')[0];
+  if((state.cnCheckins||[]).find(c=>c.date===todayStr)){toast('今天中文已打卡！');return;}
+  const data={date:todayStr,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'cnCheckins'),data);
+  if(!state.cnCheckins) state.cnCheckins=[];
+  state.cnCheckins.push({id:r.id,...data});
+  renderCnCheckin();
+  earnStars(1,'中文听写练习打卡！🀄');
+  toast('🀄 打卡成功！+1⭐ 学中文棒棒的！');
+};
+
+// ── CN PRACTICE SESSION ──
+let cnQ=0,cnScore=0,cnSession=[],cnWrongRound=[],cnMode='week';
+
+window.practiceCnDictee = function(mode){
+  mode=mode||'week';
+  cnMode=mode;
+  let words=[];
+  if(mode==='wrong'){
+    words=(state.cnWrongWords||[]).map(w=>({word:w.word,meaning:w.meaning||''}));
+    document.getElementById('cn-practice-title').textContent='🔁 错字重练';
+  } else {
+    const latest=state.cnDicteeWords[0];
+    if(!latest||!latest.words.length){toast('还没有汉字可以练！');return;}
+    words=[...latest.words];
+    document.getElementById('cn-practice-title').textContent='🎯 汉字听写';
+  }
+  if(!words.length){toast('没有可练习的字！');return;}
+  cnSession=words.sort(()=>Math.random()-0.5);
+  cnQ=0;cnScore=0;cnWrongRound=[];
+  document.getElementById('cn-dictee-practice-area').style.display='';
+  renderCnDicteeQ();
+};
+
+window.endCnDicteePractice = function(){
+  document.getElementById('cn-dictee-practice-area').style.display='none';
+};
+
+function renderCnDicteeQ(){
+  const area=document.getElementById('cn-dictee-q-area');
+  if(cnQ>=cnSession.length){
+    const pct=cnScore/cnSession.length;
+    const wrongList=cnWrongRound;
+    area.innerHTML=`<div style="text-align:center;padding:20px">
+      <div style="font-size:52px">${pct>=0.8?'🌟':pct>=0.6?'👍':'💪'}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:40px;color:#f59e0b">${cnScore}/${cnSession.length}</div>
+      <div style="font-weight:800;font-size:16px;margin:8px 0">${pct>=0.8?'太棒了！🎉':pct>=0.6?'不错！继续加油！👍':'多练几遍！💪'}</div>
+      ${wrongList.length?`<div style="background:#fef9c3;border-radius:12px;padding:10px 14px;margin:12px 0;text-align:left">
+        <div style="font-weight:800;color:#92400e;font-size:12px;margin-bottom:6px">❌ 错的字（已加入错字本）：</div>
+        ${wrongList.map(w=>`<span style="font-size:20px;font-weight:900;margin:3px;display:inline-block;background:white;border:1px solid #fcd34d;border-radius:8px;padding:4px 10px">${w.word}</span>`).join('')}
+      </div>`:''}
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-primary" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="practiceCnDictee('week')">再练一遍 🔄</button>
+        ${wrongList.length?`<button class="btn btn-danger" onclick="practiceCnDictee('wrong')">练错的字 ❌</button>`:''}
+        <button class="btn btn-ghost" onclick="endCnDicteePractice()">完成</button>
+      </div>
+    </div>`;
+    const data={score:cnScore,total:cnSession.length,mode:cnMode,wrong:wrongList.map(w=>w.word),date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
+    addDoc(collection(db,'cnDicteeHistory'),data).then(r=>{state.cnDicteeHistory.unshift({id:r.id,...data});renderCnDicteeHistory();});
+    Promise.all(wrongList.map(async w=>{
+      const ex=state.cnWrongWords.find(x=>x.word===w.word);
+      if(ex){await updateDoc(doc(db,'cnWrongWords',ex.id),{count:(ex.count||1)+1});ex.count=(ex.count||1)+1;}
+      else{const wr=await addDoc(collection(db,'cnWrongWords'),{word:w.word,meaning:w.meaning||'',count:1,timestamp:serverTimestamp()});state.cnWrongWords.push({id:wr.id,word:w.word,meaning:w.meaning||'',count:1});}
+    })).then(()=>renderCnWrongWords());
+    earnStars(pct>=0.8?3:pct>=0.6?2:1,'中文听写完成！🀄');
+    return;
+  }
+  const w=cnSession[cnQ];
+  // For Chinese: play audio, student types the character
+  area.innerHTML=`
+    <div style="text-align:center;padding:0 0 14px">
+      <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:12px">第 ${cnQ+1} / ${cnSession.length} 个字</div>
+      ${cnWrongRound.length?`<div style="font-size:11px;color:#d97706;margin-bottom:8px">❌ 已错 ${cnWrongRound.length} 个</div>`:''}
+      <button class="btn btn-primary" style="font-size:16px;padding:10px 24px;margin:0 0 10px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="speakCn('${w.word.replace(/'/g,"\\'")}')">🔊 听读音</button>
+      ${w.meaning?`<div style="font-size:13px;color:var(--muted);margin-bottom:10px">💡 ${w.meaning}</div>`:''}
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px">输入你听到的汉字：</p>
+    </div>
+    <input class="fill-input" id="cn-dictee-input" placeholder="输入汉字..." style="font-size:22px;text-align:center;letter-spacing:4px"
+      onkeydown="if(event.key==='Enter')checkCnAns('${w.word.replace(/'/g,"\\'")}','${(w.meaning||'').replace(/'/g,"\\'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="checkCnAns('${w.word.replace(/'/g,"\\'")}','${(w.meaning||'').replace(/'/g,"\\'")}')">检查 ✅</button></div>
+    <div id="cn-dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800;font-size:15px"></div>`;
+  setTimeout(()=>document.getElementById('cn-dictee-input')?.focus(),100);
+  setTimeout(()=>speakCn(w.word),400);
+}
+
+window.checkCnAns = function(word, meaning){
+  const inp=document.getElementById('cn-dictee-input');
+  const val=(inp?.value||'').trim();
+  const correct=val===word;
+  if(correct){cnScore++;}else{cnWrongRound.push({word,meaning});}
+  inp.classList.add(correct?'correct':'wrong');
+  inp.disabled=true;
+  document.getElementById('cn-dictee-feedback').innerHTML=correct
+    ?`<span style="color:#16a34a">✅ 答对了！太棒了！🎉</span>`
+    :`<span style="color:#dc2626">❌ 正确答案：<strong style="font-size:22px">${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
+  setTimeout(()=>{cnQ++;renderCnDicteeQ();},2000);
+};
+
+// ── END CHINESE DICTEE ──
+
+// ═══════════════════════════════════════
+// ── READING DAILY CHECKIN ──
+// ═══════════════════════════════════════
+
+function renderReadCheckin(){
+  const grid=document.getElementById('read-checkin-grid');
+  const btnArea=document.getElementById('read-checkin-btn-area');
+  const statsEl=document.getElementById('read-checkin-stats');
+  const calEl=document.getElementById('reading-checkin-calendar');
+  if(!grid||!btnArea) return;
+
+  const today=new Date();
+  const dayNames=['周日','周一','周二','周三','周四','周五','周六'];
+  const checkins=new Set((state.readCheckins||[]).map(c=>c.date));
+  const todayStr=today.toISOString().split('T')[0];
+  const todayDone=checkins.has(todayStr);
+
+  // 7-day grid
+  let html='';
+  for(let i=6;i>=0;i--){
+    const d=new Date(today);d.setDate(today.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    const done=checkins.has(ds);
+    const isToday=i===0;
+    html+=`<div style="text-align:center;padding:8px 4px;border-radius:10px;border:2px solid ${isToday?'var(--primary)':done?'#6ee7b7':'#f3f4f6'};background:${done?'linear-gradient(135deg,#34d399,#059669)':'white'}">
+      <div style="font-size:10px;font-weight:800;color:${done?'white':'var(--muted)'}">${dayNames[d.getDay()]}</div>
+      <div style="font-size:18px;margin:3px 0">${done?'📖':'⬜'}</div>
+      <div style="font-size:10px;font-weight:700;color:${done?'rgba(255,255,255,0.9)':'var(--muted)'}">${d.getDate()}/${d.getMonth()+1}</div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+
+  // streak
+  let streak=0; const d2=new Date(today);
+  for(let i=0;i<365;i++){if(checkins.has(d2.toISOString().split('T')[0])){streak++;d2.setDate(d2.getDate()-1);}else break;}
+
+  // checkin button
+  btnArea.innerHTML=todayDone
+    ?`<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 20px;display:inline-block;text-align:center"><div style="font-size:28px">📖</div><div style="font-weight:800;color:#16a34a;font-size:14px">今天已阅读打卡！</div><div style="font-size:11px;color:#065f46;margin-top:3px">🔥 连续 ${streak} 天</div></div>`
+    :`<div style="text-align:center"><button class="btn btn-primary" style="font-size:15px;padding:12px 28px" onclick="checkInReading()">📖 今天读好了！打卡 ✅</button>${streak>0?`<div style="font-size:11px;color:var(--muted);margin-top:8px">🔥 已连续 ${streak} 天</div>`:''}</div>`;
+
+  // stats
+  if(statsEl){
+    const total=checkins.size;
+    const thisMonth=Array.from(checkins).filter(d=>d.startsWith(today.toISOString().slice(0,7))).length;
+    statsEl.innerHTML=[
+      {label:'Total Days',val:total,icon:'📚'},
+      {label:'This Month',val:thisMonth,icon:'📅'},
+      {label:'Best Streak',val:streak,icon:'🔥'}
+    ].map(s=>`<div style="background:white;border-radius:10px;padding:8px 4px">
+      <div style="font-size:20px">${s.icon}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--primary)">${s.val}</div>
+      <div style="font-size:10px;color:var(--muted);font-weight:700">${s.label}</div>
+    </div>`).join('');
+  }
+
+  // monthly calendar
+  if(calEl){
+    const yr=today.getFullYear(), mo=today.getMonth();
+    const firstDay=new Date(yr,mo,1).getDay();
+    const daysInMonth=new Date(yr,mo+1,0).getDate();
+    const mName=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
+    let cal=`<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:var(--primary)">${mName}</div>`;
+    cal+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:11px">`;
+    ['S','M','T','W','T','F','S'].forEach(d=>cal+=`<div style="text-align:center;font-weight:800;color:var(--muted);padding:3px">${d}</div>`);
+    for(let i=0;i<firstDay;i++) cal+=`<div></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const done=checkins.has(ds);
+      const isToday=ds===todayStr;
+      cal+=`<div style="text-align:center;padding:4px 2px;border-radius:6px;background:${done?'#059669':isToday?'#eff6ff':'transparent'};color:${done?'white':isToday?'var(--primary)':'inherit'};font-weight:${done||isToday?'800':'400'}">${d}${done?' 📖':''}</div>`;
+    }
+    cal+=`</div>`;
+    calEl.innerHTML=cal;
+  }
+}
+
+window.checkInReading = async function(){
+  const todayStr=new Date().toISOString().split('T')[0];
+  if((state.readCheckins||[]).find(c=>c.date===todayStr)){toast('今天阅读已打卡！');return;}
+  const data={date:todayStr,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'readCheckins'),data);
+  if(!state.readCheckins) state.readCheckins=[];
+  state.readCheckins.push({id:r.id,...data});
+  renderReadCheckin(); renderSummary();
+  earnStars(1,'阅读打卡！📖');
+  toast('📖 打卡成功！+1⭐ 坚持阅读！');
+};
+
+window.quickLogReading = async function(){
+  const pages=parseInt(document.getElementById('quick-pages')?.value)||0;
+  const mins=parseInt(document.getElementById('quick-mins')?.value)||0;
+  const note=document.getElementById('quick-note')?.value.trim()||'Reading';
+  const todayStr=new Date().toISOString().split('T')[0];
+  // log reading
+  const logData={date:todayStr,pages,minutes:mins,notes:note,timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'readingLogs'),logData);
+  state.readingLogs.unshift({id:r.id,...logData});
+  // checkin
+  if(!(state.readCheckins||[]).find(c=>c.date===todayStr)){
+    const cr=await addDoc(collection(db,'readCheckins'),{date:todayStr,timestamp:serverTimestamp()});
+    if(!state.readCheckins) state.readCheckins=[];
+    state.readCheckins.push({id:cr.id,date:todayStr});
+  }
+  ['quick-pages','quick-mins','quick-note'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderReadCheckin(); renderReadingLog(); renderSummary(); renderCalStrip();
+  earnStars(1,'阅读打卡！📖');
+  toast(`📖 已记录${pages?pages+'页':''}${mins?mins+'分钟':''}！打卡 +1⭐`);
+};
+
+// ── END READING CHECKIN ──
+
+// ═══════════════════════════════════════
+// ── TIMES TABLES ──
+// ═══════════════════════════════════════
+const SUBJ_COLOR_TT = {2:'#6366f1',5:'#f59e0b',10:'#10b981',0:'#8b5cf6'};
+let ttTable=2, ttQ=0, ttScore=0, ttSession=[], ttWrong=[], ttTimer=null, ttStartTime=0;
+
+function genTTSession(table){
+  const session=[];
+  const nums=[1,2,3,4,5,6,7,8,9,10];
+  if(table===0){
+    // mixed: 2, 5, 10
+    [2,5,10].forEach(t=>nums.forEach(n=>session.push({a:t,b:n,ans:t*n})));
+  } else {
+    nums.forEach(n=>session.push({a:table,b:n,ans:table*n}));
+  }
+  return session.sort(()=>Math.random()-0.5);
+}
+
+window.startTimesTable = function(table){
+  ttTable=table;
+  ttSession=genTTSession(table);
+  ttQ=0; ttScore=0; ttWrong=[];
+  document.getElementById('tt-practice-area').style.display='';
+  document.getElementById('tt-result-area').style.display='none';
+  renderTTQuestion();
+};
+
+window.endTimesTable = function(){
+  document.getElementById('tt-practice-area').style.display='none';
+  document.getElementById('tt-result-area').style.display='none';
+};
+
+function renderTTQuestion(){
+  const total=ttSession.length;
+  const pct=Math.round(ttQ/total*100);
+  document.getElementById('tt-prog-bar').style.width=pct+'%';
+  document.getElementById('tt-progress-label').textContent=`Q${ttQ+1} / ${total}`;
+  document.getElementById('tt-score-label').textContent=`✅ ${ttScore}`;
+
+  if(ttQ>=total){
+    showTTResult(); return;
+  }
+  const q=ttSession[ttQ];
+  ttStartTime=Date.now();
+  const color=SUBJ_COLOR_TT[ttTable]||'var(--primary)';
+  document.getElementById('tt-question-area').innerHTML=`
+    <div class="tt-question-big" style="color:${color}">${q.a} × ${q.b} = ?</div>
+    <div style="margin:12px 0">
+      <input class="tt-input" id="tt-ans-input" type="number" placeholder="?" autocomplete="off"
+        onkeydown="if(event.key==='Enter')checkTTAns(${q.ans})">
+    </div>
+    <button class="btn btn-primary" style="font-size:16px;padding:10px 28px" onclick="checkTTAns(${q.ans})">Check ✅</button>
+    <div id="tt-feedback" style="min-height:28px;margin-top:10px;font-weight:800;font-size:15px;text-align:center"></div>`;
+  setTimeout(()=>document.getElementById('tt-ans-input')?.focus(),80);
+}
+
+window.checkTTAns = function(correct){
+  const inp=document.getElementById('tt-ans-input');
+  const val=parseInt(inp?.value);
+  const ok=val===correct;
+  const q=ttSession[ttQ];
+  inp.classList.add(ok?'correct':'wrong');
+  inp.disabled=true;
+  if(ok){ttScore++;}
+  else{ttWrong.push(`${q.a}×${q.b}=${correct}`);}
+  document.getElementById('tt-feedback').innerHTML=ok
+    ?`<span style="color:#16a34a">✅ Correct! 🎉</span>`
+    :`<span style="color:#dc2626">❌ Answer: <strong>${correct}</strong></span>`;
+  setTimeout(()=>{ttQ++;renderTTQuestion();},1200);
+};
+
+async function showTTResult(){
+  document.getElementById('tt-practice-area').style.display='none';
+  const total=ttSession.length;
+  const pct=ttScore/total;
+  const tableName=ttTable===0?'Mixed (2,5,10)':`× ${ttTable}`;
+  const stars=pct>=0.9?3:pct>=0.7?2:1;
+  const color=SUBJ_COLOR_TT[ttTable]||'var(--primary)';
+  document.getElementById('tt-result-area').style.display='';
+  document.getElementById('tt-result-area').innerHTML=`
+    <div style="text-align:center;padding:20px;background:white;border-radius:16px;border:2px solid #f3f4f6">
+      <div style="font-size:52px">${pct>=0.9?'🌟':pct>=0.7?'👍':'💪'}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:44px;color:${color}">${ttScore}/${total}</div>
+      <div style="font-weight:800;font-size:15px;margin:6px 0">${tableName} table</div>
+      <div style="font-size:13px;margin-bottom:14px">${pct>=0.9?'Amazing! You nailed it! 🎉':pct>=0.7?'Good work! Keep practising! 👍':'More practice needed! 💪'}</div>
+      ${ttWrong.length?`<div style="background:#fef2f2;border-radius:10px;padding:8px 12px;margin:10px 0;text-align:left"><div style="font-weight:800;color:#dc2626;font-size:11px;margin-bottom:4px">❌ Review these:</div><div style="font-size:13px;font-weight:700">${ttWrong.join('  ·  ')}</div></div>`:''}
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-primary" onclick="startTimesTable(${ttTable})">Try Again 🔄</button>
+        <button class="btn btn-ghost" onclick="endTimesTable()">Done</button>
+      </div>
+    </div>`;
+  // save to history
+  const data={table:ttTable,score:ttScore,total,pct:Math.round(pct*100),date:new Date().toLocaleDateString('en-AU'),timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'ttHistory'),data);
+  state.ttHistory.unshift({id:r.id,...data});
+  renderTTHistory();
+  earnStars(stars,`Times tables ×${ttTable===0?'Mixed':ttTable}! 🔢`);
+  checkBadges();
+}
+
+function renderTTHistory(){
+  const el=document.getElementById('tt-history');
+  if(!el) return;
+  if(!state.ttHistory.length){el.innerHTML='<div class="empty"><div>🔢</div>No sessions yet — start practising!</div>';return;}
+  // best per table
+  const best={};
+  state.ttHistory.forEach(h=>{
+    const k=h.table;
+    if(!best[k]||h.pct>best[k].pct) best[k]=h;
+  });
+  el.innerHTML=Object.values(best).map(h=>{
+    const name=h.table===0?'Mixed':` × ${h.table}`;
+    const color=SUBJ_COLOR_TT[h.table]||'var(--primary)';
+    return`<div class="tt-history-row">
+      <div style="font-family:'Fredoka One',cursive;font-size:22px;color:${color}">${name}</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:12px">Best: ${h.score}/${h.total}</div><div style="font-size:10px;color:var(--muted)">${h.date}</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:20px;color:${h.pct>=90?'#f59e0b':h.pct>=70?'#059669':'#6b7280'}">${h.pct}%</div>
+      <span style="font-size:20px">${h.pct>=90?'🌟':h.pct>=70?'👍':'💪'}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── END TIMES TABLES ──
+
+// ═══════════════════════════════════════
+// ── BADGES ──
+// ═══════════════════════════════════════
+const BADGE_DEFS = [
+  {id:'read7',icon:'📖',name:'Reading Star',desc:'Read 7 days in a row',color:'#059669',check:()=>{
+    const chk=new Set((state.readCheckins||[]).map(c=>c.date));
+    const t=new Date(); let s=0;
+    for(let i=0;i<30;i++){const d=new Date(t);d.setDate(t.getDate()-i);if(chk.has(d.toISOString().split('T')[0]))s++;else break;}
+    return{earned:s>=7,progress:s,target:7};
+  }},
+  {id:'books5',icon:'📚',name:'Bookworm',desc:'Finish 5 books',color:'#7c3aed',check:()=>({earned:state.finishedBooks.length>=5,progress:state.finishedBooks.length,target:5})},
+  {id:'words_master',icon:'⭐',name:'Word Master',desc:'Master all words in Word Bank (min 10)',color:'#f59e0b',check:()=>{
+    const total=state.words.filter(w=>w.subject==='en'||w.subject==='fr').length;
+    const mastered=state.words.filter(w=>w.status==='learned').length;
+    if(total<10) return{earned:false,progress:mastered,target:10,note:'Add more words first!'};
+    return{earned:mastered>=total&&total>=10,progress:mastered,target:total};
+  }},
+  {id:'stars50',icon:'🌟',name:'Star Collector',desc:'Earn 50 stars total',color:'#f97316',check:()=>{const t=getTotalStars();return{earned:t>=50,progress:t,target:50};}},
+  {id:'fr7',icon:'🇫🇷',name:'French Streak',desc:'French dictée 7 days in a row',color:'#2563eb',check:()=>{
+    const chk=new Set((state.dicteeCheckins||[]).map(c=>c.date));
+    const t=new Date(); let s=0;
+    for(let i=0;i<30;i++){const d=new Date(t);d.setDate(t.getDate()-i);if(chk.has(d.toISOString().split('T')[0]))s++;else break;}
+    return{earned:s>=7,progress:s,target:7};
+  }},
+  {id:'cn7',icon:'🀄',name:'Chinese Champion',desc:'Chinese practice 7 days in a row',color:'#f59e0b',check:()=>{
+    const chk=new Set((state.cnCheckins||[]).map(c=>c.date));
+    const t=new Date(); let s=0;
+    for(let i=0;i<30;i++){const d=new Date(t);d.setDate(t.getDate()-i);if(chk.has(d.toISOString().split('T')[0]))s++;else break;}
+    return{earned:s>=7,progress:s,target:7};
+  }},
+  {id:'tt90',icon:'🔢',name:'Maths Whiz',desc:'Score 90%+ on a times table',color:'#6366f1',check:()=>({earned:state.ttHistory.some(h=>h.pct>=90),progress:Math.max(0,...state.ttHistory.map(h=>h.pct)),target:90})},
+  {id:'diary7',icon:'📔',name:'Diary Hero',desc:'Write diary 7 days in a row',color:'#ec4899',check:()=>{
+    const dates=new Set((state.diaries||[]).map(d=>d.date));
+    const t=new Date(); let s=0;
+    for(let i=0;i<30;i++){const d=new Date(t);d.setDate(t.getDate()-i);if(dates.has(d.toISOString().split('T')[0]))s++;else break;}
+    return{earned:s>=7,progress:s,target:7};
+  }},
+];
+
+async function checkBadges(){
+  for(const def of BADGE_DEFS){
+    const already=state.badges.find(b=>b.id===def.id);
+    if(already) continue;
+    const result=def.check();
+    if(result.earned){
+      const data={id:def.id,name:def.name,icon:def.icon,unlockedAt:new Date().toISOString(),timestamp:serverTimestamp()};
+      const r=await addDoc(collection(db,'badges'),data);
+      state.badges.push({...data,docId:r.id});
+      // show celebration
+      showBadgeUnlocked(def);
+    }
+  }
+  renderBadges();
+}
+
+function showBadgeUnlocked(def){
+  const toast_el=document.createElement('div');
+  toast_el.style.cssText=`position:fixed;top:80px;left:50%;transform:translateX(-50%) scale(0);background:linear-gradient(135deg,${def.color},${def.color}cc);color:white;border-radius:16px;padding:16px 24px;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.2);transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275)`;
+  toast_el.innerHTML=`<div style="font-size:40px">${def.icon}</div><div style="font-family:'Fredoka One',cursive;font-size:18px;margin:4px 0">Badge Unlocked!</div><div style="font-size:14px;font-weight:700">${def.name}</div>`;
+  document.body.appendChild(toast_el);
+  setTimeout(()=>toast_el.style.transform='translateX(-50%) scale(1)',50);
+  setTimeout(()=>{toast_el.style.transform='translateX(-50%) scale(0)';setTimeout(()=>toast_el.remove(),400);},3500);
+}
+
+function renderBadges(){
+  const grid=document.getElementById('badges-grid');
+  const recent=document.getElementById('badges-recent');
+  if(!grid) return;
+  grid.innerHTML=BADGE_DEFS.map(def=>{
+    const unlocked=state.badges.find(b=>b.id===def.id);
+    const result=def.check();
+    const pct=Math.min(100,Math.round(result.progress/result.target*100));
+    return`<div class="badge-card ${unlocked?'unlocked':'locked'}">
+      ${unlocked?`<div class="badge-unlocked-tag">✅ Unlocked</div>`:''}
+      <span class="badge-icon">${def.icon}</span>
+      <div class="badge-name" style="color:${def.color}">${def.name}</div>
+      <div class="badge-desc">${def.desc}</div>
+      ${!unlocked?`<div class="badge-prog">${result.progress}/${result.target} ${result.note||''}</div>
+      <div class="prog-wrap" style="margin-top:6px"><div class="prog-bar" style="width:${pct}%;background:${def.color}"></div></div>`
+      :`<div style="font-size:11px;color:#92400e;margin-top:6px;font-weight:700">🏅 Great job!</div>`}
+    </div>`;
+  }).join('');
+  if(recent){
+    const last3=state.badges.slice(0,3);
+    recent.innerHTML=last3.length?last3.map(b=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;border:2px solid #fef3c7;border-radius:12px;margin-bottom:8px;background:#fffbeb">
+        <span style="font-size:28px">${b.icon}</span>
+        <div><div style="font-weight:800;font-size:13px">${b.name}</div>
+        <div style="font-size:10px;color:var(--muted)">Unlocked ${b.unlockedAt?b.unlockedAt.slice(0,10):''}</div></div>
+      </div>`).join(''):'<div style="color:var(--muted);font-size:13px;padding:8px">Keep going — badges are waiting! 🏅</div>';
+  }
+}
+
+// ── END BADGES ──
+
+// ═══════════════════════════════════════
+// ── NOTES & REMINDERS ──
+// ═══════════════════════════════════════
+
+window.saveNote = async function(){
+  const title=document.getElementById('note-title').value.trim();
+  if(!title){toast('⚠️ Please add a title');return;}
+  const content=document.getElementById('note-content').value.trim();
+  const due=document.getElementById('note-due').value;
+  const type=document.getElementById('note-type').value;
+  const data={title,content,due,type,done:false,createdAt:new Date().toISOString(),timestamp:serverTimestamp()};
+  const r=await addDoc(collection(db,'notes'),data);
+  state.notes.unshift({id:r.id,...data});
+  ['note-title','note-content','note-due'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('note-type').value='reminder';
+  renderNotes();
+  toast('✅ Note saved!');
+};
+
+window.toggleNoteDone = async function(id){
+  const note=state.notes.find(n=>n.id===id);
+  if(!note) return;
+  note.done=!note.done;
+  await updateDoc(doc(db,'notes',id),{done:note.done});
+  renderNotes();
+};
+
+window.deleteNote = async function(id){
+  await deleteDoc(doc(db,'notes',id));
+  state.notes=state.notes.filter(n=>n.id!==id);
+  renderNotes();
+  toast('🗑️ Note deleted');
+};
+
+window.filterNotes = function(f){
+  state.noteFilter=f;
+  renderNotes();
+};
+
+function getDueBadge(due){
+  if(!due) return '';
+  const today=new Date().toISOString().split('T')[0];
+  const diff=Math.ceil((new Date(due)-new Date(today))/(1000*60*60*24));
+  if(diff<0) return`<span class="note-due-tag note-due-overdue">⚠️ Overdue (${Math.abs(diff)}d ago)</span>`;
+  if(diff===0) return`<span class="note-due-tag note-due-overdue">⚠️ Due TODAY</span>`;
+  if(diff<=3) return`<span class="note-due-tag note-due-soon">⏰ Due in ${diff} day${diff>1?'s':''}</span>`;
+  return`<span class="note-due-tag note-due-ok">📅 Due ${due}</span>`;
+}
+
+const NOTE_TYPE_ICONS={reminder:'⏰',note:'📝',urgent:'🔴',school:'🏫'};
+
+function renderNotes(){
+  const el=document.getElementById('notes-list');
+  if(!el) return;
+  const today=new Date().toISOString().split('T')[0];
+  let notes=[...state.notes];
+  if(state.noteFilter==='urgent') notes=notes.filter(n=>n.type==='urgent'||n.priority==='urgent');
+  if(state.noteFilter==='reminder'){
+    // show notes with due dates coming up
+    notes=notes.filter(n=>n.due&&n.due>=today);
+    notes.sort((a,b)=>a.due.localeCompare(b.due));
+  }
+  if(!notes.length){el.innerHTML=`<div class="empty"><div>📋</div>${state.noteFilter==='all'?'No notes yet — add one above!':'Nothing in this category'}</div>`;return;}
+  // sort: undone first, then by due date
+  notes.sort((a,b)=>{
+    if(a.done!==b.done) return a.done?1:-1;
+    if(a.due&&b.due) return a.due.localeCompare(b.due);
+    return 0;
+  });
+  el.innerHTML=notes.map(n=>`
+    <div class="note-card ${n.type||'note'} ${n.done?'opacity-50':''}" style="${n.done?'opacity:0.5':''}">
+      <div style="display:flex;align-items:flex-start;gap:8px">
+        <div style="font-size:20px;flex-shrink:0">${NOTE_TYPE_ICONS[n.type]||'📝'}</div>
+        <div style="flex:1">
+          <div style="font-weight:800;font-size:14px;${n.done?'text-decoration:line-through;color:var(--muted)':''}">${n.title}</div>
+          ${n.content?`<div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">${n.content}</div>`:''}
+          ${getDueBadge(n.due)}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+          <button class="btn btn-sm" style="background:${n.done?'#f0fdf4':'#eff6ff'};color:${n.done?'#16a34a':'#2563eb'};font-size:11px;padding:3px 8px" onclick="toggleNoteDone('${n.id}')">${n.done?'✅ Done':'⬜ Mark Done'}</button>
+          <button class="btn btn-sm btn-ghost" style="font-size:11px;padding:3px 8px;color:#dc2626" onclick="deleteNote('${n.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // also update today page reminder
+  renderTodayReminder();
+}
+
+function renderTodayReminder(){
+  const tipArea=document.getElementById('today-smart-tip');
+  if(!tipArea) return;
+  const today=new Date().toISOString().split('T')[0];
+  const urgent=state.notes.filter(n=>!n.done&&n.due&&(n.due===today||n.type==='urgent'));
+  const soon=state.notes.filter(n=>{if(!n.done&&n.due){const diff=Math.ceil((new Date(n.due)-new Date(today))/(1000*60*60*24));return diff>=0&&diff<=2;}return false;});
+  const dow=new Date().getDay();
+  const frTip={2:'🇫🇷 French dictée this Friday — practice today!',4:'⚠️ French dictée TOMORROW!'};
+  let html='';
+  if(urgent.length) html+=`<div class="tip-card urgent" style="margin-bottom:8px"><div class="tip-icon">🔴</div><div class="tip-text"><strong>📋 ${urgent[0].title}</strong><span>${urgent[0].content||'Check Notes!'}</span></div></div>`;
+  else if(soon.length) html+=`<div class="tip-card normal" style="margin-bottom:8px"><div class="tip-icon">⏰</div><div class="tip-text"><strong>Coming up: ${soon[0].title}</strong><span>Due ${soon[0].due}</span></div></div>`;
+  else if(frTip[dow]) html+=`<div class="tip-card urgent" style="margin-bottom:8px"><div class="tip-icon">⚠️</div><div class="tip-text"><strong>${frTip[dow]}</strong></div></div>`;
+  tipArea.innerHTML=html;
+}
+
+// ── END NOTES ──
+
+
 // ── TIMETABLE ──
 const TT = {
   sessions:[
@@ -2252,6 +3147,11 @@ window.showPage=function(name){
   if(name==='progress')renderProgress();
   if(name==='timetable')renderTimetable();
   if(name==='english-dictee'){renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();}
+  if(name==='chinese-dictee'){renderCnDicteeWords();renderCnDicteeHistory();renderCnCheckin();renderCnWrongWords();}
+  if(name==='reading-checkin'){renderReadCheckin();}
+  if(name==='times-tables'){renderTTHistory();}
+  if(name==='badges'){renderBadges();}
+  if(name==='notes'){renderNotes();}
   if(name==='progress-monthly')renderProgressMonthly();
   if(name==='rewards'){renderRewards();renderStarHistory();}
 };
