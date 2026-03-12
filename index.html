@@ -1492,7 +1492,7 @@ function renderWords(){
   else if(state.wordFilter==='cn-only') words=words.filter(w=>w.subject==='cn');
   document.getElementById('word-list').innerHTML=words.length?words.map(w=>`
     <div class="word-chip ${w.status}" title="${w.meaning}">
-      <button class="speak-btn" onclick="speakWord('${w.word.replace(/'/g,"\\'")}','${subLang[w.subject]||'en-AU'}')" title="Listen">🔊</button>
+      <button class="speak-btn" onclick="speakWord('${w.word.replace(/'/g,"\'")}','${subLang[w.subject]||'en-AU'}')" title="Listen">🔊</button>
       <span onclick="cycleWord('${w.id}','${w.status}')" style="cursor:pointer">
         ${statusEmoji[w.status]||'🆕'} <strong>${w.word}</strong>
         ${w.meaning?`<span style="opacity:0.65;font-size:11px">${w.meaning}</span>`:''}
@@ -1538,16 +1538,16 @@ window.saveDicteeWords=async function(){
 function renderDicteeWords(){
   const el=document.getElementById('dictee-word-list');
   const latest=state.dicteeWords[0];
-  if(!latest){el.innerHTML='<div class="empty"><div>🇫🇷</div>No words yet — add this week\'s words above!</div>';document.getElementById('practice-dictee-btn').style.display='none';return;}
+  if(!latest){el.innerHTML='<div class="empty"><div>🇫🇷</div>No words yet — add this week's words above!</div>';document.getElementById('practice-dictee-btn').style.display='none';return;}
   document.getElementById('practice-dictee-btn').style.display='';
   el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">Week of ${latest.week} · ${latest.words.length} words · 🔊 Click to hear</p>`+
   latest.words.map(w=>`
-    <div class="dictee-word" onclick="speakFr('${w.fr.replace(/'/g,"\\'")}')">
+    <div class="dictee-word" onclick="speakFr('${w.fr.replace(/'/g,"\'")}')">
       <div>
         <div class="dictee-word-text">🇫🇷 ${w.fr}</div>
         <div class="dictee-word-meaning">🇬🇧 ${w.en}</div>
       </div>
-      <button class="btn btn-sm btn-fr" onclick="event.stopPropagation();speakFr('${w.fr.replace(/'/g,"\\'")}')">🔊 Listen</button>
+      <button class="btn btn-sm btn-fr" onclick="event.stopPropagation();speakFr('${w.fr.replace(/'/g,"\'")}')">🔊 Listen</button>
     </div>`).join('');
 }
 
@@ -1643,11 +1643,11 @@ function renderDicteeQ(){
   area.innerHTML=`
     <div style="text-align:center;margin-bottom:14px">
       <div style="font-size:12px;color:var(--muted);font-weight:700">Word ${dicteeQ+1} of ${dicteeSession.length}</div>
-      <button class="btn btn-fr" style="margin:12px 0" onclick="speakFr('${w.fr.replace(/'/g,"\\'")}')">🔊 Listen to word</button>
+      <button class="btn btn-fr" style="margin:12px 0" onclick="speakFr('${w.fr.replace(/'/g,"\'")}')">🔊 Listen to word</button>
       <p style="font-size:12px;color:var(--muted)">Type what you hear:</p>
     </div>
-    <input class="fill-input" id="dictee-input" placeholder="Type the French word..." onkeydown="if(event.key==='Enter')checkDicteeAns('${w.fr.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">
-    <div style="text-align:center"><button class="btn btn-primary" onclick="checkDicteeAns('${w.fr.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">Check ✅</button></div>
+    <input class="fill-input" id="dictee-input" placeholder="Type the French word..." onkeydown="if(event.key==='Enter')checkDicteeAns('${w.fr.replace(/'/g,"\'")}','${w.en.replace(/'/g,"\'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" onclick="checkDicteeAns('${w.fr.replace(/'/g,"\'")}','${w.en.replace(/'/g,"\'")}')">Check ✅</button></div>
     <div id="dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800"></div>`;
   setTimeout(()=>document.getElementById('dictee-input')?.focus(),100);
   // auto-play
@@ -2139,19 +2139,19 @@ function renderEnDicteeWords(){
   const latest=state.enDicteeWords[0];
   const btn=document.getElementById('practice-en-dictee-btn');
   if(!latest){
-    el.innerHTML='<div class="empty"><div>🇬🇧</div>No words yet — add this week\'s words above!</div>';
+    el.innerHTML='<div class="empty"><div>🇬🇧</div>No words yet — add this week's words above!</div>';
     if(btn) btn.style.display='none';
     return;
   }
   if(btn) btn.style.display='';
   el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">Week of ${latest.week} · ${latest.words.length} words · 🔊 Click to hear</p>`+
   latest.words.map(w=>`
-    <div class="dictee-word" onclick="speakWord('${w.word.replace(/'/g,"\\'")}','en-AU')" style="border-color:#fef2f2">
+    <div class="dictee-word" onclick="speakWord('${w.word.replace(/'/g,"\'")}','en-AU')" style="border-color:#fef2f2">
       <div>
         <div class="dictee-word-text">🇬🇧 ${w.word}</div>
         ${w.meaning?`<div class="dictee-word-meaning">💡 ${w.meaning}</div>`:''}
       </div>
-      <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:2px solid #fca5a5" onclick="event.stopPropagation();speakWord('${w.word.replace(/'/g,"\\'")}','en-AU')">🔊 Listen</button>
+      <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:2px solid #fca5a5" onclick="event.stopPropagation();speakWord('${w.word.replace(/'/g,"\'")}','en-AU')">🔊 Listen</button>
     </div>`).join('');
 }
 
@@ -2306,13 +2306,13 @@ function renderEnDicteeQ(){
     <div style="text-align:center;padding:0 0 14px">
       <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px">Word ${enQ+1} of ${enSession.length}</div>
       ${enWrongThisRound.length?`<div style="font-size:11px;color:#dc2626;margin-bottom:8px">❌ ${enWrongThisRound.length} wrong so far</div>`:''}
-      <button class="btn btn-primary" style="margin:0 0 8px" onclick="speakWord('${w.word.replace(/'/g,"\'")}','en-AU')">🔊 Hear the word</button>
+      <button class="btn btn-primary" style="margin:0 0 8px" onclick="speakWord('${w.word.replace(/'/g,"'")}','en-AU')">🔊 Hear the word</button>
       ${w.meaning?`<div style="font-size:12px;color:var(--muted);margin-bottom:10px">💡 Hint: ${w.meaning}</div>`:''}
       <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Spell what you hear:</p>
     </div>
     <input class="fill-input" id="en-dictee-input" placeholder="Type the spelling..."
-      onkeydown="if(event.key==='Enter')checkEnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">
-    <div style="text-align:center"><button class="btn btn-primary" onclick="checkEnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">Check ✅</button></div>
+      onkeydown="if(event.key==='Enter')checkEnAns('${w.word.replace(/'/g,"'")}','${(w.meaning||'').replace(/'/g,"'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" onclick="checkEnAns('${w.word.replace(/'/g,"'")}','${(w.meaning||'').replace(/'/g,"'")}')">Check ✅</button></div>
     <div id="en-dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800"></div>`;
   setTimeout(()=>document.getElementById('en-dictee-input')?.focus(),100);
   setTimeout(()=>speakWord(w.word,'en-AU'),400);
@@ -2327,7 +2327,7 @@ window.checkEnAns=function(word,meaning){
   inp.disabled=true;
   document.getElementById('en-dictee-feedback').innerHTML=correct
     ?`<span style="color:#16a34a">✅ Correct! Well done! 🎉</span>`
-    :`<span style="color:#dc2626">❌ It\'s spelled: <strong>${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
+    :`<span style="color:#dc2626">❌ It's spelled: <strong>${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
   setTimeout(()=>{enQ++;renderEnDicteeQ();},1900);
 };
 
@@ -2374,13 +2374,13 @@ function renderCnDicteeWords(){
   if(btn) btn.style.display='';
   el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">第${latest.week}周 · ${latest.words.length}个字 · 🔊 点击听读音</p>`+
   latest.words.map(w=>`
-    <div class="dictee-word" onclick="speakCn('${w.word.replace(/'/g,"\\'")}')" style="border-color:#fef9c3">
+    <div class="dictee-word" onclick="speakCn('${w.word.replace(/'/g,"\'")}')" style="border-color:#fef9c3">
       <div>
         <div class="dictee-word-text" style="font-size:22px;font-weight:900">🀄 ${w.word}</div>
         ${w.meaning?`<div class="dictee-word-meaning">💡 ${w.meaning}</div>`:''}
       </div>
       <button class="btn btn-sm" style="background:#fef9c3;color:#92400e;border:2px solid #fcd34d"
-        onclick="event.stopPropagation();speakCn('${w.word.replace(/'/g,"\\'")}')">🔊 听</button>
+        onclick="event.stopPropagation();speakCn('${w.word.replace(/'/g,"\'")}')">🔊 听</button>
     </div>`).join('');
 }
 
@@ -2525,13 +2525,13 @@ function renderCnDicteeQ(){
     <div style="text-align:center;padding:0 0 14px">
       <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:12px">第 ${cnQ+1} / ${cnSession.length} 个字</div>
       ${cnWrongRound.length?`<div style="font-size:11px;color:#d97706;margin-bottom:8px">❌ 已错 ${cnWrongRound.length} 个</div>`:''}
-      <button class="btn btn-primary" style="font-size:16px;padding:10px 24px;margin:0 0 10px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="speakCn('${w.word.replace(/'/g,"\\'")}')">🔊 听读音</button>
+      <button class="btn btn-primary" style="font-size:16px;padding:10px 24px;margin:0 0 10px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="speakCn('${w.word.replace(/'/g,"\'")}')">🔊 听读音</button>
       ${w.meaning?`<div style="font-size:13px;color:var(--muted);margin-bottom:10px">💡 ${w.meaning}</div>`:''}
       <p style="font-size:12px;color:var(--muted);margin-bottom:8px">输入你听到的汉字：</p>
     </div>
     <input class="fill-input" id="cn-dictee-input" placeholder="输入汉字..." style="font-size:22px;text-align:center;letter-spacing:4px"
-      onkeydown="if(event.key==='Enter')checkCnAns('${w.word.replace(/'/g,"\\'")}','${(w.meaning||'').replace(/'/g,"\\'")}')">
-    <div style="text-align:center"><button class="btn btn-primary" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="checkCnAns('${w.word.replace(/'/g,"\\'")}','${(w.meaning||'').replace(/'/g,"\\'")}')">检查 ✅</button></div>
+      onkeydown="if(event.key==='Enter')checkCnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">
+    <div style="text-align:center"><button class="btn btn-primary" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none" onclick="checkCnAns('${w.word.replace(/'/g,"\'")}','${(w.meaning||'').replace(/'/g,"\'")}')">检查 ✅</button></div>
     <div id="cn-dictee-feedback" style="text-align:center;min-height:30px;margin-top:10px;font-weight:800;font-size:15px"></div>`;
   setTimeout(()=>document.getElementById('cn-dictee-input')?.focus(),100);
   setTimeout(()=>speakCn(w.word),400);
@@ -3026,7 +3026,7 @@ function renderTimetable(){
   const grid=document.getElementById('tt-grid');
   if(!grid) return;
   let html='<div class="tt-cell empty-c"></div>';
-  TT.dayNames.forEach(function(d,i){var cls=i===todayIdx?' today-col':'';html+='<div class="tt-head'+cls+'">'+d+'</div>';});
+  TT.dayNames.forEach(function(d,i){var cls=(i===todayIdx)?" today-col":"";html+='<div class="tt-head'+cls+'">'+d+'</div>';});
   TT.sessions.forEach(s=>{
     if(s.break){html+=`<div class="tt-break">${s.label==='BREAK'?'🍱 Lunch Play 11:00 – 12:00':'☕ Afternoon Break 2:00 – 2:30'}</div>`;return;}
     html+=`<div class="tt-time">${s.label.replace('\n','<br>')}</div>`;
