@@ -1187,20 +1187,28 @@ async function earnStars(amount, reason) {
 }
 
 // ── LOAD ALL ──
-async function safeGet(q){try{return await getDocs(q);}catch(e){console.warn('Firebase fetch skipped:',e.code);return{docs:[]};}}
+async function safeGet(q, label){
+  try{
+    const r = await getDocs(q);
+    return r;
+  } catch(e){
+    console.warn('Firebase skipped ['+label+']:', e.code, e.message);
+    return {docs:[]};
+  }
+}
 
 async function loadAll() {
   const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww,cndw,cndh,cnc,cnww,rchk,nts,tth,bdg] = await Promise.all([
     safeGet(query(collection(db,'homework'),orderBy('date','desc'))),
-    safeGet(collection(db,'words')),
-    safeGet(collection(db,'questions')),
+    safeGet(collection(db,'words'),'words'),
+    safeGet(collection(db,'questions'),'questions'),
     safeGet(query(collection(db,'quizHistory'),orderBy('timestamp','desc'))),
     safeGet(query(collection(db,'readingLogs'),orderBy('date','desc'))),
-    safeGet(collection(db,'wishlist')),
+    safeGet(collection(db,'wishlist'),'wishlist'),
     safeGet(query(collection(db,'finishedBooks'),orderBy('dateFinished','desc'))),
     safeGet(query(collection(db,'activities'),orderBy('date','desc'))),
-    safeGet(collection(db,'weeklyTasks')),
-    safeGet(collection(db,'rewards')),
+    safeGet(collection(db,'weeklyTasks'),'weeklyTasks'),
+    safeGet(collection(db,'rewards'),'rewards'),
     safeGet(query(collection(db,'starHistory'),orderBy('timestamp','desc'))),
     safeGet(query(collection(db,'diaries'),orderBy('date','desc'))),
     safeGet(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
@@ -1209,11 +1217,11 @@ async function loadAll() {
     safeGet(query(collection(db,'enDicteeWords'),orderBy('week','desc'))),
     safeGet(query(collection(db,'enDicteeHistory'),orderBy('timestamp','desc'))),
     safeGet(query(collection(db,'enCheckins'),orderBy('date','desc'))),
-    safeGet(collection(db,'enWrongWords')),
+    safeGet(collection(db,'enWrongWords'),'enWrongWords'),
     safeGet(query(collection(db,'cnDicteeWords'),orderBy('week','desc'))),
     safeGet(query(collection(db,'cnDicteeHistory'),orderBy('timestamp','desc'))),
     safeGet(query(collection(db,'cnCheckins'),orderBy('date','desc'))),
-    safeGet(collection(db,'cnWrongWords')),
+    safeGet(collection(db,'cnWrongWords'),'cnWrongWords'),
     safeGet(query(collection(db,'readCheckins'),orderBy('date','desc'))),
     safeGet(query(collection(db,'notes'),orderBy('createdAt','desc'))),
     safeGet(query(collection(db,'ttHistory'),orderBy('timestamp','desc'))),
@@ -1251,17 +1259,44 @@ async function loadAll() {
   renderAll();
 }
 
+function safeRun(fn, name){try{fn();}catch(e){console.error('renderAll error in '+name+':', e);}}
+
 function renderAll(){
-  renderTodaySubjects();renderHWList();renderWords();renderQuizHistory();
-  renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
-  renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
-  renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
-  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();
-  renderEnDicteeWords();renderEnDicteeHistory();renderEnCheckin();renderEnWrongWords();
-  renderCnDicteeWords();renderCnDicteeHistory();renderCnCheckin();renderCnWrongWords();
-  renderReadCheckin();
-  renderNotes();renderTTHistory();renderBadges();
-  checkBadges();
+  safeRun(renderTodaySubjects,'renderTodaySubjects');
+  safeRun(renderHWList,'renderHWList');
+  safeRun(renderWords,'renderWords');
+  safeRun(renderQuizHistory,'renderQuizHistory');
+  safeRun(renderCurrentBook,'renderCurrentBook');
+  safeRun(renderReadingLog,'renderReadingLog');
+  safeRun(renderWishlist,'renderWishlist');
+  safeRun(renderFinishedBooks,'renderFinishedBooks');
+  safeRun(renderActivities,'renderActivities');
+  safeRun(renderProgress,'renderProgress');
+  safeRun(renderProgressMonthly,'renderProgressMonthly');
+  safeRun(renderSummary,'renderSummary');
+  safeRun(renderCalStrip,'renderCalStrip');
+  safeRun(renderWeeklyTasks,'renderWeeklyTasks');
+  safeRun(renderRewards,'renderRewards');
+  safeRun(renderStarHistory,'renderStarHistory');
+  safeRun(renderDiaries,'renderDiaries');
+  safeRun(renderDicteeWords,'renderDicteeWords');
+  safeRun(renderDicteeHistory,'renderDicteeHistory');
+  safeRun(renderDicteeCheckin,'renderDicteeCheckin');
+  safeRun(updateStarsDisplay,'updateStarsDisplay');
+  safeRun(renderTimetable,'renderTimetable');
+  safeRun(renderEnDicteeWords,'renderEnDicteeWords');
+  safeRun(renderEnDicteeHistory,'renderEnDicteeHistory');
+  safeRun(renderEnCheckin,'renderEnCheckin');
+  safeRun(renderEnWrongWords,'renderEnWrongWords');
+  safeRun(renderCnDicteeWords,'renderCnDicteeWords');
+  safeRun(renderCnDicteeHistory,'renderCnDicteeHistory');
+  safeRun(renderCnCheckin,'renderCnCheckin');
+  safeRun(renderCnWrongWords,'renderCnWrongWords');
+  safeRun(renderReadCheckin,'renderReadCheckin');
+  safeRun(renderNotes,'renderNotes');
+  safeRun(renderTTHistory,'renderTTHistory');
+  safeRun(renderBadges,'renderBadges');
+  safeRun(checkBadges,'checkBadges');
 }
 
 async function init(){
