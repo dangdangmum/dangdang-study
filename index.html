@@ -1538,7 +1538,7 @@ window.saveDicteeWords=async function(){
 function renderDicteeWords(){
   const el=document.getElementById('dictee-word-list');
   const latest=state.dicteeWords[0];
-  if(!latest){el.innerHTML='<div class="empty"><div>🇫🇷</div>No words yet — add this week's words above!</div>';document.getElementById('practice-dictee-btn').style.display='none';return;}
+  if(!latest){el.innerHTML='<div class="empty"><div>🇫🇷</div>No words yet — add this week&#39;s words above!</div>';document.getElementById('practice-dictee-btn').style.display='none';return;}
   document.getElementById('practice-dictee-btn').style.display='';
   el.innerHTML=`<p style="font-size:11px;color:var(--muted);margin-bottom:9px">Week of ${latest.week} · ${latest.words.length} words · 🔊 Click to hear</p>`+
   latest.words.map(w=>`
@@ -2139,7 +2139,7 @@ function renderEnDicteeWords(){
   const latest=state.enDicteeWords[0];
   const btn=document.getElementById('practice-en-dictee-btn');
   if(!latest){
-    el.innerHTML='<div class="empty"><div>🇬🇧</div>No words yet — add this week's words above!</div>';
+    el.innerHTML='<div class="empty"><div>🇬🇧</div>No words yet — add this week&#39;s words above!</div>';
     if(btn) btn.style.display='none';
     return;
   }
@@ -2327,7 +2327,7 @@ window.checkEnAns=function(word,meaning){
   inp.disabled=true;
   document.getElementById('en-dictee-feedback').innerHTML=correct
     ?`<span style="color:#16a34a">✅ Correct! Well done! 🎉</span>`
-    :`<span style="color:#dc2626">❌ It's spelled: <strong>${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
+    :`<span style="color:#dc2626">❌ It&#39;s spelled: <strong>${word}</strong>${meaning?' ('+meaning+')':''}</span>`;
   setTimeout(()=>{enQ++;renderEnDicteeQ();},1900);
 };
 
@@ -3077,7 +3077,7 @@ function renderTodayTip(idx){
 function renderAfterSchool(idx){
   const el=document.getElementById('afterschool-plan');
   if(!el) return;
-  if(idx<0){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px">It's the weekend — enjoy! 😊</div>';return;}
+  if(idx<0){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px">It&#39;s the weekend — enjoy! 😊</div>';return;}
   const info=AFTER_SCHOOL[idx];
   const lines=info.plan.split('\n');
   el.innerHTML=lines.map(l=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:13px;font-weight:700">${l}</div>`).join('');
