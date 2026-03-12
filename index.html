@@ -243,6 +243,52 @@ textarea{min-height:70px;resize:vertical}
 @keyframes starPop{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.4) rotate(10deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
 .star-earned{animation:starPop 0.5s cubic-bezier(0.34,1.56,0.64,1)}
 
+
+/* TIMETABLE */
+.tt-grid{display:grid;grid-template-columns:80px repeat(5,1fr);gap:3px;font-size:11px}
+.tt-head{background:var(--primary);color:white;padding:6px 4px;text-align:center;font-weight:800;border-radius:6px}
+.tt-time{background:#f3f4f6;padding:5px 4px;text-align:center;font-weight:700;color:var(--muted);border-radius:6px;font-size:10px}
+.tt-cell{padding:7px 4px;text-align:center;font-weight:700;border-radius:6px;transition:all 0.2s;font-size:11px;line-height:1.3}
+.tt-cell.today-col{box-shadow:0 0 0 2px var(--primary);transform:scale(1.03)}
+.tt-cell.en-c{background:#fef2f2;color:#dc2626}
+.tt-cell.math-c{background:#f0fdf4;color:#16a34a}
+.tt-cell.fr-c{background:#eff6ff;color:#2563eb}
+.tt-cell.sci-c{background:#fdf4ff;color:#9333ea}
+.tt-cell.art-c{background:#fff7ed;color:#ea580c}
+.tt-cell.sport-c{background:#f0fdfa;color:#0891b2}
+.tt-cell.music-c{background:#fefce8;color:#ca8a04}
+.tt-cell.wb-c{background:#f0fdf4;color:#16a34a}
+.tt-cell.asm-c{background:#eef2ff;color:#4f46e5}
+.tt-cell.empty-c{background:#fafafa;color:transparent}
+.tt-break{grid-column:1/-1;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:6px;padding:4px 8px;text-align:center;font-size:10px;color:var(--muted);font-weight:700}
+
+.tip-card{border-radius:14px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.tip-card.urgent{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:2px solid #fca5a5}
+.tip-card.normal{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #93c5fd}
+.tip-card.relax{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac}
+.tip-icon{font-size:32px;flex-shrink:0}
+.tip-text strong{display:block;font-weight:800;font-size:14px}
+.tip-text span{font-size:12px;opacity:0.85}
+
+/* HW LOG NEW */
+.hwlog-item{border-radius:13px;padding:14px;margin-bottom:10px;border:2px solid #f3f4f6;transition:border-color 0.2s}
+.hwlog-item:hover{border-color:#e0e7ff}
+.hwlog-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.hwlog-time-badge{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;border-radius:50px;padding:3px 11px;font-family:'Fredoka One',cursive;font-size:14px}
+.mood-chip{padding:3px 10px;border-radius:50px;font-size:11px;font-weight:800}
+.mood-easy{background:#f0fdf4;color:#16a34a}
+.mood-ok{background:#fffbeb;color:#d97706}
+.mood-hard{background:#fef2f2;color:#dc2626}
+.mood-selector{display:flex;gap:6px;margin-top:8px}
+.mood-btn{padding:6px 14px;border-radius:50px;border:2px solid #e5e7eb;font-weight:800;font-size:12px;cursor:pointer;background:white;transition:all 0.2s}
+.mood-btn.selected{border-color:var(--primary)}
+.mood-btn[data-m="easy"].selected{background:#f0fdf4;color:#16a34a;border-color:#86efac}
+.mood-btn[data-m="ok"].selected{background:#fffbeb;color:#d97706;border-color:#fcd34d}
+.mood-btn[data-m="hard"].selected{background:#fef2f2;color:#dc2626;border-color:#fca5a5}
+.time-bar-wrap{display:flex;gap:8px;align-items:center;margin-top:8px}
+.time-bar{flex:1;background:#f3f4f6;border-radius:50px;height:8px;overflow:hidden}
+.time-bar-fill{height:100%;border-radius:50px;transition:width 0.5s ease}
+
 @media(max-width:700px){
   .sidebar{display:none}
   .mobile-nav{display:flex}
@@ -287,7 +333,8 @@ textarea{min-height:70px;resize:vertical}
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Homework</div>
-    <button class="nav-item" onclick="showPage('homework')"><span class="nav-icon">📚</span>Daily Log</button>
+    <button class="nav-item" onclick="showPage('timetable')"><span class="nav-icon">📅</span>Timetable</button>
+    <button class="nav-item" onclick="showPage('homework')"><span class="nav-icon">⏱️</span>Study Log</button>
   </div>
   <div class="nav-section">
     <div class="nav-section-title">Reading</div>
@@ -320,6 +367,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- TODAY -->
 <div class="page active" id="page-today">
+  <div id="today-smart-tip"></div>
   <div class="streak-banner">
     <div class="streak-num" id="streak-num">0</div>
     <div class="streak-text"><strong>🔥 Day Streak!</strong><span>Amazing work Dangdang! 💪</span></div>
@@ -413,18 +461,70 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </div>
 
-<!-- HOMEWORK -->
+<!-- HOMEWORK / STUDY LOG -->
 <div class="page" id="page-homework">
   <div class="card">
-    <div class="card-title">📚 Homework Log</div>
+    <div class="card-title">⏱️ Log Study Session</div>
+    <div class="form-row">
+      <div class="form-group"><label>Date</label><input type="date" id="hw-date"></div>
+      <div class="form-group" style="max-width:130px"><label>Subject</label>
+        <select id="hw-subject-sel">
+          <option value="en">🇬🇧 English</option>
+          <option value="math">🔢 Maths</option>
+          <option value="cn">🀄 Chinese</option>
+          <option value="fr">🇫🇷 French</option>
+        </select>
+      </div>
+      <div class="form-group" style="max-width:110px"><label>Minutes ⏱️</label><input type="number" id="hw-mins-input" placeholder="30" min="1"></div>
+    </div>
+    <div class="form-group"><label>What did we do? 📝</label><input type="text" id="hw-title-input" placeholder="e.g. Kumon E81-E85, Read chapter 3"></div>
+    <div class="form-group"><label>Wrong questions / mistakes ❌ (optional)</label><input type="text" id="hw-errors-input" placeholder="e.g. Q3, Q7 — forgot carrying over"></div>
+    <div class="form-group"><label>New words learned 🔤 (comma separated)</label><input type="text" id="hw-words-input" placeholder="e.g. magnificent, à côté de"></div>
+    <div class="form-group"><label>How did it go? 😊</label>
+      <div class="mood-selector">
+        <button class="mood-btn selected" data-m="easy" onclick="selectMood(this)">😊 Easy</button>
+        <button class="mood-btn" data-m="ok" onclick="selectMood(this)">😐 OK</button>
+        <button class="mood-btn" data-m="hard" onclick="selectMood(this)">😤 Hard</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveHomework()" style="width:100%;margin-top:4px">✅ Save Session</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Study Log</div>
     <div class="filter-row">
-      <button class="btn btn-sm btn-primary" onclick="filterHW('all')">All</button>
+      <button class="btn btn-sm btn-ghost" onclick="filterHW('all')">All</button>
       <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626" onclick="filterHW('en')">English</button>
       <button class="btn btn-sm" style="background:#f0fdf4;color:#16a34a" onclick="filterHW('math')">Maths</button>
       <button class="btn btn-sm" style="background:#fffbeb;color:#d97706" onclick="filterHW('cn')">Chinese</button>
       <button class="btn btn-sm" style="background:#eff6ff;color:#2563eb" onclick="filterHW('fr')">French</button>
     </div>
     <div id="hw-list"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
+<!-- TIMETABLE -->
+<div class="page" id="page-timetable">
+  <div id="today-tip-area"></div>
+  <div class="card">
+    <div class="card-title">📅 2B Timetable</div>
+    <div style="overflow-x:auto">
+    <div class="tt-grid" id="tt-grid">
+      <!-- rendered by JS -->
+    </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:11px">
+      <span style="background:#fef2f2;color:#dc2626;padding:3px 9px;border-radius:50px;font-weight:700">English</span>
+      <span style="background:#f0fdf4;color:#16a34a;padding:3px 9px;border-radius:50px;font-weight:700">Maths</span>
+      <span style="background:#eff6ff;color:#2563eb;padding:3px 9px;border-radius:50px;font-weight:700">French</span>
+      <span style="background:#fdf4ff;color:#9333ea;padding:3px 9px;border-radius:50px;font-weight:700">Science</span>
+      <span style="background:#fff7ed;color:#ea580c;padding:3px 9px;border-radius:50px;font-weight:700">Art</span>
+      <span style="background:#f0fdfa;color:#0891b2;padding:3px 9px;border-radius:50px;font-weight:700">Sport</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🏠 After School Plan</div>
+    <div id="afterschool-plan"></div>
   </div>
 </div>
 
@@ -518,7 +618,8 @@ textarea{min-height:70px;resize:vertical}
       <div class="form-group" style="max-width:110px"><label>Subject</label>
         <select id="word-subject"><option value="en">English</option><option value="fr">French</option><option value="cn">Chinese</option><option value="math">Maths</option></select>
       </div>
-      <div style="display:flex;align-items:flex-end;padding-bottom:12px"><button class="btn btn-primary" onclick="addWord()">Add</button></div>
+      <div style="display:flex;align-items:flex-end;padding-bottom:12px"><button class="btn btn-primary" onclick="addWord()">Add</button>
+      <div style="display:flex;align-items:flex-end;padding-bottom:12px"><button class="btn btn-sm" style="background:#fdf4ff;color:#9333ea;border:2px solid #e9d5ff" onclick="seedMotsMagiques()" title="Import all Les Mots Magiques">🌟 Import Mots Magiques</button></div></div>
     </div>
   </div>
   <div class="card">
@@ -851,7 +952,7 @@ function renderAll(){
   renderCurrentBook();renderReadingLog();renderWishlist();renderFinishedBooks();
   renderActivities();renderProgress();renderProgressMonthly();renderSummary();renderCalStrip();
   renderWeeklyTasks();renderRewards();renderStarHistory();renderDiaries();
-  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();
+  renderDicteeWords();renderDicteeHistory();renderDicteeCheckin();updateStarsDisplay();renderTimetable();
 }
 
 async function init(){
@@ -863,6 +964,7 @@ async function init(){
   document.getElementById('act-date').value=today.toISOString().split('T')[0];
   document.getElementById('done-date').value=today.toISOString().split('T')[0];
   document.getElementById('dictee-week').value=today.toISOString().split('T')[0];
+  const hwDateEl=document.getElementById('hw-date');if(hwDateEl)hwDateEl.value=today.toISOString().split('T')[0];
   document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
   await loadAll();
 }
@@ -903,6 +1005,14 @@ function renderSummary(){
   const ws=tHW.flatMap(h=>h.words||[]);
   if(ws.length) lines.push(`🔤 New words: ${ws.join(', ')}.`);
   document.getElementById('summary-text').innerHTML=lines.join('<br>')||'Start logging to see your summary!';
+  // smart tip on today page
+  const smartTip=document.getElementById('today-smart-tip');
+  if(smartTip){
+    const dow=new Date().getDay();
+    const tips={2:'🇫🇷 French dictée is this Friday — practice today!',4:'⚠️ French dictée TOMORROW! Make sure to practice tonight!'};
+    if(tips[dow]) smartTip.innerHTML=`<div class="tip-card urgent" style="margin-bottom:12px"><div class="tip-icon">⚠️</div><div class="tip-text"><strong>${tips[dow]}</strong></div></div>`;
+    else smartTip.innerHTML='';
+  }
   // streak
   let streak=0;const d=new Date();
   for(let i=0;i<365;i++){
@@ -932,23 +1042,43 @@ function renderTodaySubjects(){
 }
 
 // ── HOMEWORK ──
+const MOOD_LABEL={easy:'😊 Easy',ok:'😐 OK',hard:'😤 Hard'};
+const MOOD_CLASS={easy:'mood-easy',ok:'mood-ok',hard:'mood-hard'};
+const SUBJ_SHORT={en:'EN',math:'M',cn:'中',fr:'FR'};
+
 function renderHWList(){
   let hw=[...state.homework];
   if(state.hwFilter!=='all') hw=hw.filter(h=>h.subject===state.hwFilter);
-  if(!hw.length){document.getElementById('hw-list').innerHTML='<div class="empty"><div>📭</div>No homework yet</div>';return;}
-  document.getElementById('hw-list').innerHTML=hw.map(h=>`
-    <div class="hw-item${h.done?' done-item':''}">
-      <div class="hw-check${h.done?' done':''}" onclick="toggleHW('${h.id}',${!h.done})">${h.done?'✓':''}</div>
-      <div class="hw-content">
-        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
-          <span class="hw-title">${h.title}</span>
+  if(!hw.length){document.getElementById('hw-list').innerHTML='<div class="empty"><div>📭</div>No study sessions yet — log one above!</div>';return;}
+  // group by date
+  const byDate={};
+  hw.forEach(h=>{if(!byDate[h.date])byDate[h.date]=[];byDate[h.date].push(h);});
+  let html='';
+  Object.keys(byDate).sort((a,b)=>b.localeCompare(a)).forEach(date=>{
+    const sessions=byDate[date];
+    const totalMins=sessions.reduce((s,h)=>s+(parseInt(h.mins)||0),0);
+    html+=`<div style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <div style="font-weight:800;font-size:12px;color:var(--muted)">${date}</div>
+        <div style="font-size:11px;background:#eef0ff;color:var(--primary);border-radius:50px;padding:2px 9px;font-weight:800">${totalMins} min total</div>
+      </div>`;
+    sessions.forEach(h=>{
+      const pct=Math.min(100,Math.round((parseInt(h.mins)||0)/60*100));
+      html+=`<div class="hwlog-item">
+        <div class="hwlog-header">
           <span class="badge badge-${h.subject}">${SUBJ[h.subject]}</span>
-          <span style="font-size:10px;color:var(--muted)">${h.date}</span>
+          ${h.mins?`<span class="hwlog-time-badge">⏱️ ${h.mins} min</span>`:''}
+          ${h.mood?`<span class="mood-chip ${MOOD_CLASS[h.mood]||'mood-ok'}">${MOOD_LABEL[h.mood]||h.mood}</span>`:''}
         </div>
-        ${h.notes?`<div class="hw-detail">📝 ${h.notes}</div>`:''}
-        ${h.words&&h.words.length?`<div class="hw-detail">🔤 ${h.words.join(' · ')}</div>`:''}
-      </div>
-    </div>`).join('');
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">${h.title}</div>
+        ${h.mins?`<div class="time-bar-wrap"><div class="time-bar"><div class="time-bar-fill" style="width:${pct}%;background:${SUBJ_COLOR[h.subject]}"></div></div><span style="font-size:10px;color:var(--muted);white-space:nowrap">${h.mins}min</span></div>`:''}
+        ${h.errors?`<div style="font-size:11px;color:#dc2626;margin-top:4px">❌ ${h.errors}</div>`:''}
+        ${h.words&&h.words.length?`<div style="font-size:11px;color:var(--primary);margin-top:3px">🔤 ${h.words.join(' · ')}</div>`:''}
+      </div>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('hw-list').innerHTML=html;
 }
 async function toggleHW(id,done){
   await updateDoc(doc(db,'homework',id),{done});
@@ -960,25 +1090,38 @@ window.toggleHW=toggleHW;
 window.filterHW=s=>{state.hwFilter=s;renderHWList()};
 window.selectSubject=btn=>{document.querySelectorAll('.subj-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.selectedSubject=btn.dataset.s};
 
+// mood selection for study log
+window.selectMood=function(btn){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.selectedMood=btn.dataset.m;
+};
+state.selectedMood='easy';
+
 window.saveHomework=async function(){
   const title=document.getElementById('hw-title-input').value.trim();
-  if(!title){toast('⚠️ Please fill in what Dangdang did');return;}
-  const notes=document.getElementById('hw-notes-input').value.trim();
+  if(!title){toast('⚠️ Please fill in what was studied');return;}
+  const subject=document.getElementById('hw-subject-sel')?.value||state.selectedSubject;
+  const mins=parseInt(document.getElementById('hw-mins-input')?.value)||0;
+  const errors=document.getElementById('hw-errors-input')?.value.trim()||'';;
   const wordsRaw=document.getElementById('hw-words-input').value.trim();
   const words=wordsRaw?wordsRaw.split(/[,，]+/).map(w=>w.trim()).filter(Boolean):[];
-  const today=new Date().toISOString().split('T')[0];
-  const ref=await addDoc(collection(db,'homework'),{date:today,subject:state.selectedSubject,title,notes,words,done:false,timestamp:serverTimestamp()});
-  state.homework.unshift({id:ref.id,date:today,subject:state.selectedSubject,title,notes,words,done:false});
+  const mood=state.selectedMood||'ok';
+  const date=document.getElementById('hw-date')?.value||new Date().toISOString().split('T')[0];
+  const ref=await addDoc(collection(db,'homework'),{date,subject,title,mins,errors,words,mood,done:true,timestamp:serverTimestamp()});
+  state.homework.unshift({id:ref.id,date,subject,title,mins,errors,words,mood,done:true});
   for(const w of words){
     if(!state.words.find(x=>x.word.toLowerCase()===w.toLowerCase())){
-      const wr=await addDoc(collection(db,'words'),{word:w,meaning:'',subject:state.selectedSubject,status:'new-word'});
-      state.words.push({id:wr.id,word:w,meaning:'',subject:state.selectedSubject,status:'new-word'});
+      const wr=await addDoc(collection(db,'words'),{word:w,meaning:'',subject,status:'new-word'});
+      state.words.push({id:wr.id,word:w,meaning:'',subject,status:'new-word'});
     }
   }
-  ['hw-title-input','hw-notes-input','hw-words-input'].forEach(id=>document.getElementById(id).value='');
-  closeModal('hw-modal');
-  renderHWList();renderTodaySubjects();renderWords();renderCalStrip();renderSummary();
-  toast('✅ Homework saved!');
+  ['hw-title-input','hw-errors-input','hw-words-input','hw-mins-input'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.toggle('selected',b.dataset.m==='easy'));
+  state.selectedMood='easy';
+  renderHWList();renderTodaySubjects();renderWords();renderCalStrip();renderSummary();renderProgress();
+  earnStars(1,'Study session logged! 📚');
+  toast('✅ Study session saved! +1⭐');
 };
 
 // ── WORDS ──
@@ -1549,9 +1692,27 @@ function renderProgress(){
   const dayData=[];for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);const ds=d.toISOString().split('T')[0];const count=state.homework.filter(h=>h.date===ds&&h.done).length;dayData.push({label:days[d.getDay()],count});}
   const maxC=Math.max(1,...dayData.map(d=>d.count));
   document.getElementById('week-hw-chart').innerHTML=dayData.map(d=>`<div class="week-bar-wrap"><div class="week-bar-num">${d.count||''}</div><div class="week-bar" style="height:${Math.max(3,d.count/maxC*80)}px;background:linear-gradient(to top,var(--primary),var(--primary2))"></div><div class="week-bar-label">${d.label}</div></div>`).join('');
+  // Time-based progress
+  const now2=new Date();
+  const weekStart=new Date(now2);weekStart.setDate(now2.getDate()-now2.getDay());
+  const weekStartStr=weekStart.toISOString().split('T')[0];
+  const weekHW=state.homework.filter(h=>h.date>=weekStartStr);
+  const maxMins=Math.max(1,...['en','math','cn','fr'].map(s=>weekHW.filter(h=>h.subject===s).reduce((t,h)=>t+(parseInt(h.mins)||0),0)));
   document.getElementById('subject-progress').innerHTML=['en','math','cn','fr'].map(s=>{
-    const hw=state.homework.filter(h=>h.subject===s);const pct=hw.length?Math.round(hw.filter(h=>h.done).length/hw.length*100):0;
-    return`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-weight:700;font-size:12px">${SUBJ[s]}</span><span style="font-size:11px;color:var(--muted)">${pct}%</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${SUBJ_COLOR[s]}"></div></div></div>`;
+    const hw=weekHW.filter(h=>h.subject===s);
+    const totalMins=hw.reduce((t,h)=>t+(parseInt(h.mins)||0),0);
+    const sessions=hw.length;
+    const pct=Math.round(totalMins/maxMins*100)||0;
+    return`<div style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+        <span style="font-weight:800;font-size:13px">${SUBJ[s]}</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-family:'Fredoka One',cursive;font-size:16px;color:${SUBJ_COLOR[s]}">${totalMins}<span style="font-size:11px;font-family:'Nunito',sans-serif"> min</span></span>
+          <span style="font-size:10px;color:var(--muted)">${sessions} session${sessions!==1?'s':''}</span>
+        </div>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${SUBJ_COLOR[s]}"></div></div>
+    </div>`;
   }).join('');
   const wTotal=state.words.length;
   document.getElementById('word-progress').innerHTML=`<div style="display:flex;gap:9px;flex-wrap:wrap">
@@ -1584,6 +1745,201 @@ function renderProgressMonthly(){
   document.getElementById('monthly-activities').innerHTML=mActs.map(a=>`<div style="display:flex;align-items:center;gap:7px;padding:7px;border:2px solid #f3f4f6;border-radius:9px;margin-bottom:5px"><span>${a.type==='art'?'🎨':'⚽'}</span><div><div style="font-weight:700;font-size:12px">${a.title}</div><div style="font-size:10px;color:var(--muted)">${a.date}</div></div></div>`).join('')||'<div class="empty" style="padding:14px"><div>🎨</div>No activities</div>';
 }
 
+
+// ── TIMETABLE ──
+const TT = {
+  sessions:[
+    {label:'Session 1\n9-10', mon:'Science',tue:'French',wed:'English',thu:'Maths',fri:'English'},
+    {label:'Session 2\n10-11',mon:'Art',tue:'Maths',wed:'English',thu:'French',fri:'English'},
+    {label:'BREAK',break:true},
+    {label:'Session 3\n12-1',mon:'English',tue:'Wellbeing',wed:'Maths',thu:'Sport',fri:'Maths'},
+    {label:'Session 4\n1-2',mon:'Maths',tue:'English',wed:'French',thu:'Music',fri:'French'},
+    {label:'BREAK2',break:true},
+    {label:'Session 5\n2:30-3:30',mon:'Assembly',tue:'Maths/English',wed:'English',thu:'English',fri:'Year Level Sport'}
+  ],
+  days:['mon','tue','wed','thu','fri'],
+  dayNames:['Monday','Tuesday','Wednesday','Thursday','Friday']
+};
+
+function subjectClass(s){
+  if(!s) return 'empty-c';
+  const sl=s.toLowerCase();
+  if(sl.includes('english')) return 'en-c';
+  if(sl.includes('math')) return 'math-c';
+  if(sl.includes('french')) return 'fr-c';
+  if(sl.includes('science')) return 'sci-c';
+  if(sl.includes('art')) return 'art-c';
+  if(sl.includes('sport')) return 'sport-c';
+  if(sl.includes('music')) return 'music-c';
+  if(sl.includes('wellbeing')) return 'wb-c';
+  if(sl.includes('assembly')) return 'asm-c';
+  return 'wb-c';
+}
+
+function renderTimetable(){
+  const dayOfWeek=new Date().getDay(); // 0=Sun,1=Mon...5=Fri
+  const todayIdx=dayOfWeek>=1&&dayOfWeek<=5?dayOfWeek-1:-1; // 0=Mon
+  const grid=document.getElementById('tt-grid');
+  if(!grid) return;
+  let html='<div class="tt-cell empty-c"></div>';
+  TT.dayNames.forEach((d,i)=>`${html+=\`<div class="tt-head${i===todayIdx?' today-col':''}">${d}</div>\`}`);
+  TT.sessions.forEach(s=>{
+    if(s.break){html+=`<div class="tt-break">${s.label==='BREAK'?'🍱 Lunch Play 11:00 – 12:00':'☕ Afternoon Break 2:00 – 2:30'}</div>`;return;}
+    html+=`<div class="tt-time">${s.label.replace('\n','<br>')}</div>`;
+    TT.days.forEach((d,i)=>{
+      const cell=s[d]||'';
+      html+=`<div class="tt-cell ${subjectClass(cell)}${i===todayIdx?' today-col':''}">${cell}</div>`;
+    });
+  });
+  grid.innerHTML=html;
+
+  // today tip
+  renderTodayTip(todayIdx);
+  renderAfterSchool(todayIdx);
+}
+
+const AFTER_SCHOOL={
+  0:{tip:'📚 Kumon day! Maths + English at Kumon tonight.',plan:'✅ Kumon (Maths + English)
+📖 Reading 15 mins
+🀄 Chinese practice (optional)',urgency:'normal'},
+  1:{tip:'🇫🇷 French test this Friday! Practice dictée today.',plan:'🇫🇷 French dictée practice (打卡!)
+📖 Reading 15 mins
+✏️ Any homework from school',urgency:'urgent'},
+  2:{tip:'Kumon day again! Good work this week.',plan:'✅ Kumon (Maths + English)
+📖 Reading 15 mins
+🀄 Chinese practice',urgency:'normal'},
+  3:{tip:'⚠️ French dictée TOMORROW! Practice tonight!',plan:'🇫🇷 French dictée practice (打卡!) — IMPORTANT!
+📖 Reading 15 mins
+✏️ Any homework',urgency:'urgent'},
+  4:{tip:'🎉 Last day of school week! Light homework tonight.',plan:'📖 Reading 15 mins
+🌟 Any catch-up work
+😊 Well done this week!',urgency:'relax'},
+};
+
+function renderTodayTip(idx){
+  const area=document.getElementById('today-tip-area');
+  if(!area) return;
+  if(idx<0){area.innerHTML='<div class="tip-card normal"><div class="tip-icon">😊</div><div class="tip-text"><strong>Weekend!</strong><span>Rest and read a book 📖</span></div></div>';return;}
+  const info=AFTER_SCHOOL[idx];
+  area.innerHTML=`<div class="tip-card ${info.urgency}"><div class="tip-icon">${info.urgency==='urgent'?'⚠️':info.urgency==='relax'?'🎉':'📚'}</div><div class="tip-text"><strong>${info.tip}</strong></div></div>`;
+}
+
+function renderAfterSchool(idx){
+  const el=document.getElementById('afterschool-plan');
+  if(!el) return;
+  if(idx<0){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px">It's the weekend — enjoy! 😊</div>';return;}
+  const info=AFTER_SCHOOL[idx];
+  const lines=info.plan.split('\n');
+  el.innerHTML=lines.map(l=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:13px;font-weight:700">${l}</div>`).join('');
+}
+
+// ── MOTS MAGIQUES SEED ──
+const MOTS_MAGIQUES = [
+  // Dorés (most common - mastered first)
+  {word:'le',meaning:'the (masc)',group:'Dorés'},
+  {word:'la',meaning:'the (fem)',group:'Dorés'},
+  {word:'une',meaning:'a (fem)',group:'Dorés'},
+  {word:'un',meaning:'a (masc)',group:'Dorés'},
+  {word:'les',meaning:'the (plural)',group:'Dorés'},
+  {word:'des',meaning:'some',group:'Dorés'},
+  {word:'il',meaning:'he',group:'Dorés'},
+  {word:'elle',meaning:'she',group:'Dorés'},
+  {word:'nous',meaning:'we',group:'Dorés'},
+  {word:'vous',meaning:'you (plural)',group:'Dorés'},
+  {word:'je',meaning:'I',group:'Dorés'},
+  {word:'tu',meaning:'you',group:'Dorés'},
+  {word:'ils',meaning:'they (masc)',group:'Dorés'},
+  {word:'elles',meaning:'they (fem)',group:'Dorés'},
+  // Rouges
+  {word:'aussi',meaning:'also/too',group:'Rouges'},
+  {word:'avec',meaning:'with',group:'Rouges'},
+  {word:'voici',meaning:'here is',group:'Rouges'},
+  {word:'mais',meaning:'but',group:'Rouges'},
+  {word:'dans',meaning:'in',group:'Rouges'},
+  {word:'pour',meaning:'for',group:'Rouges'},
+  {word:"c'est",meaning:'it is',group:'Rouges'},
+  {word:'même',meaning:'same/even',group:'Rouges'},
+  {word:'trop',meaning:'too much',group:'Rouges'},
+  {word:'ici',meaning:'here',group:'Rouges'},
+  {word:'bien',meaning:'well/good',group:'Rouges'},
+  {word:'et',meaning:'and',group:'Rouges'},
+  {word:'sous',meaning:'under',group:'Rouges'},
+  {word:'sur',meaning:'on',group:'Rouges'},
+  {word:'encore',meaning:'again/still',group:'Rouges'},
+  {word:'parfois',meaning:'sometimes',group:'Rouges'},
+  {word:'pendant',meaning:'during',group:'Rouges'},
+  {word:'chaque',meaning:'each/every',group:'Rouges'},
+  {word:'chez',meaning:"at someone's place",group:'Rouges'},
+  {word:'un peu',meaning:'a little',group:'Rouges'},
+  {word:'autour',meaning:'around',group:'Rouges'},
+  {word:'vraiment',meaning:'really',group:'Rouges'},
+  {word:'moins',meaning:'less',group:'Rouges'},
+  {word:'plus',meaning:'more',group:'Rouges'},
+  {word:'enfin',meaning:'finally',group:'Rouges'},
+  // Bleus
+  {word:'il y a',meaning:'there is/are',group:'Bleus'},
+  {word:'très',meaning:'very',group:'Bleus'},
+  {word:'une personne',meaning:'a person',group:'Bleus'},
+  {word:'quand',meaning:'when',group:'Bleus'},
+  {word:'comme',meaning:'like/as',group:'Bleus'},
+  {word:'devant',meaning:'in front of',group:'Bleus'},
+  {word:'combien',meaning:'how many',group:'Bleus'},
+  {word:'où',meaning:'where',group:'Bleus'},
+  {word:'dehors',meaning:'outside',group:'Bleus'},
+  {word:'assez',meaning:'enough/quite',group:'Bleus'},
+  {word:'attention',meaning:'attention/careful',group:'Bleus'},
+  {word:'mieux',meaning:'better',group:'Bleus'},
+  {word:'déjà',meaning:'already',group:'Bleus'},
+  {word:'entre',meaning:'between',group:'Bleus'},
+  {word:'au début',meaning:'at the beginning',group:'Bleus'},
+  {word:'comment',meaning:'how',group:'Bleus'},
+  {word:'parce que',meaning:'because',group:'Bleus'},
+  // Verts
+  {word:'hier',meaning:'yesterday',group:'Verts'},
+  {word:'demain',meaning:'tomorrow',group:'Verts'},
+  {word:'toujours',meaning:'always',group:'Verts'},
+  {word:'jamais',meaning:'never',group:'Verts'},
+  {word:'bientôt',meaning:'soon',group:'Verts'},
+  {word:'près de',meaning:'near',group:'Verts'},
+  {word:'là-bas',meaning:'over there',group:'Verts'},
+  {word:'pourquoi',meaning:'why',group:'Verts'},
+  {word:'au moins',meaning:'at least',group:'Verts'},
+  {word:'derrière',meaning:'behind',group:'Verts'},
+  {word:'au-dessus de',meaning:'above',group:'Verts'},
+  {word:'au-dessous de',meaning:'below',group:'Verts'},
+  // Oranges
+  {word:'avant',meaning:'before',group:'Oranges'},
+  {word:'après',meaning:'after',group:'Oranges'},
+  // Violets (hardest)
+  {word:"aujourd'hui",meaning:'today',group:'Violets'},
+  {word:'beaucoup',meaning:'a lot',group:'Violets'},
+  {word:"est-ce que",meaning:'question marker',group:'Violets'},
+  {word:"qu'est-ce que",meaning:'what is',group:'Violets'},
+  {word:'à côté de',meaning:'next to',group:'Violets'},
+  {word:'maintenant',meaning:'now',group:'Violets'},
+  {word:'longtemps',meaning:'a long time',group:'Violets'},
+  {word:'peut-être',meaning:'maybe',group:'Violets'},
+  {word:"quelqu'un",meaning:'someone',group:'Violets'},
+  {word:'tout à coup',meaning:'suddenly',group:'Violets'},
+  {word:"d'abord",meaning:'first of all',group:'Violets'},
+];
+
+window.seedMotsMagiques=async function(){
+  let added=0;
+  for(const m of MOTS_MAGIQUES){
+    if(!state.words.find(w=>w.word.toLowerCase()===m.word.toLowerCase())){
+      const r=await addDoc(collection(db,'words'),{word:m.word,meaning:m.meaning,subject:'fr',status:'new-word',group:m.group});
+      state.words.push({id:r.id,word:m.word,meaning:m.meaning,subject:'fr',status:'new-word',group:m.group});
+      added++;
+    }
+  }
+  renderWords();
+  toast(`✅ Added ${added} Mots Magiques to Word Bank!`);
+};
+
+// ── UPDATE TODAY SUMMARY with timetable tip ──
+const _origRenderSummary = window.renderSummary || function(){};
+
 // ── NAV ──
 window.showPage=function(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1591,6 +1947,7 @@ window.showPage=function(name){
   const pg=document.getElementById('page-'+name);if(pg)pg.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')?.includes(`'${name}'`))n.classList.add('active');});
   if(name==='progress')renderProgress();
+  if(name==='timetable')renderTimetable();
   if(name==='progress-monthly')renderProgressMonthly();
   if(name==='rewards'){renderRewards();renderStarHistory();}
 };
