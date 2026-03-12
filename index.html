@@ -1187,35 +1187,37 @@ async function earnStars(amount, reason) {
 }
 
 // ── LOAD ALL ──
+async function safeGet(q){try{return await getDocs(q);}catch(e){console.warn('Firebase fetch skipped:',e.code);return{docs:[]};}}
+
 async function loadAll() {
   const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww,cndw,cndh,cnc,cnww,rchk,nts,tth,bdg] = await Promise.all([
-    getDocs(query(collection(db,'homework'),orderBy('date','desc'))),
-    getDocs(collection(db,'words')),
-    getDocs(collection(db,'questions')),
-    getDocs(query(collection(db,'quizHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'readingLogs'),orderBy('date','desc'))),
-    getDocs(collection(db,'wishlist')),
-    getDocs(query(collection(db,'finishedBooks'),orderBy('dateFinished','desc'))),
-    getDocs(query(collection(db,'activities'),orderBy('date','desc'))),
-    getDocs(collection(db,'weeklyTasks')),
-    getDocs(collection(db,'rewards')),
-    getDocs(query(collection(db,'starHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'diaries'),orderBy('date','desc'))),
-    getDocs(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
-    getDocs(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'dicteeCheckins'),orderBy('date','desc'))),
-    getDocs(query(collection(db,'enDicteeWords'),orderBy('week','desc'))),
-    getDocs(query(collection(db,'enDicteeHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'enCheckins'),orderBy('date','desc'))),
-    getDocs(collection(db,'enWrongWords')),
-    getDocs(query(collection(db,'cnDicteeWords'),orderBy('week','desc'))),
-    getDocs(query(collection(db,'cnDicteeHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'cnCheckins'),orderBy('date','desc'))),
-    getDocs(collection(db,'cnWrongWords')),
-    getDocs(query(collection(db,'readCheckins'),orderBy('date','desc'))),
-    getDocs(query(collection(db,'notes'),orderBy('createdAt','desc'))),
-    getDocs(query(collection(db,'ttHistory'),orderBy('timestamp','desc'))),
-    getDocs(query(collection(db,'badges'),orderBy('unlockedAt','desc')))
+    safeGet(query(collection(db,'homework'),orderBy('date','desc'))),
+    safeGet(collection(db,'words')),
+    safeGet(collection(db,'questions')),
+    safeGet(query(collection(db,'quizHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'readingLogs'),orderBy('date','desc'))),
+    safeGet(collection(db,'wishlist')),
+    safeGet(query(collection(db,'finishedBooks'),orderBy('dateFinished','desc'))),
+    safeGet(query(collection(db,'activities'),orderBy('date','desc'))),
+    safeGet(collection(db,'weeklyTasks')),
+    safeGet(collection(db,'rewards')),
+    safeGet(query(collection(db,'starHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'diaries'),orderBy('date','desc'))),
+    safeGet(query(collection(db,'dicteeWords'),orderBy('week','desc'))),
+    safeGet(query(collection(db,'dicteeHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'dicteeCheckins'),orderBy('date','desc'))),
+    safeGet(query(collection(db,'enDicteeWords'),orderBy('week','desc'))),
+    safeGet(query(collection(db,'enDicteeHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'enCheckins'),orderBy('date','desc'))),
+    safeGet(collection(db,'enWrongWords')),
+    safeGet(query(collection(db,'cnDicteeWords'),orderBy('week','desc'))),
+    safeGet(query(collection(db,'cnDicteeHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'cnCheckins'),orderBy('date','desc'))),
+    safeGet(collection(db,'cnWrongWords')),
+    safeGet(query(collection(db,'readCheckins'),orderBy('date','desc'))),
+    safeGet(query(collection(db,'notes'),orderBy('createdAt','desc'))),
+    safeGet(query(collection(db,'ttHistory'),orderBy('timestamp','desc'))),
+    safeGet(query(collection(db,'badges'),orderBy('unlockedAt','desc')))
   ]);
   state.homework=hw.docs.map(d=>({id:d.id,...d.data()}));
   state.words=words.docs.map(d=>({id:d.id,...d.data()}));
@@ -1274,7 +1276,6 @@ async function init(){
   const hwDateEl=document.getElementById('hw-date');if(hwDateEl)hwDateEl.value=today.toISOString().split('T')[0];
   const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
   const cnDW=document.getElementById('cn-dictee-week');if(cnDW)cnDW.value=today.toISOString().split('T')[0];
-  const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
   document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
   await loadAll();
 }
