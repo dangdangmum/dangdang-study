@@ -1189,15 +1189,17 @@ async function earnStars(amount, reason) {
 // ── LOAD ALL ──
 async function safeGet(q, label){
   try{
-    const r = await getDocs(q);
+    const timeout = new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),8000));
+    const r = await Promise.race([getDocs(q), timeout]);
     return r;
   } catch(e){
-    console.warn('Firebase skipped ['+label+']:', e.code, e.message);
+    console.warn('Firebase skipped [' + (label||'?') + ']:', e.message||e.code);
     return {docs:[]};
   }
 }
 
 async function loadAll() {
+  console.log('🔄 Loading data from Firebase...');
   const [hw,words,qs,qh,rl,wl,fb,acts,wt,rw,sh,di,dw,dh,dc,endw,endh,enc,enww,cndw,cndh,cnc,cnww,rchk,nts,tth,bdg] = await Promise.all([
     safeGet(query(collection(db,'homework'),orderBy('date','desc'))),
     safeGet(collection(db,'words'),'words'),
@@ -1256,7 +1258,9 @@ async function loadAll() {
   state.badges=bdg.docs.map(d=>({id:d.id,...d.data()}));
   state.noteFilter='all';
   try{const cb=await getDocs(collection(db,'currentBook'));if(cb.docs.length)state.currentBook={id:cb.docs[0].id,...cb.docs[0].data()};}catch(e){}
+  console.log('✅ Firebase data loaded. Rendering...');
   renderAll();
+  console.log('✅ Render complete!');
 }
 
 function safeRun(fn, name){try{fn();}catch(e){console.error('renderAll error in '+name+':', e);}}
@@ -1312,7 +1316,13 @@ async function init(){
   const enDW=document.getElementById('en-dictee-week');if(enDW)enDW.value=today.toISOString().split('T')[0];
   const cnDW=document.getElementById('cn-dictee-week');if(cnDW)cnDW.value=today.toISOString().split('T')[0];
   document.getElementById('month-label').textContent=today.toLocaleDateString('en-AU',{month:'long',year:'numeric'});
+  // Show loading timeout warning after 10s
+  const loadingTimer = setTimeout(()=>{
+    const els = document.querySelectorAll('.loading');
+    els.forEach(el=>el.innerHTML='<div style="color:#dc2626;font-size:12px;padding:8px">⚠️ Taking too long — check your internet or try refreshing</div>');
+  }, 10000);
   await loadAll();
+  clearTimeout(loadingTimer);
 }
 
 // ── CALENDAR ──
